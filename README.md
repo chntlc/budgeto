@@ -60,5 +60,6 @@ Enter receipt info:
 * Add error handling for invalid inputs
 
 ## Prototypes
+* Choosing category:
+     * ![CHOOSE A-1](https://user-images.githubusercontent.com/48393923/119927080-9211b680-bf2d-11eb-9fd1-2a497b693987.jpg)
 
-(Add here)
