@@ -61,5 +61,7 @@ Enter receipt info:
 
 ## Prototypes
 * Choosing category:
-     * ![CHOOSE A-1](https://user-images.githubusercontent.com/48393923/119927080-9211b680-bf2d-11eb-9fd1-2a497b693987.jpg)
+     ![CHOOSE A-1](https://user-images.githubusercontent.com/48393923/119927080-9211b680-bf2d-11eb-9fd1-2a497b693987.jpg)
+* Uploading and parsing a receipt:
+     ![187835264_248115277117128_97273241836410261_n](https://user-images.githubusercontent.com/37598987/120057173-e84a2c80-bff5-11eb-9891-ce067d19a010.jpg)
 
