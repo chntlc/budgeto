@@ -64,4 +64,8 @@ Enter receipt info:
      ![CHOOSE A-1](https://user-images.githubusercontent.com/48393923/119927080-9211b680-bf2d-11eb-9fd1-2a497b693987.jpg)
 * Uploading and parsing a receipt:
      ![187835264_248115277117128_97273241836410261_n](https://user-images.githubusercontent.com/37598987/120057173-e84a2c80-bff5-11eb-9891-ce067d19a010.jpg)
+* Reports:
+    ![KakaoTalk_20210528_231631916](https://user-images.githubusercontent.com/35110824/120060226-5e0cc300-c00b-11eb-8b3d-21fb815a46de.jpg)
+    ![KakaoTalk_20210528_231631916_01](https://user-images.githubusercontent.com/35110824/120060227-5ea55980-c00b-11eb-9ae5-d972d288d40f.jpg)
+
 
