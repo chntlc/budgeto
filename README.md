@@ -15,7 +15,7 @@
 * Receipt object with date
 * Categories
 
-## What will users be able to do with this data?
+### What will users be able to do with this data?
 * Add a receipt
 * Add a unique category
 * See spending patterns
@@ -35,7 +35,7 @@
 * See spending: daily, weekly, monthly (in a plain format)
 
 ### "Standard" Requirements (3-7)
-* Pie graph for spsending
+* Pie graph for spending
 * Bar graph for spending
 * Parse a receipt from an image
 * Warning messages for approaching budget 
