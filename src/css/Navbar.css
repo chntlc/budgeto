@@ -13,6 +13,20 @@
 
 .navbar img {
   vertical-align: middle;
+  margin-right: 20px;
+}
+
+.navbar .logo {
+  vertical-align: middle;
+  float: left;
+  height: 100%;
+}
+
+.navbar .logo p {
+  color: white;
+  display: inline-block;
+  margin: 0;
+  font-size: 20px;
 }
 
 .navbar .menu-right {
@@ -42,4 +56,20 @@
 
 .navbar .menu-right li:first-child {
   margin-left: 0px;
+}
+
+/* helper & vertical center */
+
+.helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.vertical-center {
+  display: inline-block;
+  vertical-align: middle;
+  color: white;
+  opacity: 100;
+  position: relative;
 }
