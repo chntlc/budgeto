@@ -5,17 +5,20 @@ import Home from './Home';
 import Login from './Login';
 
 function NavigationButton(props) {
-  let button = props.button;
-  let to = "/" + button;
+  let page = props.page;
+  let to = "/" + page;
 
-  if (button === "Home") {
+  console.log("page: " + page);
+  console.log("to: " + to);
+
+  if (page === "Home") {
     return (
-      <NavLink className="nav-link" to="/">{button}</NavLink>
+      <NavLink className="nav-link" to="/">{page}</NavLink>
     );
   }
 
   return(
-    <NavLink className="nav-link" to={to}>{button}</NavLink>
+    <NavLink className="nav-link" to={to}>{page}</NavLink>
   );
 }
 

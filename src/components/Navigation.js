@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import { NavLink } from 'react-router-dom';
 import '../css/Navbar.css';
 import CoinImage from '../images/coin.png';
@@ -6,7 +7,9 @@ import NavigationButton from './NavigationButton'
 import Home from './Home';
 import Login from './Login';
 
-function Navigation() {
+function Navigation(props) {
+  const pages = props.pages;
+
   return (
     <div className="navbar">
       <div className="logo">
@@ -16,11 +19,15 @@ function Navigation() {
         </div>
       </div>
       <div className="menu-right">
-        <NavigationButton button="Home" />
-        <NavigationButton button="Login" />
+        {pages.map((page, index) => {
+          console.log("page in Navigation: ");
+          return (<NavigationButton key={page} page={page} />);
+        })}
       </div>
     </div>
   );
 }
+
+// <NavigationButton pages={pages} />
 
 export default Navigation;
