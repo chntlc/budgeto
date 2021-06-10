@@ -36,25 +36,21 @@
   list-style: none;
 }
 
-.navbar .menu-right li {
-  float: left;
-  margin-left: 30px;
-}
-
-.navbar .menu-right li button {
+.navbar .menu-right .nav-link {
   color: white;
   font-size: 16px;
   font-weight: 300;
   text-decoration: none;
   transition: color 1s;
   padding: 0;
+  margin-left: 30px;
   background-color: transparent;
   border: none;
   outline: none;
   cursor: pointer;
 }
 
-.navbar .menu-right li:first-child {
+.navbar .menu-right .nav-link:first-child {
   margin-left: 0px;
 }
 
