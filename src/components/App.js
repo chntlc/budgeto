@@ -1,9 +1,13 @@
 import React from 'react';
 import Navbar from './Navbar'
+import LoginSignup from './LoginSignup'
 
 function App() {
-  return(
-    <Navbar button="Login"/>
+  return (
+    <React.Fragment>
+      <Navbar button="LOGIN" />
+      <LoginSignup />
+    </React.Fragment>
   );
 }
 
