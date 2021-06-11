@@ -8,7 +8,7 @@
   height: 60px;
   line-height: 60px;
   padding: 0 60px;
-  background-color: #29BB89;
+  background-color: #29bb89;
 }
 
 .navbar img {
@@ -72,4 +72,10 @@
   color: white;
   opacity: 100;
   position: relative;
+}
+
+.navbar__profile {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
 }
