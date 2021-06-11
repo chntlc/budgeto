@@ -7,13 +7,18 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-.dummy-navbar {
-  z-index: -1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  line-height: 60px;
-  padding: 0 60px;
-  background-color: black;
+/* helper & vertical center */
+
+.helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.vertical-center {
+  display: inline-block;
+  vertical-align: middle;
+  color: white;
+  opacity: 100;
+  position: relative;
 }
