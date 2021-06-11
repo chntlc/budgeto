@@ -15,3 +15,22 @@
   font-size: 80px;
   padding: 20px;
 }
+
+/* .see-more {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 25px;
+} */
+
+.nav-link {
+  color: white;
+  font-size: 30px;
+  font-weight: 300;
+  text-decoration: none;
+  transition: color 1s;
+  padding: 0;
+  margin-left: 30px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

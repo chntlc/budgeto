@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import TextTransition, { presets } from "react-text-transition";
+// import { BrowserRouter, Route, Switch } from 'react-router-dom';
+// import NavigationButton from './NavigationButton';
+// import Header from './Header';
+// import Login from './Login';
 
 import '../css/Home.css';
 
@@ -35,5 +39,16 @@ function Home() {
     </section>
   );
 }
+
+// This could be used later to add "See More" button that routes to Login Page
+//
+// <div className="see-more">
+//   <BrowserRouter>
+//     <NavigationButton key="Login" page="Login" />
+//     <Switch>
+//       <Route key="Login2" path="/Login" component={Login} />
+//     </Switch>
+//   </BrowserRouter>
+// </div>
 
 export default Home;
