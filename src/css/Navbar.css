@@ -8,12 +8,14 @@
   height: 60px;
   line-height: 60px;
   padding: 0 60px;
-  background-color: #29BB89;
+  /* background-color: #29BB89; */
+  background-color: #46436A;
 }
 
 .navbar img {
   vertical-align: middle;
-  margin-right: 20px;
+  margin-right: 15px;
+  border-radius: 50%;
 }
 
 .navbar .logo {
@@ -22,7 +24,7 @@
   height: 100%;
 }
 
-.navbar .logo p {
+.navbar .logo h2 {
   color: white;
   display: inline-block;
   margin: 0;
