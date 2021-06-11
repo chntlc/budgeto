@@ -4,35 +4,32 @@ import Navigation from './Navigation';
 import Home from './Home';
 import Login from './Login';
 
-function Header(props) {
-  const pages = props.pages;
+class Header extends Component {
+  render() {
+    const pages = this.props.pages;
 
-  console.log("Header pages: " + props.pages);
-
-  function propNavigation() {
-    return (<Navigation pages={pages}/>);
+    return(
+      <BrowserRouter>
+        <div>
+          <Navigation pages={pages}/>
+          <Switch>
+            {pages.map(page => {
+              switch (page) {
+                case "Home":
+                  return (<Route key={page} path="/" component={Home} exact />);
+                case "Login":
+                  return (<Route key={page} path="/Login" component={Login} />);
+                default:
+                  break;
+              }
+            })}
+          </Switch>
+        </div>
+      </BrowserRouter>
+    );
   }
-
-  function propRoute() {
-    pages.forEach(function(page, index) {
-      if (page === "Home") {
-        return (<Route path="/" component={page} exact/>);
-      }
-      let path = "/" + page;
-      return (<Route path={path} component={page}/>);
-    });
-  }
-
-  return(
-    <BrowserRouter>
-      <div>
-        {propNavigation()}
-        <Switch>
-          {propRoute()}
-        </Switch>
-      </div>
-    </BrowserRouter>
-  );
 }
+
+// let pageLower = page.toLowerCase();
 
 export default Header;

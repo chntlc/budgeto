@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
 import '../css/Navbar.css';
 import CoinImage from '../images/coin.png';
 import NavigationButton from './NavigationButton'
-import Home from './Home';
-import Login from './Login';
 
 function Navigation(props) {
   const pages = props.pages;
@@ -20,7 +16,6 @@ function Navigation(props) {
       </div>
       <div className="menu-right">
         {pages.map((page, index) => {
-          console.log("page in Navigation: ");
           return (<NavigationButton key={page} page={page} />);
         })}
       </div>

@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Header from './Header';
 
-
-class App extends Component {
-  render() {
-    return (
-      <Header pages={["Home", "Login"]} />
-    );
-  }
+function App() {
+  return (
+    <Header pages={["Home", "Login"]} />
+  );
 }
 
 export default App;
