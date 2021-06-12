@@ -1,3 +1,5 @@
+@import url("App.css");
+
 .dashboard__greeting {
   display: flex;
   align-items: center;
@@ -61,9 +63,14 @@
   font-size: 25px;
   border-radius: 35px;
   padding: 5vh 5vw;
-  background-color: #29bb89;
+  background-color: var(--light-pink);
 }
 
 .dashboard__btn:focus {
   border: none;
+}
+
+.dashboard__btn:hover {
+  background-color: var(--light-purple);
+  color: white;
 }

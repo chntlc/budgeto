@@ -21,7 +21,7 @@ function Router(props) {
         {/* <LoginSignup /> */}
         <Switch>
           <Route path="/" component={Home} exact />
-          <Route path="/login" component={Login} />
+          {/* <Route path="/login" component={Login} /> */}
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/view" component={ViewPage} />
           <Route path="/receiptUploaded" component={ReceiptUploadedPage} />

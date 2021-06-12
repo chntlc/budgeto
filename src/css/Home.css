@@ -1,3 +1,5 @@
+@import url("App.css");
+
 .home-section {
   background-image: url("../images/grocery2.jpg");
   background-size: 100%;
@@ -12,9 +14,11 @@
 
 .welcome-text h1 {
   /* color: #fff; */
-  color: #46436A;
-  font-size: 80px;
+  color: var(--purple);
+  font-size: 90px;
+  font-weight: bold;
   padding: 20px;
+  z-index: 1;
 }
 
 /* .see-more {
@@ -24,7 +28,7 @@
 
 .start-saving {
   /* color: #fff; */
-  color: #46436A;
+  color: var(--purple);
   font-size: 50px;
   font-weight: 600;
   text-decoration: none;
@@ -32,6 +36,12 @@
   padding: 0;
   background-color: transparent;
   border: none;
+  border-radius: 20px;
   outline: none;
   cursor: pointer;
+  z-index: 1;
+}
+
+.start-saving:hover {
+  color: var(--light-purple);
 }
