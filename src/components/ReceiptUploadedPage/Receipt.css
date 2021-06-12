@@ -1,0 +1,15 @@
+.receipt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 93%;
+  width: 91%;
+  background-color: #ffe9d6;
+  border-radius: 3px;
+  border: 1px solid #dbdbdb;
+  box-sizing: border-box;
+}
+
+.receipt img {
+  height: 300px;
+}
