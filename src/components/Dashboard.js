@@ -12,7 +12,7 @@ class DashboardContent extends React.Component {
       moneyDiff = userBudget - userSpending,
       mostSpentCat = "Food";
     return (
-      <div className="dashboard">
+      <div className="dashboard page-content">
         <div className="dashboard__content">
           <div className="dashboard__greeting">
             <img src={userImg} />

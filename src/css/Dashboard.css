@@ -1,7 +1,3 @@
-.dashboard {
-  padding: 12vh 5vw;
-}
-
 .dashboard__greeting {
   display: flex;
   align-items: center;
@@ -66,4 +62,8 @@
   border-radius: 35px;
   padding: 5vh 5vw;
   background-color: #29bb89;
+}
+
+.dashboard__btn:focus {
+  border: none;
 }
