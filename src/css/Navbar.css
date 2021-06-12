@@ -8,8 +8,13 @@
   height: 60px;
   line-height: 60px;
   padding: 0 60px;
-  z-index: 10;
   background-color: #46436a;
+}
+
+.brand-name {
+  font-family: "Baloo";
+  font-size: 20px;
+  z-index: 10;
 }
 
 .navbar img {
@@ -28,7 +33,6 @@
   color: white;
   display: inline-block;
   margin: 0;
-  font-size: 20px;
 }
 
 .navbar .menu-right {

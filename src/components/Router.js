@@ -5,6 +5,7 @@ import Home from "./Home";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 import ViewPage from "./ViewPage";
+import LoginSignup from './LoginSignup';
 
 function Router(props) {
   // How to go back to previous page: https://stackoverflow.com/questions/30915173/react-router-go-back-a-page-how-do-you-configure-history
@@ -16,6 +17,7 @@ function Router(props) {
     <BrowserRouter>
       <div>
         <Navigation pages={pages} loggedIn={false} />
+        {/* <LoginSignup /> */}
         <Switch>
           <Route path="/" component={Home} exact />
           <Route path="/login" component={Login} />
