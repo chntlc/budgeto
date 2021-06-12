@@ -1,15 +1,8 @@
 import React from "react";
-import Navbar from "./Navbar";
-import CategoryPicker from "./ReceiptUploadedPage/CategoryPicker";
-import CategoryFilter from "./ReceiptUploadedPage/CategoryFilter";
+import Router from "./Router";
 
 function App() {
-  return (
-    <div>
-      <CategoryPicker />
-      <CategoryFilter />
-    </div>
-  );
+  return <Router pages={["Home", "Login"]} />;
 }
 
 export default App;
