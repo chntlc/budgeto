@@ -1,13 +1,9 @@
 import React from 'react';
-import Navbar from './Navbar'
-import LoginSignup from './LoginSignup'
+import Router from './Router';
 
 function App() {
   return (
-    <React.Fragment>
-      <Navbar button="LOGIN" />
-      <LoginSignup />
-    </React.Fragment>
+    <Router pages={["Home", "Login"]} />
   );
 }
 
