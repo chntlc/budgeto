@@ -6,7 +6,7 @@ import '../css/Home.css';
 
 function Home() {
 
-  return(
+  return (
     <section className="home-section">
       <div className="helper"></div><div className="vertical-center">
         <Slogan />
