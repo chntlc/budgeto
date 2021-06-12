@@ -1,6 +1,5 @@
 import React from 'react';
 import '../css/Navbar.css';
-import CoinImage from '../images/coin.png';
 import Logo from '../images/logo.png';
 import NavigationButton from './NavigationButton'
 
