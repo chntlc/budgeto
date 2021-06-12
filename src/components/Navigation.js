@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/Navbar.css';
 import Logo from '../images/logo.png';
-import NavigationButton from './NavigationButton'
+import { NavLink } from 'react-router-dom';
 
 function Navigation(props) {
   const pages = props.pages;
@@ -16,13 +16,18 @@ function Navigation(props) {
       </div>
       <div className="menu-right">
         {pages.map((page, index) => {
-          return (<NavigationButton key={page} page={page} />);
+          let pageLowerCase = page.toLowerCase();
+          let to = "/" + pageLowerCase;
+          if (page === "Home") {
+            return (
+              <NavLink className="nav-link" to="/">{page}</NavLink>
+            );
+          }
+          return (<NavLink className="nav-link" to={to}>{page}</NavLink>);
         })}
       </div>
     </div>
   );
 }
-
-// <NavigationButton pages={pages} />
 
 export default Navigation;

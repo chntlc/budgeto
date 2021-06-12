@@ -4,7 +4,7 @@ import Navigation from './Navigation';
 import Home from './Home';
 import Login from './Login';
 
-function Header(props) {
+function Router(props) {
   // How to go back to previous page: https://stackoverflow.com/questions/30915173/react-router-go-back-a-page-how-do-you-configure-history
   // Another doc: https://stackoverflow.com/questions/46681387/react-router-v4-how-to-go-back
 
@@ -15,20 +15,12 @@ function Header(props) {
       <div>
         <Navigation pages={pages}/>
         <Switch>
-          {pages.map(page => {
-            switch (page) {
-              case "Home":
-                return (<Route key={page} path="/" component={Home} exact />);
-              case "Login":
-                return (<Route key={page} path="/Login" component={Login} />);
-              default:
-                break;
-            }
-          })}
+          <Route path="/" component={Home} exact />
+          <Route path="/login" component={Login} />
         </Switch>
       </div>
     </BrowserRouter>
   );
 }
 
-export default Header;
+export default Router;
