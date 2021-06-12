@@ -42,7 +42,8 @@
   list-style: none;
 }
 
-.navbar .menu-right .nav-link {
+.navbar .menu-right .nav-link,
+.login-button {
   color: white;
   font-size: 16px;
   font-weight: 300;
@@ -54,6 +55,11 @@
   border: none;
   outline: none;
   cursor: pointer;
+}
+
+.navbar .menu-right .nav-link:hover,
+.login-button:hover {
+  color: var(--light-orange);
 }
 
 .navbar .menu-right .nav-link:first-child {

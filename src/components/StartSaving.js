@@ -6,9 +6,9 @@ import '../css/Home.css';
 
 function StartSaving() {
 
-  return(
+  return (
     <div className="see-more">
-      <NavLink className="start-saving" to="/Login">Start Saving</NavLink>
+      <NavLink className="start-saving" to="/login">Start Saving</NavLink>
     </div>
   );
 }
