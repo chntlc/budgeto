@@ -25,3 +25,10 @@
 .viewpage__typeChoice .current {
   background-color: #40bbe0;
 }
+
+.custom-range {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
