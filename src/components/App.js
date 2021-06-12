@@ -1,9 +1,14 @@
-import React from 'react';
-import Navbar from './Navbar'
+import React from "react";
+import Navbar from "./Navbar";
+import CategoryPicker from "./ReceiptUploadedPage/CategoryPicker";
+import CategoryFilter from "./ReceiptUploadedPage/CategoryFilter";
 
 function App() {
-  return(
-    <Navbar button="Login"/>
+  return (
+    <div>
+      <CategoryPicker />
+      <CategoryFilter />
+    </div>
   );
 }
 
