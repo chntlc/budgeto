@@ -4,7 +4,7 @@ function CategoryFilter(props) {
   let categories = props.categories;
 
   function openFilterContainer(event) {
-    event.target.classList.toggle("active");
+    event.target.classList.toggle("activeCollapsible");
 
     let collapsibleContent = event.target.nextElementSibling;
     let isMaxHeightSet = collapsibleContent.style.maxHeight;
