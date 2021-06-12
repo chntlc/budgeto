@@ -1,9 +1,9 @@
 import React from 'react';
-import Navbar from './Navbar'
+import Router from './Router';
 
 function App() {
-  return(
-    <Navbar button="Login"/>
+  return (
+    <Router pages={["Home", "Login"]} />
   );
 }
 
