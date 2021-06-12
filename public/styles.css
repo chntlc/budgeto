@@ -6,3 +6,19 @@ body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
 }
+
+/* helper & vertical center */
+
+.helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.vertical-center {
+  display: inline-block;
+  vertical-align: middle;
+  color: white;
+  opacity: 100;
+  position: relative;
+}
