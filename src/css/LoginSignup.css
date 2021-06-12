@@ -21,6 +21,7 @@ form {
   flex-direction: column;
   width: 80%;
   margin: 15px;
+  text-align: left;
 }
 
 .login-submit-button,
