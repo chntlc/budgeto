@@ -1,0 +1,13 @@
+:root {
+  --dark-purple: #312c51;
+  --purple: #48426d;
+  --light-orange: #f0c38e;
+  --light-pink: #f1aa9b;
+  --background: #fffcf9;
+  --coral: #ff8474;
+  --light-purple: #9f5f80;
+}
+
+* {
+  font-family: "Roboto Mono";
+}

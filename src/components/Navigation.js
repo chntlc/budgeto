@@ -22,7 +22,7 @@ function Navigation(props) {
             height="34"
             alt="Coin"
           />
-          <h2>BUDGETO</h2>
+          <h2 className="brand-name">BUDGETO</h2>
         </div>
       </div>
       <div className="menu-right">
