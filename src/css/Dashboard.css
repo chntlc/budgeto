@@ -64,6 +64,7 @@
   border-radius: 35px;
   padding: 5vh 5vw;
   background-color: var(--light-pink);
+  transition: background-color 0.4s ease-in-out;
 }
 
 .dashboard__btn:focus {
@@ -72,5 +73,6 @@
 
 .dashboard__btn:hover {
   background-color: var(--light-purple);
+  transition: background-color 0.4s ease-in-out;
   color: white;
 }
