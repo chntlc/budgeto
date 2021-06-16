@@ -1,0 +1,78 @@
+@import url("App.css");
+
+.dashboard__greeting {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard__greeting img {
+  width: 10vw;
+  height: 10vw;
+  border-radius: 50%;
+  box-shadow: 0px 5px 10px;
+}
+
+.dashboard__greeting span {
+  margin-left: 2vw;
+  font-size: 5vw;
+}
+
+.dashboard__report {
+  margin-left: 12vw;
+}
+
+.dashboard__report p {
+  margin: 15px 0px;
+  font-size: 25px;
+}
+
+.dashboard__report .green {
+  color: #29bb89;
+}
+
+.dashboard__report .red {
+  color: tomato;
+}
+
+.dashboard__report .brown {
+  color: #cc9955;
+}
+
+.dashboard__report .blue {
+  color: #3088c8;
+}
+
+.dashboard__border {
+  margin: 5vh 0px;
+  background-color: black;
+  height: 5px;
+}
+
+.dashboard__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20vh;
+}
+
+.dashboard__btn {
+  text-decoration: none;
+  margin: 0px 12vw;
+  color: white;
+  box-shadow: 0px 5px 15px black;
+  font-size: 25px;
+  border-radius: 35px;
+  padding: 5vh 5vw;
+  background-color: var(--light-pink);
+  transition: background-color 0.4s ease-in-out;
+}
+
+.dashboard__btn:focus {
+  border: none;
+}
+
+.dashboard__btn:hover {
+  background-color: var(--light-purple);
+  transition: background-color 0.4s ease-in-out;
+  color: white;
+}

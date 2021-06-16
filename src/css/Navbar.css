@@ -1,0 +1,74 @@
+/* navbar */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 60px;
+  z-index: 10;
+  background-color: #46436a;
+}
+
+.brand-name {
+  font-family: "Baloo";
+  font-size: 20px;
+  z-index: 10;
+}
+
+.navbar img {
+  vertical-align: middle;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+
+.navbar .logo {
+  vertical-align: middle;
+  float: left;
+  height: 100%;
+}
+
+.navbar .logo h2 {
+  color: white;
+  display: inline-block;
+  margin: 0;
+}
+
+.navbar .menu-right {
+  float: right;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.navbar .menu-right .nav-link,
+.login-button {
+  color: white;
+  font-size: 16px;
+  font-weight: 300;
+  text-decoration: none;
+  transition: color 1s;
+  padding: 0;
+  margin-left: 30px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.navbar .menu-right .nav-link:hover,
+.login-button:hover {
+  color: var(--light-orange);
+}
+
+.navbar .menu-right .nav-link:first-child {
+  margin-left: 0px;
+}
+
+.navbar__profile {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
