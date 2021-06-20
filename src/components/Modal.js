@@ -1,20 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../css/Modal.css';
 
-function Modal({ header, content }) {
-
-  const [show, setShow] = useState(true)
-  const display = show ? { display: 'block' } : {}
-
-  const closeModal = () => {
-    setShow(false)
-  }
+function Modal({ header, content, onClose }) {
 
   return (
-    <div className="modal" style={display}>
+    <div className="modal" style={{ display: 'block' }}>
       <div className='modal-content'>
         <div className='modal-header'>
-          <button className='close-button' onClick={closeModal}>x</button>
+          <button className='close-button' onClick={onClose}>x</button>
           {header}
         </div>
         {content}
@@ -22,5 +15,6 @@ function Modal({ header, content }) {
     </div>
   );
 }
+
 
 export default Modal;
