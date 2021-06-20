@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
+import categorySlice from '../features/categorySlice'
 import globalSlice from '../features/globalSlice'
-import userSlice from '../features/userSlice'
+import receiptSlice from '../features/receiptSlice'
 
 export default configureStore({
   reducer: {
     global: globalSlice,
-    user: userSlice
+    receipt: receiptSlice,
+    category: categorySlice
   },
 })
