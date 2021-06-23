@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import "../css/Navbar.css";
 import Logo from "../images/logo.png";
 import { NavLink } from "react-router-dom";
 import NavBarProfile from "./NavBarProfile";
 import LoginSignup from './LoginSignup';
+import { connect, useDispatch } from 'react-redux';
+import { toggleLoginModal } from "../features/globalSlice";
 
 function Navigation(props) {
+  const dispatch = useDispatch()
   const pages = props.pages;
-  const [showLoginSignup, setLoginSignup] = useState(false)
+
+  const handleLoginSignup = () => {
+    dispatch(toggleLoginModal('login'))
+  }
 
   const userImgUrl =
     "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png";
 
   return (
     <React.Fragment>
-      {showLoginSignup && <LoginSignup />}
+      {props.showLoginModal && <LoginSignup />}
       <div className="navbar">
         <div className="logo">
           <div className="helper"></div>
@@ -43,11 +49,7 @@ function Navigation(props) {
             return props.loggedIn ? (
               <NavBarProfile key="profile" imgUrl={userImgUrl} />
             ) : (
-              <button key='login-button' className='login-button' onClick={() => {
-                console.log('clicked')
-                setLoginSignup(true)
-                console.log({ showLoginSignup })
-              }}>Login</button>
+              <button key='login-button' className='login-button' onClick={handleLoginSignup}>Login</button>
             );
           })}
         </div>
@@ -56,4 +58,10 @@ function Navigation(props) {
   );
 }
 
-export default Navigation;
+const mapStateToProps = (state) => {
+  return {
+    showLoginModal: state.global.showLoginModal
+  }
+}
+
+export default connect(mapStateToProps)(Navigation);

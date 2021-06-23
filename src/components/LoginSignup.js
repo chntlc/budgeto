@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Modal from './Modal'
 import '../css/LoginSignup.css'
+import { toggleLoginModal } from "../features/globalSlice";
+import { connect, useDispatch } from 'react-redux'
 
-export default function LoginSignup() {
-
-  const [showLogin, setLogin] = useState(true);
-  console.log({ showLogin })
+function LoginSignup(props) {
+  const dispatch = useDispatch()
 
   const handleLogin = () => {
     alert('logged in')
@@ -13,6 +13,18 @@ export default function LoginSignup() {
 
   const handleSignup = () => {
     alert('signed up')
+  }
+
+  const redirectLogin = () => {
+    dispatch(toggleLoginModal('login'))
+  }
+
+  const redirectSignup = () => {
+    dispatch(toggleLoginModal('signup'))
+  }
+
+  const closeLoginModal = () => {
+    dispatch(toggleLoginModal(''))
   }
 
   const loginForm =
@@ -39,24 +51,24 @@ export default function LoginSignup() {
       <button className='login-submit-button' onClick={handleSignup}>SIGN ME UP!</button>
     </form>
 
-  const redirectLogin = () => {
-    setLogin(true)
-  }
-
-  const redirectSignup = () => {
-    setLogin(false)
-  }
-
-
   return (
     <Modal
       header={(<React.Fragment>
-        <button id='login-header' className={showLogin ? 'underline-label' : ''} onClick={redirectLogin}>LOGIN</button>
+        <button id='login-header' className={props.showLogin === 'login' ? 'underline-label' : ''} onClick={redirectLogin}>LOGIN</button>
         <span>&nbsp;/&nbsp;</span>
-        <button id='signup-header' className={showLogin ? '' : 'underline-label'} onClick={redirectSignup}>SIGNUP</button>
+        <button id='signup-header' className={props.showLogin === 'signup' ? 'underline-label' : ''} onClick={redirectSignup}>SIGNUP</button>
       </React.Fragment>)}
-      content={showLogin ? loginForm : signupForm}
+      content={props.showLogin === 'login' ? loginForm : signupForm}
+      onClose={closeLoginModal}
     >
     </Modal>
   )
 }
+
+const mapStateToProps = (state) => {
+  return {
+    showLogin: state.global.showLoginModal
+  }
+}
+
+export default connect(mapStateToProps)(LoginSignup);
