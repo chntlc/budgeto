@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import LoginSignup from './LoginSignup';
-
-
+import React from 'react';
 import '../css/Home.css';
+import LoginSignup from './LoginSignup';
+import { connect, useDispatch } from 'react-redux';
+import { toggleLoginModal } from '../features/globalSlice';
 
-function StartSaving() {
-  const [showLoginSignup, setLoginSignup] = useState(false)
+function StartSaving(props) {
+  const dispatch = useDispatch()
 
+  const handleLoginSignup = () => {
+    dispatch(toggleLoginModal('signup'))
+  }
   return (
     <React.Fragment>
-      {showLoginSignup && <LoginSignup />}
+      {props.showLoginModal && <LoginSignup />}
       <div className="see-more">
-        <button className='start-saving' onClick={() => {
-          setLoginSignup(true)
-        }}>Start Saving</button>
+        <button className='start-saving' onClick={handleLoginSignup}>Start Saving</button>
         {/* <NavLink className="start-saving" to="/login">Start Saving</NavLink> */}
       </div>
     </React.Fragment>
   );
 }
 
-export default StartSaving;
+const mapStateToProps = (state) => {
+  return {
+    showLoginModal: state.showLoginModal
+  }
+}
+
+export default connect(mapStateToProps)(StartSaving);
