@@ -1,0 +1,64 @@
+@import url("../../css/App.css");
+
+.container {
+  /* display: flex; */
+  height: 100vh;
+  justify-content: space-evenly;
+}
+
+.item-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  float: left;
+  margin-right: 5px;
+  /* display: flex; */
+}
+
+.input-row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+input {
+  margin-right: 5px;
+}
+
+/* .item-name-input {
+  width: 70%;
+}
+
+.item-qty-input {
+  width: 10%;
+}
+
+.item-price-input {
+  width: 20%;
+} */
+
+.items {
+  margin-top: 12vh;
+}
+
+.row-content {
+  padding: 80px 0px;
+  display: flex;
+}
+
+.col-content {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.card {
+  /* padding-right: 30px;
+  padding-left: 30px; */
+  border-radius: 10px;
+  border-color: var(--light-pink);
+  background-color: var(--background);
+  align-items: center;
+  justify-content: center;
+}
