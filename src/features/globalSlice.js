@@ -5,10 +5,11 @@ const globalSlice = createSlice({
   initialState: {
     isLoggedIn: true,
     user: {
-      id: '',
-      email: '',
-      name: '',
-      budget: 0
+      id: 'budgeto.io',
+      fname: 'Kevin',
+      lname: 'Lee',
+      budget: 0,
+      email: 'budgeto@gmail.com',
     },
     showLoginModal: '',  // can be: login, signup, or ''
     showSettingsModal: '' // can be: settings or ''
@@ -21,8 +22,14 @@ const globalSlice = createSlice({
     userLogout: (state) => {
       console.log('hit userLogout action')
     },
-    updateUser: (state) => {
+    updateUser: (state, action) => {
       console.log('hit updateUser action')
+
+      state.user.fname = action.payload.fname;
+      state.user.lname = action.payload.lname;
+      state.user.budget = action.payload.budget;
+      state.user.email = action.payload.email;
+      state.showSettingsModal = 'settings';
     },
     toggleLoginModal: (state, action) => {
       console.log('hit toggleLoginModal action')
