@@ -1,8 +1,7 @@
 import React from 'react'
 import Modal from './Modal'
 import '../css/Settings.css'
-import { updateUser, toggleSettingsModal } from "../features/globalSlice";
-import { updateLocalUser } from "../features/settingsSlice";
+import { updateUser, updateLocalUser, toggleSettingsModal } from "../features/globalSlice";
 import { connect, useDispatch } from 'react-redux'
 
 function Settings(props) {
@@ -11,12 +10,13 @@ function Settings(props) {
   const handleSettingChange = (event) => {
     event.preventDefault();
 
+    let id = document.getElementById('id').value
     let fname = document.getElementById('fname').value
     let lname = document.getElementById('lname').value
     let budget = document.getElementById('budget').value
     let email = document.getElementById('email').value
 
-    dispatch(updateUser({fname, lname, budget, email}));
+    dispatch(updateUser({id, fname, lname, budget, email}));
     alert('Setting Changed!')
   }
 
@@ -32,6 +32,8 @@ function Settings(props) {
 
   const profileForm =
     <form className='signup-form'>
+      <label>ID</label>
+      <input type="text" id="id" value={props.localUser.id} onChange={handleChange}/>
       <label>First Name</label>
       <input type="text" id="fname" value={props.localUser.fname} onChange={handleChange}/>
       <label>Last Name</label>
@@ -60,7 +62,7 @@ const mapStateToProps = (state) => {
   return {
     showSettings: state.global.showSettingsModal,
     user: state.global.user,
-    localUser: state.settings.localUser,
+    localUser: state.global.localUser,
   }
 }
 
