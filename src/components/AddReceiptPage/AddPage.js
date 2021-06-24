@@ -15,6 +15,8 @@ function AddPage() {
     console.log({ items })
   }
 
+  // TODO: add button that takes all items in state, when clicked, adds to our store in receiptSlice
+
   return (
     <div>
       <Row gutter={16} className='row-content'>
@@ -26,31 +28,35 @@ function AddPage() {
         <Col flex={3} className='col-content'>
           <Card title='Enter Items' bordered={true} className='card'>
             <form className='item-form'>
-              <Row>
-                <Col flex={6}>
+              <Row gutter={16} className='input-row'>
+                <Col span={16}>
                   <label>Name</label>
+                  <input className='item-name-input' type='text' />
                 </Col>
-                <Col flex={5}>
+                <Col span={4}>
                   <label>Quantity</label>
+                  <input className='item-qty-input' type='number' />
                 </Col>
-                <Col flex={5}>
+                <Col span={4}>
                   <label>Price</label>
+                  <input className='item-price-input' type='number' />
                 </Col>
               </Row>
-              <div className='input-row'>
-                <input className='item-name-input' type='text' />
-                <input className='item-qty-input' type='number' />
-                <input className='item-price-input' type='number' />
-              </div>
               {
                 items.map((item, index) => {
                   let itemId = `item-${index}`
                   return (
-                    <div className='input-row'>
-                      <input className='item-name-input' type='text' />
-                      <input className='item-qty-input' type='number' />
-                      <input className='item-price-input' type='number' />
-                    </div>
+                    <Row gutter={16} className='input-row'>
+                      <Col span={16}>
+                        <input className='item-name-input' type='text' />
+                      </Col>
+                      <Col span={4}>
+                        <input className='item-qty-input' type='number' />
+                      </Col>
+                      <Col span={4}>
+                        <input className='item-price-input' type='number' />
+                      </Col>
+                    </Row>
                   )
                 })
               }
