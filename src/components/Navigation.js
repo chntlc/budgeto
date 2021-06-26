@@ -41,7 +41,7 @@ function Navigation(props) {
             let to = "/" + pageLowerCase;
             if (page === "Home") {
               return (
-                <NavLink key={page} className="nav-link" to="/">
+                <NavLink key={page} className="nav-link" to="/dashboard">
                   {page}
                 </NavLink>
               );
