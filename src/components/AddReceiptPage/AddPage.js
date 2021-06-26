@@ -16,11 +16,6 @@ function AddPage(props) {
 
   const addInputRow = () => {
     console.log('add input row')
-    // setItems([...items, {
-    //   name: '',
-    //   qty: '',
-    //   price: ''
-    // }])
     setInputRows([...inputRows, {}])
     console.log({ items })
   }
@@ -29,52 +24,39 @@ function AddPage(props) {
     dispatch(addItems(items))
   }
 
+  /**
+   * handles editing an item within an array using setState
+   * https://stackoverflow.com/questions/29537299/react-how-to-update-state-item1-in-state-using-setstate
+   */
+
   const handleNameInput = (value, index) => {
-    // 1. Make a shallow copy of the items
     let itemsCopy = [...items]
-    // 2. Make a shallow copy of the item you want to mutate
     let item = { ...itemsCopy[index] }
-    // 3. Replace the property you're intested in
     item.name = value
-    // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
     itemsCopy[index] = item;
-    // 5. Set the state to our new copy
     setItems(itemsCopy);
   }
 
   const handleQtyInput = (value, index) => {
-    // 1. Make a shallow copy of the items
     let itemsCopy = [...items]
-    // 2. Make a shallow copy of the item you want to mutate
     let item = { ...itemsCopy[index] }
-    // 3. Replace the property you're intested in
     item.qty = value
-    // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
     itemsCopy[index] = item;
-    // 5. Set the state to our new copy
     setItems(itemsCopy);
   }
 
   const handlePriceInput = (value, index) => {
-    // 1. Make a shallow copy of the items
     let itemsCopy = [...items]
-    // 2. Make a shallow copy of the item you want to mutate
     let item = { ...itemsCopy[index] }
-    // 3. Replace the property you're intested in
     item.price = value
-    // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
     itemsCopy[index] = item;
-    // 5. Set the state to our new copy
     setItems(itemsCopy);
   }
-
-  // TODO: add button that takes all items in state, when clicked, adds to our store in receiptSlice
 
   return (
     <div>
       <Row gutter={16} justify="end" className='button-row'>
         <Col className='col-content'>
-          {/* <button className='next-button'>Next</button> */}
           <Link to='/receiptUploaded' className='next-button' onClick={handleAddItems}>
             Next
           </Link>
@@ -83,7 +65,9 @@ function AddPage(props) {
       <Row gutter={16} className='row-content'>
         <Col flex={2} className='col-content'>
           <Card title='Upload a Receipt' className='card'>
-            <button className='upload-receipt-button'>Upload</button>
+            {/* <button className='upload-receipt-button' type='file'>Upload</button> */}
+            <input type='file' id='choose-file' />
+            {/* <label for='choose-file' className='choose-file-button'>Choose file</label> */}
           </Card>
         </Col>
         <Col flex={3} className='col-content'>
