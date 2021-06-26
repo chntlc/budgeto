@@ -6,6 +6,7 @@
 
 .receiptView {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 35%;
@@ -24,4 +25,11 @@
   width: 60%;
   margin: 12vh 10px 0 0;
   padding: 0 12px;
+}
+
+.list-item {
+  background-color: var(--coral);
+  margin-bottom: 5px;
+  border-radius: 10px;
+  padding: 5px;
 }

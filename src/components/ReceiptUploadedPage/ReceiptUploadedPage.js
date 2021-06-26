@@ -8,8 +8,9 @@ import TransportationIcon from "../../images/transportationIcon.png";
 import TravelingIcon from "../../images/travelingIcon.png";
 import AddIcon from "../../images/addIcon.png";
 import "./ReceiptUploadedPage.css";
+import { connect } from 'react-redux'
 
-function ReceiptUploadedPage() {
+function ReceiptUploadedPage(props) {
   let categories = [
     {
       category: "Grocery",
@@ -46,7 +47,15 @@ function ReceiptUploadedPage() {
   return (
     <div className="container">
       <div className="receiptView">
-        <Receipt />
+        {/* <Receipt /> */}
+        <h2>Receipt Items</h2>
+        <div>
+          {props.items.map((item) =>
+            <div className='list-item' draggable>
+              <li>{item.name}</li>
+            </div>
+          )}
+        </div>
       </div>
       <div className="categoryView">
         <CategoryPicker categories={categories} />
@@ -56,4 +65,10 @@ function ReceiptUploadedPage() {
   );
 }
 
-export default ReceiptUploadedPage;
+const mapStateToProps = (state) => {
+  return {
+    items: state.receipt.items
+  }
+}
+
+export default connect(mapStateToProps)(ReceiptUploadedPage);
