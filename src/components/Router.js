@@ -16,7 +16,7 @@ function Router(props) {
   return (
     <BrowserRouter>
       <div>
-        <Navigation pages={pages} loggedIn={false} />
+        <Navigation pages={pages}/>
         <Switch>
           <Route path="/" component={Home} exact />
           <Route path="/dashboard" component={Dashboard} />
