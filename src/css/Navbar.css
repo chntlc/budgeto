@@ -44,7 +44,8 @@
 }
 
 .navbar .menu-right .nav-link,
-.login-button {
+.login-button,
+.settings-button {
   color: white;
   font-size: 16px;
   font-weight: 300;
@@ -59,7 +60,9 @@
 }
 
 .navbar .menu-right .nav-link:hover,
-.login-button:hover {
+.login-button:hover,
+.settings-button:hover,
+ {
   color: var(--light-orange);
 }
 
