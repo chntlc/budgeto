@@ -4,7 +4,7 @@
   text-decoration: underline;
 }
 
-input {
+form input {
   border-radius: 10px;
   border: 1px solid var(--light-orange);
   display: block;
@@ -17,7 +17,8 @@ label {
   margin-top: 10px;
 }
 
-form {
+.login-form,
+.signup-form {
   flex-direction: column;
   width: 80%;
   margin: 15px;
