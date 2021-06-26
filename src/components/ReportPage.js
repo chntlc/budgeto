@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import { connect } from "react-redux";
 import { Carousel } from "antd";
 import { Pie, Line } from "react-chartjs-2";
@@ -15,8 +16,7 @@ class ReportPage extends React.Component {
     const { mode, calendarMode, periodStart, periodEnd } = this.props;
     return (
       (mode === "calendar" && calendarMode === "month") ||
-      (mode === "custom-range" &&
-        periodStart.format("YYYY-MM-DD") === periodEnd.format("YYYY-MM-DD"))
+      (mode === "custom-range" && periodStart === periodEnd)
     );
   }
 
@@ -25,18 +25,16 @@ class ReportPage extends React.Component {
       this.props;
     if (mode === "calendar") {
       return this.isSingleDayReport()
-        ? selectedDate.format("YYYY-MM-DD")
-        : `${selectedMonth
+        ? selectedDate
+        : `${moment(selectedMonth)
             .startOf("month")
-            .format("YYYY-MM-DD")} ~ ${selectedMonth
+            .format("YYYY-MM-DD")} ~ ${moment(selectedMonth)
             .endOf("month")
             .format("YYYY-MM-DD")}`;
     } else {
       return this.isSingleDayReport()
-        ? periodStart.format("YYYY-MM-DD")
-        : `${periodStart.format("YYYY-MM-DD")} ~ ${periodEnd.format(
-            "YYYY-MM-DD"
-          )}`;
+        ? periodStart
+        : `${periodStart} ~ ${periodEnd}`;
     }
   }
 

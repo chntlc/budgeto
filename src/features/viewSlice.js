@@ -6,8 +6,8 @@ const viewSlice = createSlice({
   initialState: {
     mode: "calendar",
     calendarMode: "month",
-    selectedDate: moment(),
-    selectedMonth: moment().month() + 1,
+    selectedDate: moment().format("YYYY-MM-DD"),
+    selectedMonth: moment().format("YYYY-MM-DD"),
     periodStart: "",
     periodEnd: "",
     reportBtnEnabled: false,
