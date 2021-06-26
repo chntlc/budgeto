@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const globalSlice = createSlice({
   name: 'global',
   initialState: {
-    isLoggedIn: true,
+    isLoggedIn: false,
     user: {
       id: 'budgeto.io',
       fname: 'Kevin',

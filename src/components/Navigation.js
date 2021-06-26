@@ -53,7 +53,7 @@ function Navigation(props) {
                 </NavLink>
               );
             }
-            return props.loggedIn ? (
+            return props.isLoggedIn ? (
               <button key='settings-button' className='settings-button' onClick={handleSettings}>Settings</button>
             ) : (
               <button key='login-button' className='login-button' onClick={handleLoginSignup}>Login</button>
@@ -72,7 +72,8 @@ function Navigation(props) {
 const mapStateToProps = (state) => {
   return {
     showLoginModal: state.global.showLoginModal,
-    showSettingsModal: state.global.showSettingsModal
+    showSettingsModal: state.global.showSettingsModal,
+    isLoggedIn: state.global.isLoggedIn
   }
 }
 
