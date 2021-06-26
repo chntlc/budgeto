@@ -22,3 +22,14 @@
   justify-content: space-evenly;
   width: 100%;
 }
+
+#modalContainer {
+  display: flex;
+  flex-flow: column;
+}
+
+#modalFormContainer {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+}
