@@ -4,14 +4,19 @@ import moment from "moment";
 const viewSlice = createSlice({
   name: "view",
   initialState: {
+    mode: "calendar",
     calendarMode: "month",
     selectedDate: moment(),
     selectedMonth: moment().month() + 1,
-    periodStart: moment(),
-    periodEnd: moment(),
+    periodStart: "",
+    periodEnd: "",
     reportBtnEnabled: false,
   },
   reducers: {
+    toggleMode: (state, action) => {
+      state.mode = action.payload;
+      console.log(`showing ${action.payload} view`);
+    },
     toggleCalendarMode: (state, action) => {
       state.calendarMode = action.payload;
       console.log(`calendar view changed to ${action.payload}`);
@@ -39,6 +44,7 @@ const viewSlice = createSlice({
 });
 
 export const {
+  toggleMode,
   toggleCalendarMode,
   toggleReportBtn,
   selectDay,
