@@ -2,7 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Carousel } from "antd";
 import { Pie, Line } from "react-chartjs-2";
+import { FaArrowLeft } from "react-icons/fa";
 import "../css/ReportPage.css";
+import { Link } from "react-router-dom";
 
 class ReportPage extends React.Component {
   constructor(props) {
@@ -98,6 +100,12 @@ class ReportPage extends React.Component {
 
     return (
       <div className="reportpage page-content">
+        <div className="reportpage__goback">
+          <Link to={"/view"}>
+            <FaArrowLeft /> Back to View
+          </Link>
+        </div>
+
         <span className="reportpage__title">
           Here is your report ({this.dateTextHelper()}):
         </span>

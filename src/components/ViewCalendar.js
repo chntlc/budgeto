@@ -20,6 +20,11 @@ class ViewCalendar extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(toggleMode("calendar"));
+    if (this.getDailyData(this.props.selectedDate) !== 0) {
+      this.props.dispatch(toggleReportBtn(true));
+    } else {
+      this.props.dispatch(toggleReportBtn(false));
+    }
   }
 
   toggleMode(value, mode) {
@@ -113,7 +118,11 @@ class ViewCalendar extends React.Component {
           )}
         </div>
         <Calendar
-          //   value={value}
+          value={
+            this.props.calendarMode === "month"
+              ? this.props.selectedDate
+              : this.props.selectedMonth
+          }
           mode={this.props.calendarMode}
           dateCellRender={this.dateCellRender}
           monthCellRender={this.monthCellRender}
