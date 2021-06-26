@@ -19,11 +19,12 @@ class ViewCalendar extends React.Component {
   }
 
   componentDidMount() {
+    const { calendarMode, selectedDate, selectedMonth } = this.props;
     this.props.dispatch(toggleMode("calendar"));
-    if (this.getDailyData(this.props.selectedDate) !== 0) {
-      this.props.dispatch(toggleReportBtn(true));
+    if (calendarMode === "month") {
+      this.onDateSelect(selectedDate);
     } else {
-      this.props.dispatch(toggleReportBtn(false));
+      this.onMonthSelect(selectedMonth);
     }
   }
 
