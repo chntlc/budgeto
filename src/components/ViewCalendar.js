@@ -25,9 +25,9 @@ class ViewCalendar extends React.Component {
   toggleMode(value, mode) {
     this.props.dispatch(toggleCalendarMode(mode));
     if (mode === "month") {
-      this.props.dispatch(selectDay(value));
+      this.onDateSelect(value);
     } else {
-      this.props.dispatch(selectMonth(value.month));
+      this.onMonthSelect(value);
     }
   }
 
@@ -41,7 +41,7 @@ class ViewCalendar extends React.Component {
   }
 
   onMonthSelect(value) {
-    this.props.dispatch(selectMonth(value.month() + 1));
+    this.props.dispatch(selectMonth(value));
     if (this.getMonthlyData(value) !== 0) {
       this.props.dispatch(toggleReportBtn(true));
     } else {
