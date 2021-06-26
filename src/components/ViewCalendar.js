@@ -2,6 +2,7 @@ import React from "react";
 import { Calendar } from "antd";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import moment from "moment";
 import {
   toggleMode,
   selectDay,
@@ -21,8 +22,13 @@ class ViewCalendar extends React.Component {
     this.props.dispatch(toggleMode("calendar"));
   }
 
-  toggleMode(mode) {
+  toggleMode(value, mode) {
     this.props.dispatch(toggleCalendarMode(mode));
+    if (mode === "month") {
+      this.props.dispatch(selectDay(value));
+    } else {
+      this.props.dispatch(selectMonth(value.month));
+    }
   }
 
   onDateSelect(value) {
@@ -67,7 +73,7 @@ class ViewCalendar extends React.Component {
   getMonthlyData(value) {
     const year = value.year(),
       // month value range 0-11
-      month = value.month();
+      month = value.month() + 1;
     if (year === 2021 && month === 4) {
       return 42;
     }
@@ -111,12 +117,13 @@ class ViewCalendar extends React.Component {
           mode={this.props.calendarMode}
           dateCellRender={this.dateCellRender}
           monthCellRender={this.monthCellRender}
-          onPanelChange={(value, mode) => this.toggleMode(mode)}
+          onPanelChange={(value, mode) => this.toggleMode(value, mode)}
           onSelect={(value) =>
             this.props.calendarMode === "month"
               ? this.onDateSelect(value)
               : this.onMonthSelect(value)
           }
+          disabledDate={(value) => value > moment().endOf("day")}
         />
         <div className="calendar__submit">
           {this.props.reportBtnEnabled ? (
