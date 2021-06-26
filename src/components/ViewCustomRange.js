@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import { DatePicker } from "antd";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -38,6 +39,7 @@ class ViewCustomRange extends React.Component {
           size="large"
           style={{ width: "50vw", margin: "5vh" }}
           onChange={(dates) => this.onRangeChange(dates)}
+          disabledDate={(value) => value > moment().endOf("day")}
         />
         <div className="custom-range__action">
           {this.props.reportBtnEnabled ? (
