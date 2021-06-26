@@ -5,12 +5,14 @@ const globalSlice = createSlice({
   initialState: {
     isLoggedIn: false,
     user: {
-      id: '',
-      email: '',
-      name: '',
-      budget: 0
+      id: 'budgeto.io',
+      fname: 'Kevin',
+      lname: 'Lee',
+      budget: 0,
+      email: 'budgeto@gmail.com',
     },
-    showLoginModal: ''  // can be: login, signup, or ''
+    showLoginModal: '',  // can be: login, signup, or ''
+    showSettingsModal: '' // can be: settings or ''
   },
   reducers: {
     // global states we need to keep track of
@@ -29,16 +31,28 @@ const globalSlice = createSlice({
     userLogout: (state) => {
       console.log('hit userLogout action')
     },
-    updateUser: (state) => {
+    updateUser: (state, action) => {
       console.log('hit updateUser action')
+
+      state.user.id = action.payload.id;
+      state.user.fname = action.payload.fname;
+      state.user.lname = action.payload.lname;
+      state.user.budget = action.payload.budget;
+      state.user.email = action.payload.email;
+      state.showSettingsModal = '';
     },
     toggleLoginModal: (state, action) => {
       console.log('hit toggleLoginModal action')
       state.showLoginModal = action.payload
+    },
+    toggleSettingsModal: (state, action) => {
+      console.log('hit toggleSettingsModal action')
+      state.showSettingsModal = action.payload
     }
   }
 })
 
-export const { userLogin, userSignup, userLogout, updateUser, toggleLoginModal } = globalSlice.actions
+
+export const { userLogin, userSignup, userLogout, updateUser, toggleLoginModal, toggleSettingsModal } = globalSlice.actions
 
 export default globalSlice.reducer
