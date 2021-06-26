@@ -26,3 +26,7 @@ body {
 .page-content {
   padding: 12vh 5vw;
 }
+
+.disabled {
+  opacity: 0.7;
+}

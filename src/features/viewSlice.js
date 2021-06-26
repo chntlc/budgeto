@@ -1,0 +1,56 @@
+import { createSlice } from "@reduxjs/toolkit";
+import moment from "moment";
+
+const viewSlice = createSlice({
+  name: "view",
+  initialState: {
+    mode: "calendar",
+    calendarMode: "month",
+    selectedDate: moment(),
+    selectedMonth: moment().month() + 1,
+    periodStart: "",
+    periodEnd: "",
+    reportBtnEnabled: false,
+  },
+  reducers: {
+    toggleMode: (state, action) => {
+      state.mode = action.payload;
+      console.log(`showing ${action.payload} view`);
+    },
+    toggleCalendarMode: (state, action) => {
+      state.calendarMode = action.payload;
+      console.log(`calendar view changed to ${action.payload}`);
+    },
+    toggleReportBtn: (state, action) => {
+      state.reportBtnEnabled = action.payload;
+    },
+    selectDay: (state, action) => {
+      state.selectedDate = action.payload;
+      console.log(`date selected: ${action.payload}`);
+    },
+    selectMonth: (state, action) => {
+      state.selectedMonth = action.payload;
+      console.log(`month selected: ${action.payload}`);
+    },
+    selectPeriodStart: (state, action) => {
+      state.periodStart = action.payload;
+      console.log(`period start date: ${action.payload}`);
+    },
+    selectPeriodEnd: (state, action) => {
+      state.periodEnd = action.payload;
+      console.log(`period end date: ${action.payload}`);
+    },
+  },
+});
+
+export const {
+  toggleMode,
+  toggleCalendarMode,
+  toggleReportBtn,
+  selectDay,
+  selectMonth,
+  selectPeriodStart,
+  selectPeriodEnd,
+} = viewSlice.actions;
+
+export default viewSlice.reducer;
