@@ -1,7 +1,6 @@
 @import url("../../css/App.css");
 
 .container {
-  /* display: flex; */
   height: 100vh;
   justify-content: space-evenly;
 }
@@ -12,33 +11,16 @@
 }
 
 label {
-  /* float: left;
-  margin-right: 5px; */
   color: var(--dark-purple);
-  /* display: flex; */
 }
 
 .input-row {
-  /* display: flex;
-  flex-direction: row; */
   margin-bottom: 10px;
 }
 
 input {
   margin-right: 5px;
 }
-
-/* .item-name-input {
-  width: 70%;
-}
-
-.item-qty-input {
-  width: 10%;
-}
-
-.item-price-input {
-  width: 20%;
-} */
 
 .items {
   margin-top: 12vh;
@@ -47,11 +29,11 @@ input {
 .row-content {
   padding: 30px 0px;
   display: flex;
+  margin-bottom: 10px;
 }
 
 .col-content {
-  margin-right: 10px;
-  margin-left: 10px;
+  margin: 0px 10px 10px 10px;
 }
 
 .button-row {
@@ -88,7 +70,7 @@ Link {
   border-radius: 10px;
   width: 100%;
   height: 25px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .upload-receipt-button:hover,
@@ -105,4 +87,16 @@ Link {
   border-radius: 15px;
   padding: 10px 20px;
   transition: background-color 0.4s ease-in-out;
+}
+
+.choose-file-button {
+  background-color: var(--purple);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  height: 25px;
+  margin-top: 10px;
+  padding: 0.5rem;
+  cursor: pointer;
 }
