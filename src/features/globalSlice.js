@@ -16,8 +16,17 @@ const globalSlice = createSlice({
   },
   reducers: {
     // global states we need to keep track of
-    userLogin: (state) => {
+    userLogin: (state, action) => {
+      console.log({ action })
       console.log('hit userLogin action')
+      state.user = action.payload
+      state.isLoggedIn = true
+    },
+    userSignup: (state, action) => {
+      console.log({ action })
+      console.log('hit userSignup action')
+      state.user = action.payload
+      state.isLoggedIn = true
     },
     userLogout: (state) => {
       console.log('hit userLogout action')
@@ -43,6 +52,7 @@ const globalSlice = createSlice({
   }
 })
 
-export const { userLogin, userLogout, updateUser, toggleLoginModal, toggleSettingsModal } = globalSlice.actions
+
+export const { userLogin, userSignup, userLogout, updateUser, toggleLoginModal, toggleSettingsModal } = globalSlice.actions
 
 export default globalSlice.reducer
