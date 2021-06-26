@@ -1,4 +1,63 @@
 .reportpage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.reportpage a {
+  color: white;
+
+  padding: 2vh 2vw;
+}
+
+.reportpage__goback {
+  text-decoration: none;
+  position: absolute;
+  top: 80px;
+  left: 70px;
+  background-color: var(--light-pink);
+  border-radius: 30px;
+  font-size: 1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.reportpage__goback:hover {
+  background-color: var(--light-purple);
+}
+
+.reportpage__title {
+  margin: 3vh 0;
+  font-size: 2vw;
+  font-weight: 600;
+  display: block;
+}
+
+.reportpage__chartArea {
   width: 80vw;
-  height: 80vh;
+  height: 60vh;
+}
+
+.reportpage__chartArea div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 56vw;
+  height: 60vh;
+  margin: 0 18vw;
+}
+
+.ant-carousel .slick-dots li button {
+  background: var(--dark-purple);
+  opacity: 0.4;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+  opacity: 1;
+  background: var(--dark-purple);
 }
