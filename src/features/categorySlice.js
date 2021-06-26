@@ -1,42 +1,165 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, nanoid } from "@reduxjs/toolkit";
+import GroceryIcon from "../images/groceryIcon.png";
+import RestaurantIcon from "../images/restaurantIcon.png";
+import ClothingIcon from "../images/clothingIcon.png";
+import TransportationIcon from "../images/transportationIcon.png";
+import TravelingIcon from "../images/travelingIcon.png";
 
 const categorySlice = createSlice({
-  name: 'category',
+  name: "category",
   initialState: {
     categories: [
       {
-        name: 'grocery',
-        colour: 'blue',
-        selected: true,
-        imageURL: 'https://github.com/chntlc/broke.io/blob/563ed4e6bf62af606764c7a24b1e4c477b13e918/src/images/groceryIcon.png'
+        categoryId: nanoid(),
+        categoryName: "Grocery",
+        iconImg: GroceryIcon,
+        iconColour: "#EAC495",
+        items: [],
       },
       {
-        name: 'clothing',
-        colour: 'pink',
-        selected: false,
-        imageURL: 'https://github.com/chntlc/broke.io/blob/563ed4e6bf62af606764c7a24b1e4c477b13e918/src/images/clothingIcon.png'
-      }
-    ]
+        categoryId: nanoid(),
+        categoryName: "Dining Out",
+        iconImg: RestaurantIcon,
+        iconColour: "#E7AD9E",
+        items: [],
+      },
+      {
+        categoryId: nanoid(),
+        categoryName: "Clothing",
+        iconImg: ClothingIcon,
+        iconColour: "#46436A",
+        items: [],
+      },
+      {
+        categoryId: nanoid(),
+        categoryName: "Transportation",
+        iconImg: TransportationIcon,
+        iconColour: "#2F2D4F",
+        items: [],
+      },
+      {
+        categoryId: nanoid(),
+        categoryName: "Traveling",
+        iconImg: TravelingIcon,
+        iconColour: "#301B3F",
+        items: [],
+      },
+    ],
   },
   reducers: {
-    addCategory: (state) => {
-      console.log('hit addCategory action')
+    addCategory: {
+      reducer: (state, action) => {
+        state.categories.push(action.payload);
+      },
+      prepare: (categoryName, iconImg, iconColour) => {
+        const categoryId = nanoid();
+        const items = [];
+        return {
+          payload: {
+            categoryId,
+            categoryName,
+            iconImg,
+            iconColour,
+            items,
+          },
+        };
+      },
     },
-    deleteCategory: (state) => {
-      console.log('hit deleteCategory action')
-    },
-    editCategory: (state) => {
-      console.log('hit editCategory action')
-    },
-    addItemToCategory: (state) => {
-      console.log('hit addItemToCategory action')
-    },
-    deleteItemFromCategory: (state) => {
-      console.log('hit deleteItemFromCategory action')
-    }
-  }
-})
+    deleteCategory: {
+      reducer: (state, action) => {
+        const categoryId = action.payload;
+        const targetCategoryIndex = state.categories.findIndex(
+          (category) => category.categoryId === categoryId
+        );
 
-export const { addCategory, deleteCategory, editCategory, addItemToCategory, deleteItemFromCategory } = categorySlice.actions
+        if (targetCategoryIndex !== -1) {
+          state.categories.splice(targetCategoryIndex, 1);
+        }
+      },
+      prepare: (categoryId) => {
+        return { payload: categoryId };
+      },
+    },
+    editCategory: {
+      reducer: (state, action) => {
+        const { categoryId, categoryName, iconImg, iconColour } =
+          action.payload;
+        const categoryToEdit = state.categories.find(
+          (category) => category.categoryId === categoryId
+        );
 
-export default categorySlice.reducer
+        if (categoryToEdit) {
+          categoryToEdit.categoryName = categoryName;
+          categoryToEdit.iconImg = iconImg;
+          categoryToEdit.iconColour = iconColour;
+        }
+      },
+      prepare: (categoryId, categoryName, iconImg, iconColour) => {
+        return {
+          payload: {
+            categoryId,
+            categoryName,
+            iconImg,
+            iconColour,
+          },
+        };
+      },
+    },
+    addItemToCategory: {
+      reducer: (state, action) => {
+        const { item, categoryId } = action.payload;
+        const category = state.categories.find(
+          (category) => category.categoryId === categoryId
+        );
+
+        if (category) {
+          category.items.push(item);
+        }
+      },
+      prepare: (itemName, price, quantity, categoryId) => {
+        const itemId = nanoid();
+        const item = {
+          itemId,
+          itemName,
+          price,
+          quantity,
+        };
+        return {
+          payload: { item, categoryId },
+        };
+      },
+    },
+    deleteItemFromCategory: {
+      reducer: (state, action) => {
+        const { itemId, categoryId } = action.payload;
+        const category = state.categories.find(
+          (category) => category.categoryId === categoryId
+        );
+
+        if (category) {
+          category.items.filter((item) => item.itemId !== itemId);
+        }
+      },
+      prepare: (itemId, categoryId) => {
+        return {
+          payload: { itemId, categoryId },
+        };
+      },
+    },
+    submitCategorizedItems: {
+      reducer: (state) => {
+        console.log("Insert to mongo collection");
+      },
+    },
+  },
+});
+
+export const {
+  addCategory,
+  deleteCategory,
+  editCategory,
+  addItemToCategory,
+  deleteItemFromCategory,
+} = categorySlice.actions;
+
+export default categorySlice.reducer;
