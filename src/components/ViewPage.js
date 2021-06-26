@@ -1,8 +1,8 @@
 import React from "react";
-import { Calendar } from "antd";
 import "../css/ViewPage.css";
 import "antd/dist/antd.css";
 import ViewCustomRange from "./ViewCustomRange";
+import ViewCalendar from "./ViewCalendar";
 
 class ViewPage extends React.Component {
   constructor(props) {
@@ -45,7 +45,9 @@ class ViewPage extends React.Component {
           </button>
         </div>
         <hr />
-        {viewType === "default" ? <Calendar /> : <ViewCustomRange />}
+        <div className="viewpage__view">
+          {viewType === "default" ? <ViewCalendar /> : <ViewCustomRange />}
+        </div>
       </div>
     );
   }
