@@ -15,7 +15,7 @@ class DashboardContent extends React.Component {
       <div className="dashboard page-content">
         <div className="dashboard__content">
           <div className="dashboard__greeting">
-            <img src={userImg} alt="user profile" />
+            <img src={userImg} alt="UserImg" />
             <span>Hi, {userName}!</span>
           </div>
           <div className="dashboard__report">
