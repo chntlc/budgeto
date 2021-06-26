@@ -1,7 +1,8 @@
 import "./CategoryFilter.css";
+import { useSelector } from "react-redux";
 
-function CategoryFilter(props) {
-  let categories = props.categories;
+function CategoryFilter() {
+  const categories = useSelector((state) => state.category.categories);
 
   function openFilterContainer(event) {
     event.target.classList.toggle("activeCollapsible");
@@ -16,29 +17,27 @@ function CategoryFilter(props) {
 
   return (
     <div className="filterContainer">
-      {categories.map((category, index) => {
-        if (index !== categories.length - 1) {
-          return (
-            <div className="filter" key={index}>
-              <button
-                type="button"
-                className="collapsible"
-                style={{ backgroundColor: category["iconColor"] }}
-                onClick={(event) => openFilterContainer(event)}
-              >
-                {category["category"]}
-              </button>
-              <div className="filteredItems">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-              </div>
+      {categories.map((category) => {
+        return (
+          <div className="filter" key={category["categoryId"]}>
+            <button
+              type="button"
+              className="collapsible"
+              style={{ backgroundColor: category["iconColour"] }}
+              onClick={(event) => openFilterContainer(event)}
+            >
+              {category["categoryName"]}
+            </button>
+            <div className="filteredItems">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </p>
             </div>
-          );
-        }
+          </div>
+        );
       })}
     </div>
   );
