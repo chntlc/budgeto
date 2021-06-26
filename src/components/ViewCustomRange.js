@@ -1,23 +1,65 @@
 import React from "react";
 import { DatePicker } from "antd";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  toggleMode,
+  toggleReportBtn,
+  selectPeriodStart,
+  selectPeriodEnd,
+} from "../features/viewSlice";
 
-function ViewCustomRange() {
-  const { RangePicker } = DatePicker;
-  return (
-    <div className="custom-range">
-      <h1>Please select the range of period you would like to see:</h1>
-      <RangePicker
-        size="large"
-        style={{ width: "50vw", margin: "5vh" }}
-      ></RangePicker>
-      <div className="custom-range__action">
-        <Link className="custom-range__submit" to={"/report"}>
-          View Report
-        </Link>
+class ViewCustomRange extends React.Component {
+  constructor(props) {
+    super();
+  }
+
+  componentDidMount() {
+    this.props.dispatch(toggleMode("custom-range"));
+    this.props.dispatch(toggleReportBtn(false));
+  }
+
+  onRangeChange(dates) {
+    if (dates === null) {
+      this.props.dispatch(toggleReportBtn(false));
+    } else {
+      this.props.dispatch(selectPeriodStart(dates[0]));
+      this.props.dispatch(selectPeriodEnd(dates[1]));
+      this.props.dispatch(toggleReportBtn(true));
+    }
+  }
+
+  render() {
+    const { RangePicker } = DatePicker;
+    return (
+      <div className="custom-range">
+        <h1>Please select the range of period you would like to see:</h1>
+        <RangePicker
+          size="large"
+          style={{ width: "50vw", margin: "5vh" }}
+          onChange={(dates) => this.onRangeChange(dates)}
+        />
+        <div className="custom-range__action">
+          {this.props.reportBtnEnabled ? (
+            <Link className="custom-range__submit" to={"/report"}>
+              View Report
+            </Link>
+          ) : (
+            <span className="disabled custom-range__submit">View Report</span>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-export default ViewCustomRange;
+function mapStateToProps(state) {
+  return {
+    calendarMode: state.view.calendarMode,
+    periodStart: state.view.periodStart,
+    periodEnd: state.view.periodEnd,
+    reportBtnEnabled: state.view.reportBtnEnabled,
+  };
+}
+
+export default connect(mapStateToProps)(ViewCustomRange);

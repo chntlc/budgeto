@@ -3,6 +3,7 @@ import { Calendar } from "antd";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
+  toggleMode,
   selectDay,
   selectMonth,
   toggleCalendarMode,
@@ -11,10 +12,13 @@ import {
 
 class ViewCalendar extends React.Component {
   constructor(props) {
-    super();
-
+    super(props);
     this.dateCellRender = this.dateCellRender.bind(this);
     this.monthCellRender = this.monthCellRender.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.dispatch(toggleMode("calendar"));
   }
 
   toggleMode(mode) {
