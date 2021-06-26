@@ -24,8 +24,8 @@ class ViewCustomRange extends React.Component {
     if (dates === null) {
       this.props.dispatch(toggleReportBtn(false));
     } else {
-      this.props.dispatch(selectPeriodStart(dates[0]));
-      this.props.dispatch(selectPeriodEnd(dates[1]));
+      this.props.dispatch(selectPeriodStart(dates[0].format("YYYY-MM-DD")));
+      this.props.dispatch(selectPeriodEnd(dates[1].format("YYYY-MM-DD")));
       this.props.dispatch(toggleReportBtn(true));
     }
   }

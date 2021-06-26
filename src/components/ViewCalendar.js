@@ -22,9 +22,9 @@ class ViewCalendar extends React.Component {
     const { calendarMode, selectedDate, selectedMonth } = this.props;
     this.props.dispatch(toggleMode("calendar"));
     if (calendarMode === "month") {
-      this.onDateSelect(selectedDate);
+      this.onDateSelect(moment(selectedDate));
     } else {
-      this.onMonthSelect(selectedMonth);
+      this.onMonthSelect(moment(selectedMonth));
     }
   }
 
@@ -38,7 +38,7 @@ class ViewCalendar extends React.Component {
   }
 
   onDateSelect(value) {
-    this.props.dispatch(selectDay(value));
+    this.props.dispatch(selectDay(value.format("YYYY-MM-DD")));
     if (this.getDailyData(value) !== 0) {
       this.props.dispatch(toggleReportBtn(true));
     } else {
@@ -47,7 +47,7 @@ class ViewCalendar extends React.Component {
   }
 
   onMonthSelect(value) {
-    this.props.dispatch(selectMonth(value));
+    this.props.dispatch(selectMonth(value.format("YYYY-MM-DD")));
     if (this.getMonthlyData(value) !== 0) {
       this.props.dispatch(toggleReportBtn(true));
     } else {
@@ -60,7 +60,7 @@ class ViewCalendar extends React.Component {
       // month value range 0-11
       month = value.month() + 1,
       day = value.date();
-    if (month !== this.props.selectedDate.month() + 1) {
+    if (month !== moment(this.props.selectedDate).month() + 1) {
       return 0;
     }
     //mock data, will create http request eventually
@@ -109,10 +109,12 @@ class ViewCalendar extends React.Component {
   }
 
   render() {
+    const { reportBtnEnabled, selectedDate, selectedMonth, calendarMode } =
+      this.props;
     return (
       <div className="calendar">
         <div className="calendar__submit">
-          {this.props.reportBtnEnabled ? (
+          {reportBtnEnabled ? (
             <Link to={"/report"}>View Report</Link>
           ) : (
             <span className="disabled">View Report</span>
@@ -120,23 +122,23 @@ class ViewCalendar extends React.Component {
         </div>
         <Calendar
           value={
-            this.props.calendarMode === "month"
-              ? this.props.selectedDate
-              : this.props.selectedMonth
+            calendarMode === "month"
+              ? moment(selectedDate)
+              : moment(selectedMonth)
           }
-          mode={this.props.calendarMode}
+          mode={calendarMode}
           dateCellRender={this.dateCellRender}
           monthCellRender={this.monthCellRender}
           onPanelChange={(value, mode) => this.toggleMode(value, mode)}
           onSelect={(value) =>
-            this.props.calendarMode === "month"
+            calendarMode === "month"
               ? this.onDateSelect(value)
               : this.onMonthSelect(value)
           }
           disabledDate={(value) => value > moment().endOf("day")}
         />
         <div className="calendar__submit">
-          {this.props.reportBtnEnabled ? (
+          {reportBtnEnabled ? (
             <Link to={"/report"}>View Report</Link>
           ) : (
             <span className="disabled">View Report</span>
