@@ -99,9 +99,11 @@ function CategoryPicker() {
           onClose={() => toggleModal(false)}
         />
       )}
-      <div className="categoryContainer">
-        <p onClick={() => toggleEdit(!edit)}>Edit</p>
-        <div className="scroller">
+      <button id={edit ? "edit" : "add"} onClick={() => toggleEdit(!edit)}>
+        {edit ? "Done" : "Edit"}
+      </button>
+      <div id={edit ? "categoryContainerEdit" : "categoryContainerAdd"}>
+        <div id="scroller">
           {categories.map((category) => {
             const { categoryId, categoryName, iconImg, iconColour } = category;
             return (
