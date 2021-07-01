@@ -29,11 +29,13 @@ class ViewCalendar extends React.Component {
   }
 
   toggleMode(value, mode) {
-    this.props.dispatch(toggleCalendarMode(mode));
-    if (mode === "month") {
-      this.onDateSelect(value);
-    } else {
-      this.onMonthSelect(value);
+    if (mode !== this.props.calendarMode) {
+      this.props.dispatch(toggleCalendarMode(mode));
+      if (mode === "month") {
+        this.onDateSelect(value);
+      } else {
+        this.onMonthSelect(value);
+      }
     }
   }
 
@@ -60,18 +62,19 @@ class ViewCalendar extends React.Component {
       // month value range 0-11
       month = value.month() + 1,
       day = value.date();
+    let spending = 1;
     if (month !== moment(this.props.selectedDate).month() + 1) {
-      return 0;
+      spending *= -1;
     }
     //mock data, will create http request eventually
     if (year === 2021 && month === 6 && day === 1) {
-      return 100;
+      return spending * 100;
     }
     if (year === 2021 && month === 6 && day === 24) {
-      return 140;
+      return spending * 140;
     }
     if (year === 2021 && month === 4 && day === 4) {
-      return 42;
+      return spending * 42;
     }
     return 0;
   }
@@ -91,10 +94,9 @@ class ViewCalendar extends React.Component {
 
   dateCellRender(value) {
     const dailySpend = this.getDailyData(value);
-    console.log("rendered");
     return (
       <div className="calendar__cell">
-        <span>{dailySpend === 0 ? "" : `$${dailySpend}`}</span>
+        <span>{dailySpend <= 0 ? "" : `$${dailySpend}`}</span>
       </div>
     );
   }
