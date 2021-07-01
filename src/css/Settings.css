@@ -4,7 +4,7 @@
   text-decoration: underline;
 }
 
-form input {
+input {
   border-radius: 10px;
   border: 1px solid var(--light-orange);
   display: block;
@@ -17,15 +17,14 @@ label {
   margin-top: 10px;
 }
 
-.login-form,
-.signup-form {
+form {
   flex-direction: column;
   width: 80%;
   margin: 15px;
   text-align: left;
 }
 
-.login-submit-button,
+.setting-submit-button,
 Link {
   background-color: var(--light-pink);
   color: white;
@@ -36,12 +35,10 @@ Link {
   margin-top: 20px;
 }
 
-.login-submit-button:hover {
+.setting-submit-button:hover {
   background-color: var(--light-purple);
 }
 
-#login-header,
-#signup-header,
 .close-button {
   background-color: transparent;
   outline: none;
@@ -49,8 +46,6 @@ Link {
   font-size: 18px;
 }
 
-#login-header:hover,
-#signup-header:hover,
 .close-button:hover {
   color: var(--light-purple);
 }

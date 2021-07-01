@@ -1,54 +1,57 @@
 import React from "react";
-import { Calendar } from "antd";
 import "../css/ViewPage.css";
 import "antd/dist/antd.css";
+import { connect } from "react-redux";
 import ViewCustomRange from "./ViewCustomRange";
+import ViewCalendar from "./ViewCalendar";
+import { toggleMode } from "../features/viewSlice";
 
 class ViewPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      viewType: "default",
-    };
     this.setTypeCustom = this.setTypeCustom.bind(this);
     this.setTypeDefault = this.setTypeDefault.bind(this);
   }
 
   setTypeCustom() {
-    this.setState({
-      viewType: "custom",
-    });
+    this.props.dispatch(toggleMode("custom-range"));
   }
 
   setTypeDefault() {
-    this.setState({
-      viewType: "default",
-    });
+    this.props.dispatch(toggleMode("calendar"));
   }
 
   render() {
-    const { viewType } = this.state;
+    const { mode } = this.props;
     return (
       <div className="viewpage page-content">
         <div className="viewpage__typeChoice">
           <button
-            className={viewType === "default" ? "current" : null}
+            className={mode === "calendar" ? "current" : null}
             onClick={this.setTypeDefault}
           >
             Default Calendar
           </button>
           <button
-            className={viewType === "custom" ? "current" : null}
+            className={mode === "custom-range" ? "current" : null}
             onClick={this.setTypeCustom}
           >
             Custom Range
           </button>
         </div>
         <hr />
-        {viewType === "default" ? <Calendar /> : <ViewCustomRange />}
+        <div className="viewpage__view">
+          {mode === "calendar" ? <ViewCalendar /> : <ViewCustomRange />}
+        </div>
       </div>
     );
   }
 }
 
-export default ViewPage;
+function mapStateToProps(state) {
+  return {
+    mode: state.view.mode,
+  };
+}
+
+export default connect(mapStateToProps)(ViewPage);
