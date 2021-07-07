@@ -3,23 +3,23 @@ import "../css/Navbar.css";
 import Logo from "../images/logo.png";
 import { NavLink } from "react-router-dom";
 import NavBarProfile from "./NavBarProfile";
-import LoginSignup from './LoginSignup';
-import Settings from './Settings';
-import { connect, useDispatch } from 'react-redux';
+import LoginSignup from "./LoginSignup";
+import Settings from "./Settings";
+import { connect, useDispatch } from "react-redux";
 import { toggleLoginModal } from "../features/globalSlice";
 import { toggleSettingsModal } from "../features/globalSlice";
 
 function Navigation(props) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const pages = props.pages;
 
   const handleLoginSignup = () => {
-    dispatch(toggleLoginModal('login'))
-  }
+    dispatch(toggleLoginModal("login"));
+  };
 
   const handleSettings = () => {
-    dispatch(toggleSettingsModal('settings'))
-  }
+    dispatch(toggleSettingsModal("settings"));
+  };
 
   const userImgUrl =
     "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png";
@@ -54,9 +54,20 @@ function Navigation(props) {
               );
             }
             return props.isLoggedIn ? (
-              <button key='settings-button' className='settings-button' onClick={handleSettings}>Settings</button>
+              <img
+                key="settings-button"
+                src={userImgUrl}
+                className="navbar__profile"
+                onClick={handleSettings}
+              />
             ) : (
-              <button key='login-button' className='login-button' onClick={handleLoginSignup}>Login</button>
+              <button
+                key="login-button"
+                className="login-button"
+                onClick={handleLoginSignup}
+              >
+                Login
+              </button>
             );
           })}
         </div>
@@ -68,13 +79,12 @@ function Navigation(props) {
 // Below props.loggedIn ?
 /* <NavBarProfile key="profile" imgUrl={userImgUrl} onClick={handleSettings} /> */
 
-
 const mapStateToProps = (state) => {
   return {
     showLoginModal: state.global.showLoginModal,
     showSettingsModal: state.global.showSettingsModal,
-    isLoggedIn: state.global.isLoggedIn
-  }
-}
+    isLoggedIn: state.global.isLoggedIn,
+  };
+};
 
 export default connect(mapStateToProps)(Navigation);
