@@ -5,11 +5,11 @@ const globalSlice = createSlice({
   initialState: {
     isLoggedIn: false,
     user: {
-      id: 'budgeto.io',
-      fname: 'Kevin',
-      lname: 'Lee',
+      id: '',
+      fname: '',
+      lname: '',
       budget: 0,
-      email: 'budgeto@gmail.com',
+      email: '',
     },
     showLoginModal: '',  // can be: login, signup, or ''
     showSettingsModal: '' // can be: settings or ''
