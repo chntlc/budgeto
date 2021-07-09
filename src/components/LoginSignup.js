@@ -10,7 +10,8 @@ function LoginSignup(props) {
   const [user, setUser] = useState({
     id: '',
     email: '',
-    name: '',
+    fname: '',
+    lname: '',
     budget: 0
   })
   const [loginEmail, setLoginEmail] = useState('')
@@ -24,9 +25,10 @@ function LoginSignup(props) {
   const handleLogin = () => {
     const testUser = ({
       id: 'testId',
-      email: loginEmail,
-      name: 'Test Name',
-      budget: 200
+      fname: signupFirstName,
+      lname: signupLastName,
+      budget: 200,
+      email: loginEmail
     })
 
     // alert('logged in')
@@ -38,9 +40,10 @@ function LoginSignup(props) {
   const handleSignup = () => {
     const testUser = ({
       id: 'testId',
+      fname: signupFirstName,
+      lname: signupLastName,
+      budget: 200,
       email: signupEmail,
-      name: `${signupFirstName} ${signupLastName}`,
-      budget: 200
     })
     // alert('signed up')
     dispatch(userSignup(testUser))
