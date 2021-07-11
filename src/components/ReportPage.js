@@ -41,13 +41,26 @@ class ReportPage extends React.Component {
   render() {
     const pieOptions = {
       plugins: {
-        labels: {
-          render: "percentage",
-          fontColor: "black",
-          precision: 2,
+        datalabels: {
+          display: true,
+          color: "white",
         },
         legend: {
           position: "bottom",
+        },
+        tooltip: {
+          callbacks: {
+            label: function (tooltipItem) {
+              const dataset = pieData.datasets[tooltipItem.datasetIndex].data;
+              const currentValue = dataset[tooltipItem.dataIndex];
+              const total = dataset.reduce((a, b) => a + b, 0);
+              const percentage = Math.round((currentValue / total) * 1000) / 10;
+              return `$${currentValue} (${percentage}%)`;
+            },
+            // title: function (tooltipItem) {
+            //   return pieData.labels[tooltipItem[0].dataIndex];
+            // },
+          },
         },
       },
 
