@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 let validator = require("validator");
 
-const schema = mongoose.Schema({
+const userSchema = mongoose.Schema({
   id: {
     type: String,
     required: true,
@@ -24,4 +24,5 @@ const schema = mongoose.Schema({
   category_ids: [String],
 });
 
-module.exports = mongoose.model("User", schema);
+// module.exports = mongoose.model("User", schema);
+module.exports = userSchema;
