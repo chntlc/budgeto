@@ -7,7 +7,7 @@ import { connect, useDispatch } from 'react-redux'
 function Settings(props) {
   const dispatch = useDispatch()
   const [user, setUser] = useState({
-    id: props.user.id,
+    _id: props.user._id,
     fname: props.user.fname,
     lname: props.user.lname,
     budget: props.user.budget,
@@ -17,13 +17,13 @@ function Settings(props) {
   const handleSettingChange = (event) => {
     event.preventDefault();
 
-    let id = user.id;
+    let _id = user._id;
     let fname = user.fname;
     let lname = user.lname;
     let budget = user.budget;
     let email = user.email;
 
-    dispatch(updateUser({id, fname, lname, budget, email}));
+    dispatch(updateUser({_id, fname, lname, budget, email}));
     alert('Setting Changed!')
   }
 
@@ -45,8 +45,6 @@ function Settings(props) {
   // props.localUser.id
   const profileForm =
     <form className='signup-form'>
-      <label>ID</label>
-      <input type="text" id="id" value={user.id} onChange={handleChange}/>
       <label>First Name</label>
       <input type="text" id="fname" value={user.fname} onChange={handleChange}/>
       <label>Last Name</label>

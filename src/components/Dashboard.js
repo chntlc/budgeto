@@ -16,8 +16,7 @@ function DashboardContent(props) {
   }, [])
 
   const userName = "Anonymous",
-    userImg =
-      "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png",
+    userImg = "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png",
     userBudget = 300,
     userSpending = props.spending,
     moneyDiff = userBudget - userSpending,
