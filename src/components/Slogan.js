@@ -5,8 +5,8 @@ import '../css/Home.css';
 
 function Slogan() {
   const TEXTS = [
-    "See More",
-    "Spend Less"
+    "See More.",
+    "Spend Less."
   ];
 
   const [index, setIndex] = useState(0);
@@ -19,13 +19,13 @@ function Slogan() {
     return () => clearTimeout(intervalId);
   }, []);
 
-  return(
+  return (
     <div className="welcome-text">
       <h1>
         <TextTransition
-          text={ TEXTS[index % TEXTS.length] }
-          springConfig={ presets.wobbly }
-          />
+          text={TEXTS[index % TEXTS.length]}
+          springConfig={presets.wobbly}
+        />
       </h1>
     </div>
   );
