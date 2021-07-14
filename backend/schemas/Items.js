@@ -15,4 +15,6 @@ const schema = mongoose.Schema({
   date: Date,
 });
 
+schema.set('toObject', { virtuals: true });
+
 module.exports = mongoose.model("Item", schema);

@@ -43,7 +43,7 @@ input {
 .card {
   /* padding-right: 30px;
   padding-left: 30px; */
-  border-radius: 10px;
+  border-radius: 11px;
   border-color: var(--light-pink);
   background-color: var(--background);
   align-items: center;
