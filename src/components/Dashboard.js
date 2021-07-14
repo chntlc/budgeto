@@ -1,23 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DashboardBtn from "./DashboardBtn";
 import "../css/Dashboard.css";
+import { connect, useDispatch } from 'react-redux';
+import { Row, Card, Col } from 'antd';
+import { fetchSpending, fetchMostSpentCategory } from "../features/dashboardSlice";
 
-class DashboardContent extends React.Component {
-  render() {
-    const userName = "Anonymous",
-      userImg =
-        "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png",
-      userBudget = 300,
-      userSpending = 256,
-      moneyDiff = userBudget - userSpending,
-      mostSpentCat = "Food";
-    return (
-      <div className="dashboard page-content">
-        <div className="dashboard__content">
-          <div className="dashboard__greeting">
-            <img src={userImg} alt="UserImg" />
-            <span>Hi, {userName}!</span>
-          </div>
+// TODO: add loading state until we get response from backend
+
+function DashboardContent(props) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchSpending('60ea858bbc80e195b3f3f6a4'))
+    dispatch(fetchMostSpentCategory('60ea858bbc80e195b3f3f6a4'))
+  }, [])
+
+  const userName = "Anonymous",
+    userImg =
+      "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png",
+    userBudget = 300,
+    userSpending = props.spending,
+    moneyDiff = userBudget - userSpending,
+    mostSpentCat = props.mostSpentCategory;
+
+  return (
+    <Row gutter={16} className='dashboard-row-content'>
+      <Col span={20} offset={2}>
+        <Card className='card' title={`👋 \u00A0\u00A0\u00A0\u00A0Hey, \u00A0\u00A0${userName}! `} >
+          {/* <Row> */}
+          {/* <img src={userImg} alt="UserImg" /> */}
+          {/* <span>&#128075; &nbsp;&nbsp;&nbsp;Hey,&nbsp;&nbsp; {userName}! </span> */}
+          {/*</Row> */}
           <div className="dashboard__report">
             <p>
               You've spent <strong className="green">${userSpending}</strong>{" "}
@@ -33,15 +46,23 @@ class DashboardContent extends React.Component {
               <strong className="blue">{mostSpentCat}</strong>
             </p>
           </div>
-        </div>
-        <hr className="dashboard__border" />
-        <div className="dashboard__actions">
-          <DashboardBtn label="Add Spending" path="/add" />
-          <DashboardBtn label="View Spending" path="/view" />
-        </div>
-      </div>
-    );
+          <hr />
+          <div className="dashboard__actions">
+            <DashboardBtn label="Add Spending" path="/add" />
+            <DashboardBtn label="View Spending" path="/view" />
+          </div>
+        </Card>
+      </Col>
+    </Row>
+  );
+}
+
+const mapStateToProps = (state) => {
+  return {
+    spending: state.dashboard.spentForWeek,
+    mostSpentCategory: state.dashboard.mostSpentCategory,
+    mostSpentCategorySpending: state.dashboard.mostSpentCategorySpending
   }
 }
 
-export default DashboardContent;
+export default connect(mapStateToProps)(DashboardContent);
