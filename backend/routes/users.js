@@ -128,12 +128,14 @@ router.post('/login', function(req, res, next) {
   const returningFields = ['_id', 'fname', 'lname', 'email', 'budget', 'category_ids'];
   User.find({email: req.body.email, password: req.body.password}, returningFields, function(err, foundUser) {
     console.log("This is the found User: ", foundUser);
-    res.json(foundUser);
-    // if (foundUser.length !== 0) {
-    //   res.json(foundUser);
-    // } else {
-    //   // throw new Error("Login Error: Incorrect Credentials");
-    // }
+    // res.json(foundUser);
+    if (foundUser.length !== 0) {
+      res.json(foundUser);
+    } else {
+      // res.send(400, "Login Error: Incorrect Credentials");
+      res.status(400).send("Login Error: Incorrect Credentials");
+      // throw new Error("Login Error: Incorrect Credentials");
+    }
   });
 });
 
@@ -158,15 +160,21 @@ router.post('/signup', function(req, res, next) {
 
   console.log("This is the newUser to be saved: ", newUser);
 
-  newUser.save().then(savedUser => {
-    console.log("This is the saved User: ", savedUser);
+  newUser.save()
+    .then(savedUser => {
+      console.log("This is the saved User: ", savedUser);
 
-    const returningFields = ['_id', 'fname', 'lname', 'email', 'budget', 'category_ids'];
-    User.findById(savedUser.id, returningFields, function(err, docs) {
-      console.log("This is the saved User with specified fields: ", docs);
-      res.json(docs);
+      const returningFields = ['_id', 'fname', 'lname', 'email', 'budget', 'category_ids'];
+      User.findById(savedUser.id, returningFields, function(err, docs) {
+        console.log("This is the saved User with specified fields: ", docs);
+        res.json(docs);
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      // res.send(400, "Bad Requests!");
+      res.status(400).send("Bad Requests!");
     });
-  });
 });
 
 router.patch("/settings", function(req, res, next) {

@@ -50,23 +50,37 @@ function LoginSignup(props) {
     })
       .then(res => res.json())
       .then(res => {
-        if (res.length === 0) {
-          alert("Wrong User credential! Please try again.");
-          // window.location.href = "http://localhost:3000/";
-          window.location.replace("http://localhost:3000/");
-        } else {
-          const foundUser = res[0];
+        const foundUser = res[0];
 
-          console.log("Found User: ", res);
-          console.log("Logged-In User: ", foundUser);
+        console.log("Found User: ", res);
+        console.log("Logged-In User: ", foundUser);
 
-          setUser(foundUser);
-          dispatch(userLogin(foundUser));
-          dispatch(toggleLoginModal(''));
-          // window.location.replace("http://localhost:3000/dashboard");
-          // window.location.href = "http://localhost:3000/dashboard";
-          // window.location.assign('http://localhost:3000/dashboard')
-        }
+        setUser(foundUser);
+        dispatch(userLogin(foundUser));
+        dispatch(toggleLoginModal(''));
+
+        // if (res.length === 0) {
+        //   alert("Wrong User credential! Please try again.");
+        //   // window.location.href = "http://localhost:3000/";
+        //   window.location.replace("http://localhost:3000/");
+        // } else {
+        //   const foundUser = res[0];
+        //
+        //   console.log("Found User: ", res);
+        //   console.log("Logged-In User: ", foundUser);
+        //
+        //   setUser(foundUser);
+        //   dispatch(userLogin(foundUser));
+        //   dispatch(toggleLoginModal(''));
+        //   // window.location.replace("http://localhost:3000/dashboard");
+        //   // window.location.href = "http://localhost:3000/dashboard";
+        //   // window.location.assign('http://localhost:3000/dashboard')
+        // }
+      })
+      .catch(err => {
+        console.log(err);
+        alert("Wrong User credential! Please try again.");
+        window.location.replace("http://localhost:3000/");
       });
   }
 
@@ -95,7 +109,12 @@ function LoginSignup(props) {
         console.log("Current User: ", user);
         dispatch(userSignup(res));
         dispatch(toggleLoginModal(''));
-      });
+      })
+      .catch(err => {
+        console.log(err);
+        alert("Failed to signup! Please try again.");
+        window.location.replace("http://localhost:3000/");
+      })
   }
 
   const redirectLogin = () => {
