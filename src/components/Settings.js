@@ -14,17 +14,50 @@ function Settings(props) {
     email: props.user.email,
   })
 
-  const handleSettingChange = (event) => {
+  async function handleSettingChange(event) {
     event.preventDefault();
 
-    let _id = user._id;
-    let fname = user.fname;
-    let lname = user.lname;
-    let budget = user.budget;
-    let email = user.email;
+    const password = document.getElementById("password").value;
+    const password2 = document.getElementById("password2").value;
 
-    dispatch(updateUser({_id, fname, lname, budget, email}));
-    alert('Setting Changed!')
+    console.log("password: ", password);
+    console.log("password2: ", password2);
+
+    if ( password !== password2) {
+      alert("Password do not match!");
+    } else {
+      const _id = user._id;
+      const fname = user.fname;
+      const lname = user.lname;
+      const budget = user.budget;
+      const email = user.email;
+
+      const updatedUser = {
+        _id: _id,
+        fname: fname,
+        lname: lname,
+        budget: budget,
+        email: email,
+        password: password
+      };
+
+      await fetch('/users/settings', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedUser),
+      })
+        .then(res => res.json())
+        .then(res => {
+          console.log("Updated User: ", res);
+
+          setUser(res);
+          dispatch(updateUser({fname, lname, budget, email}));
+          alert('Settings Changed!');
+        });
+
+    }
   }
 
   const handleChange = (event) => {
@@ -42,7 +75,6 @@ function Settings(props) {
     dispatch(toggleSettingsModal(''))
   }
 
-  // props.localUser.id
   const profileForm =
     <form className='signup-form'>
       <label>First Name</label>
@@ -54,9 +86,9 @@ function Settings(props) {
       <label>Email</label>
       <input type="email" id="email" value={user.email} onChange={handleChange}/>
       <label>Password</label>
-      <input type="password" />
+      <input type="password" id="password"/>
       <label>Confirm Password</label>
-      <input type="password" />
+      <input type="password" id="password2"/>
       <button className="setting-submit-button" onClick={handleSettingChange}>Confirm</button>
     </form>
 

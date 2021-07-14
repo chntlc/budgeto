@@ -175,7 +175,7 @@ router.patch("/settings", function(req, res, next) {
   console.log("This is what you have requested: ", userToChange);
 
   User.findOneAndUpdate(
-    {email: userToChange.email},
+    {_id: userToChange._id},
     {$set:
       {
         email: req.body.email,
@@ -186,12 +186,12 @@ router.patch("/settings", function(req, res, next) {
       }
     },
     {returnOriginal:false}
-).then(updatedCard => {
-    console.log("This is the updated Card: ", updatedCard);
+).then(updatedUser => {
+    console.log("This is the updated User: ", updatedUser);
 
     const returningFields = ['_id', 'fname', 'lname', 'email', 'budget', 'category_ids'];
-    User.findById(userToChange.id, returningFields, function(err, docs) {
-      console.log("This is the edited User with specified fields: ", docs);
+    User.findById(updatedUser.id, returningFields, function(err, docs) {
+      console.log("This is the updated User with specified fields: ", docs);
       res.json(docs);
     });
   });
