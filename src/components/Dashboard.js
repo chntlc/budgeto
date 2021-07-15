@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import DashboardBtn from "./DashboardBtn";
 import "../css/Dashboard.css";
+import "../images/profile.png";
 import { connect, useDispatch } from 'react-redux';
 import { Row, Card, Col } from 'antd';
 import { fetchSpending, fetchMostSpentCategory } from "../features/dashboardSlice";
@@ -16,7 +17,7 @@ function DashboardContent(props) {
   }, [])
 
   const userName = `${props.user.fname} ${props.user.lname}`,
-    userImg = "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png",
+    // userImg = "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png",
     userBudget = props.user.budget,
     userSpending = props.spending,
     moneyDiff = userBudget - userSpending,

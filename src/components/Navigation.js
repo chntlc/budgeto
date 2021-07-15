@@ -1,6 +1,7 @@
 import React from "react";
 import "../css/Navbar.css";
 import Logo from "../images/logo.png";
+import ProfilePic from "../images/profile.png";
 import { NavLink } from "react-router-dom";
 import NavBarProfile from "./NavBarProfile";
 import LoginSignup from "./LoginSignup";
@@ -23,6 +24,8 @@ function Navigation(props) {
 
   const userImgUrl =
     "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png";
+
+  const userImg = ProfilePic;
 
   return (
     <React.Fragment>
@@ -56,7 +59,7 @@ function Navigation(props) {
             return props.isLoggedIn ? (
               <img
                 key="settings-button"
-                src={userImgUrl}
+                src={userImg}
                 className="navbar__profile"
                 onClick={handleSettings}
               />
