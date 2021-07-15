@@ -49,32 +49,11 @@ function LoginSignup(props) {
     })
       .then(res => res.json())
       .then(res => {
-        const foundUser = res[0];
-
         console.log("Found User: ", res);
-        console.log("Logged-In User: ", foundUser);
 
-        setUser(foundUser);
-        dispatch(userLogin(foundUser));
+        setUser(res);
+        dispatch(userLogin(res));
         dispatch(toggleLoginModal(''));
-
-        // if (res.length === 0) {
-        //   alert("Wrong User credential! Please try again.");
-        //   // window.location.href = "http://localhost:3000/";
-        //   window.location.replace("http://localhost:3000/");
-        // } else {
-        //   const foundUser = res[0];
-        //
-        //   console.log("Found User: ", res);
-        //   console.log("Logged-In User: ", foundUser);
-        //
-        //   setUser(foundUser);
-        //   dispatch(userLogin(foundUser));
-        //   dispatch(toggleLoginModal(''));
-        //   // window.location.replace("http://localhost:3000/dashboard");
-        //   // window.location.href = "http://localhost:3000/dashboard";
-        //   // window.location.assign('http://localhost:3000/dashboard')
-        // }
       })
       .catch(err => {
         console.log(err);
