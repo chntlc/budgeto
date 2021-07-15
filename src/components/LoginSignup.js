@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
 import '../css/LoginSignup.css'
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { toggleLoginModal, userLogin, userSignup } from "../features/globalSlice";
-import { connect, useDispatch } from 'react-redux'
-import { Link } from "react-router-dom";
+import { connect, useDispatch } from 'react-redux';
 
 function LoginSignup(props) {
   const dispatch = useDispatch()
@@ -109,11 +108,15 @@ function LoginSignup(props) {
         console.log("Current User: ", user);
         dispatch(userSignup(res));
         dispatch(toggleLoginModal(''));
+        // props.history.push("/dashboard");
+        // window.location.href = "http://localhost:3000/dashboard";
       })
       .catch(err => {
         console.log(err);
         alert("Failed to signup! Please try again.");
         window.location.replace("http://localhost:3000/");
+        // window.location.href = "http://localhost:3000/";
+        // props.history.push("/");
       })
   }
 

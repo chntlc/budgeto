@@ -133,8 +133,10 @@ router.post('/login', function(req, res, next) {
       res.json(foundUser);
     } else {
       // res.send(400, "Login Error: Incorrect Credentials");
-      res.status(400).send("Login Error: Incorrect Credentials");
-      // throw new Error("Login Error: Incorrect Credentials");
+      // res.status(400).send("Login Error: Incorrect Credentials");
+
+      res.redirect(400, "http://localhost:3000/");
+      // res.render("/");
     }
   });
 });
@@ -173,7 +175,10 @@ router.post('/signup', function(req, res, next) {
     .catch(err => {
       console.log(err);
       // res.send(400, "Bad Requests!");
-      res.status(400).send("Bad Requests!");
+      // res.status(400).send("Bad Requests!");
+
+      res.redirect(400, "http://localhost:3000/");
+      // res.render("/");
     });
 });
 
@@ -201,6 +206,14 @@ router.patch("/settings", function(req, res, next) {
     User.findById(updatedUser.id, returningFields, function(err, docs) {
       console.log("This is the updated User with specified fields: ", docs);
       res.json(docs);
+    })
+    .catch(err => {
+      console.log(err);
+      // res.send(400, "Bad Requests!");
+      // res.status(400).send("Bad Requests!");
+
+      res.redirect(400, "http://localhost:3000/dashboard");
+      // res.render("/");
     });
   });
 });
