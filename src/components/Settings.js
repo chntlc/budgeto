@@ -55,8 +55,12 @@ function Settings(props) {
           setUser(res);
           dispatch(updateUser({fname, lname, budget, email}));
           alert('Settings Changed!');
+        })
+        .catch(err => {
+          console.log(err);
+          alert("Updating user failed! Please try again.");
+          window.location.replace("http://localhost:3000/dashboard");
         });
-
     }
   }
 

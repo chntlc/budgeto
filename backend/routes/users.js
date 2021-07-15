@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require("mongoose");
 const userSchema = require("../schemas/Users");
-const encrypt = require("mongoose-encryption");
+const md5 = require("md5");
 
 // Level 2: Database Encryption
-const secret = "Thisisourlittlesecret.";
-userSchema.plugin(encrypt, {secret: secret, encryptedFields: ["password"]});
+// const encrypt = require("mongoose-encryption");
+// const secret = "Thisisourlittlesecret.";
+// userSchema.plugin(encrypt, {secret: secret, encryptedFields: ["password"]});
 
 const User = mongoose.model("User", userSchema);
 
@@ -38,7 +39,7 @@ router.post('/login', function(req, res, next) {
 
   User.findOne({email: req.body.email}, function(err, foundUser) {
     console.log("This is the found User: ", foundUser);
-    if (foundUser && foundUser.password === req.body.password) {
+    if (foundUser && foundUser.password === md5(req.body.password)) {
       const filteredUser = {
         _id: foundUser._id,
         fname: foundUser.fname,
@@ -51,7 +52,8 @@ router.post('/login', function(req, res, next) {
   })
   .catch(err => {
     console.log(err);
-    res.send(400, "Bad Requests!");
+    // res.send(400, "Bad Requests!");
+    res.status(400).send("Bad Requests!");
   });
 });
 
@@ -64,7 +66,7 @@ router.post('/signup', function(req, res, next) {
     fname: req.body.fname,
     lname: req.body.lname,
     budget: req.body.budget,
-    password: req.body.password,
+    password: md5(req.body.password),
     category_ids: [
       "60ea83a2bc80e195b3f3f69f",
       "60ea84d1bc80e195b3f3f6a0",
@@ -89,9 +91,9 @@ router.post('/signup', function(req, res, next) {
     .catch(err => {
       console.log(err);
       // res.send(400, "Bad Requests!");
-      // res.status(400).send("Bad Requests!");
+      res.status(400).send("Bad Requests!");
 
-      res.redirect(400, "http://localhost:3000/");
+      // res.redirect(400, "http://localhost:3000/");
       // res.render("/");
     });
 });
@@ -109,7 +111,7 @@ router.patch("/settings", function(req, res, next) {
         fname: req.body.fname,
         lname: req.body.lname,
         budget: req.body.budget,
-        password: req.body.password,
+        password: md5(req.body.password),
       }
     },
     {returnOriginal:false}
@@ -124,9 +126,9 @@ router.patch("/settings", function(req, res, next) {
     .catch(err => {
       console.log(err);
       // res.send(400, "Bad Requests!");
-      // res.status(400).send("Bad Requests!");
+      res.status(400).send("Bad Requests!");
 
-      res.redirect(400, "http://localhost:3000/dashboard");
+      // res.redirect(400, "http://localhost:3000/dashboard");
       // res.render("/");
     });
   });

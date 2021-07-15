@@ -18,6 +18,7 @@ function LoginSignup(props) {
   const [loginPassword, setLoginPassword] = useState('')
   const [signupEmail, setSignupEmail] = useState('')
   const [signupPassword, setSignupPassword] = useState('')
+  const [signupPassword2, setSignupPassword2] = useState('')
   const [signupFirstName, setSignupFirstName] = useState('')
   const [signupLastName, setSignupLastName] = useState('')
   const [hasError, setErrors] = useState(false);
@@ -63,6 +64,10 @@ function LoginSignup(props) {
   }
 
    async function handleSignup() {
+    if (signupPassword !== signupPassword2) {
+      window.location.replace("http://localhost:3000/");
+    }
+
     const newUser = {
       fname: signupFirstName,
       lname: signupLastName,
@@ -139,7 +144,7 @@ function LoginSignup(props) {
       <label>Password</label>
       <input type='password' className='signup-password-input' value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} />
       <label>Confirm Password</label>
-      <input type='password' className='signup-password-confirm-input' />
+      <input type='password' className='signup-password-confirm-input' value={signupPassword2} onChange={(e) => setSignupPassword2(e.target.value)} />
       <div className='login-submit-button-wrapper'>
         <NavLink to='/dashboard' className='login-submit-link'>
           <button className='login-submit-button' onClick={handleSignup}>SIGN ME UP!</button>
