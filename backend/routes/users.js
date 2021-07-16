@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 
 const saltRounds = 10;
 
-
 // Level 2: Database Encryption
 // const encrypt = require("mongoose-encryption");
 // const secret = "Thisisourlittlesecret.";
@@ -15,6 +14,10 @@ const saltRounds = 10;
 // Level 3: Hashing Password
 // const md5 = require("md5");
 // Remember to wrap any password reference with md5();
+
+// Level 4: Salting and Hashing
+// const bcrypt = require("bcrypt");
+// const saltRounds = 10;
 
 const User = mongoose.model("User", userSchema);
 
@@ -123,11 +126,8 @@ router.patch("/settings", function(req, res, next) {
       })
       .catch(err => {
         console.log(err);
-        // res.send(400, "Bad Requests!");
         res.status(400).send("Bad Requests!");
-
         // res.redirect(400, "http://localhost:3000/dashboard");
-        // res.render("/");
       });
     });
   });
