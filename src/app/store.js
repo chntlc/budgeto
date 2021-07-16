@@ -9,7 +9,7 @@ export default configureStore({
   reducer: {
     global: globalSlice,
     receipt: receiptSlice,
-    category: categorySlice,
+    categories: categorySlice,
     view: viewSlice,
     dashboard: dashboardSlice,
   },

@@ -1,14 +1,24 @@
 import "./CategoryFilter.css";
 import { useSelector } from "react-redux";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 
-function CategoryFilter() {
-  const categories = useSelector((state) => state.category.categories);
+function CategoryFilter(props) {
+  const categories = useSelector((state) => state.categories.categories);
 
-  function openFilterContainer(event) {
+  function toggleFilterContainer(event) {
     event.target.classList.toggle("activeCollapsible");
 
     let collapsibleContent = event.target.nextElementSibling;
     let isMaxHeightSet = collapsibleContent.style.maxHeight;
+
+    if (
+      !collapsibleContent.style.display ||
+      collapsibleContent.style.display === "none"
+    ) {
+      collapsibleContent.style.display = "block";
+    } else {
+      collapsibleContent.style.display = "none";
+    }
 
     collapsibleContent.style.maxHeight = isMaxHeightSet
       ? null
@@ -17,24 +27,74 @@ function CategoryFilter() {
 
   return (
     <div className="filterContainer">
-      {categories.map((category) => {
+      {categories.map(({ categoryId, categoryName, iconColour, items }) => {
         return (
-          <div className="filter" key={category["categoryId"]}>
+          <div className="filter" key={categoryId}>
             <button
               type="button"
               className="collapsible"
-              style={{ backgroundColor: category["iconColour"] }}
-              onClick={(event) => openFilterContainer(event)}
+              style={{ backgroundColor: iconColour }}
+              onClick={(event) => toggleFilterContainer(event)}
             >
-              {category["categoryName"]}
+              {categoryName}
             </button>
             <div className="filteredItems">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
-              </p>
+              {items.length ? (
+                <Droppable droppableId={categoryId}>
+                  {(provided) => (
+                    <ul
+                      className="transactions"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {items.map(
+                        ({ itemId, itemName, price, quantity }, index) => {
+                          return (
+                            <Draggable
+                              key={itemId}
+                              draggableId={itemId}
+                              index={index}
+                            >
+                              {(provided) => (
+                                <li
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  <div className="item">
+                                    <div className="itemName">
+                                      <p>{itemName}</p>
+                                    </div>
+                                    <div className="price">
+                                      <p>{price}</p>
+                                    </div>
+                                    <div className="quantity">
+                                      <p>{quantity}</p>
+                                    </div>
+                                  </div>
+                                </li>
+                              )}
+                            </Draggable>
+                          );
+                        }
+                      )}
+                      {provided.placeholder}
+                    </ul>
+                  )}
+                </Droppable>
+              ) : (
+                <Droppable droppableId={categoryId}>
+                  {(provided) => (
+                    <div
+                      className="emptyCategory"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              )}
             </div>
           </div>
         );
