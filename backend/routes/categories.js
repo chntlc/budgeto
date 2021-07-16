@@ -23,51 +23,47 @@ router.post("/addCategory", async function (req, res, next) {
     icon_img,
   });
 
-  res.status(200);
-  res.send(req.body);
-
-  //   try {
-  //     await newCategory.save(newCategory);
-  //     res.status(200);
-  //     res.send(newCategory);
-  //   } catch {
-  //     res.status(400);
-  //     res.send({ error: "Cannot add the category" });
-  //   }
+  try {
+    await newCategory.save(newCategory);
+    res.status(200);
+    res.send(newCategory);
+  } catch {
+    res.status(400);
+    res.send({ error: "Cannot add the category" });
+  }
 });
 
 router.put("/editCategory/:_id", async function (req, res, next) {
   const filter_id = req.params;
   const update = req.body;
 
-  console.log(update);
-  //   try {
-  //     const edittedCategory = await Categories.findOneAndUpdate(
-  //       filter_id,
-  //       update,
-  //       {
-  //         returnOriginal: true,
-  //       }
-  //     );
-  //     res.status(200);
-  //     res.send(edittedCategory);
-  //   } catch {
-  //     res.status(400);
-  //     res.send({ error: "Cannot edit the category" });
-  //   }
+  try {
+    const edittedCategory = await Categories.findOneAndUpdate(
+      filter_id,
+      update,
+      {
+        returnOriginal: true,
+      }
+    );
+    res.status(200);
+    res.send(edittedCategory);
+  } catch {
+    res.status(400);
+    res.send({ error: "Cannot edit the category" });
+  }
 });
 
 router.delete("/deleteCategory/:_id", async function (req, res, next) {
   const filter_id = req.params;
 
-  //   try {
-  //     await Categories.deleteOne(filter_id);
-  //     res.status(200);
-  //     res.send(filter_id);
-  //   } catch {
-  //     res.status(400);
-  //     res.send({ error: "Cannot delete the category" });
-  //   }
+  try {
+    await Categories.deleteOne(filter_id);
+    res.status(200);
+    res.send(filter_id);
+  } catch {
+    res.status(400);
+    res.send({ error: "Cannot delete the category" });
+  }
 });
 
 module.exports = router;
