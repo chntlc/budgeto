@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import DashboardBtn from "./DashboardBtn";
 import "../css/Dashboard.css";
+import "../images/profile.png";
 import { connect, useDispatch } from 'react-redux';
 import { Row, Card, Col } from 'antd';
 import { fetchSpending, fetchMostSpentCategory } from "../features/dashboardSlice";
@@ -15,10 +16,9 @@ function DashboardContent(props) {
     dispatch(fetchMostSpentCategory('60ea858bbc80e195b3f3f6a4'))
   }, [])
 
-  const userName = "Anonymous",
-    userImg =
-      "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png",
-    userBudget = 300,
+  const userName = `${props.user.fname} ${props.user.lname}`,
+    // userImg = "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png",
+    userBudget = props.user.budget,
     userSpending = props.spending,
     moneyDiff = userBudget - userSpending,
     mostSpentCat = props.mostSpentCategory;
@@ -61,7 +61,9 @@ const mapStateToProps = (state) => {
   return {
     spending: state.dashboard.spentForWeek,
     mostSpentCategory: state.dashboard.mostSpentCategory,
-    mostSpentCategorySpending: state.dashboard.mostSpentCategorySpending
+    mostSpentCategorySpending: state.dashboard.mostSpentCategorySpending,
+    user: state.global.user,
+    isLoggedIn: state.global.isLoggedIn
   }
 }
 
