@@ -9,29 +9,19 @@ const last = first + 6; // last day is the first day + 6
 const firstday = new Date(curr.setDate(first)).toUTCString();
 const lastday = new Date(curr.setDate(last)).toUTCString();
 
-
-export const fetchSpending = createAsyncThunk('dashboard/fetchSpending', async (id) => {
+export const fetchSummary = createAsyncThunk('dashboard/fetchSummary', async (id) => {
   const params = {
     startDate: firstday,
     endDate: lastday
   }
-  const response = await axios.get(`http://localhost:3001/dashboard/budget/${id}`, {
+  const mostSpentCategory = await axios.get(`http://localhost:3001/dashboard/budget/${id}`, {
     params
   })
-  console.log({ response })
-  return response.data
-})
 
-export const fetchMostSpentCategory = createAsyncThunk('dashboard/fetchMostSpentCategory', async (id) => {
-  const params = {
-    startDate: firstday,
-    endDate: lastday
-  }
-  const response = await axios.get(`http://localhost:3001/dashboard/category/${id}`, {
+  const spending = await axios.get(`http://localhost:3001/dashboard/category/${id}`, {
     params
   })
-  console.log({ response })
-  return response.data
+  return { ...mostSpentCategory.data, ...spending.data }
 })
 
 const dashboardSlice = createSlice({
@@ -40,21 +30,20 @@ const dashboardSlice = createSlice({
     mostSpentCategory: '',
     spentForWeek: 0,
     mostSpentCategorySpending: 0,
+    isLoading: false,
   },
   extraReducers: {
-    [fetchSpending.fulfilled]: (state, action) => {
+    [fetchSummary.fulfilled]: (state, action) => {
       console.log(current(state), { action })
-      state.spentForWeek = action.payload.total
+      state.spentForWeek = action.payload.total || 0
+      state.mostSpentCategory = action.payload.name || 'None yet!'
+      state.mostSpentCategorySpending = action.payload.total || 0
+      state.isLoading = false
     },
-    [fetchMostSpentCategory.fulfilled]: (state, action) => {
-      console.log(current(state), { action })
-      state.mostSpentCategory = action.payload.name
-      state.mostSpentCategorySpending = action.payload.total
+    [fetchSummary.pending]: (state) => {
+      state.isLoading = true
     }
   }
 })
-
-
-export const { userLogin, userSignup, userLogout, updateUser, toggleLoginModal, toggleSettingsModal } = dashboardSlice.actions
 
 export default dashboardSlice.reducer

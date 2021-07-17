@@ -4,7 +4,7 @@ import "../css/Dashboard.css";
 import "../images/profile.png";
 import { connect, useDispatch } from 'react-redux';
 import { Row, Card, Col } from 'antd';
-import { fetchSpending, fetchMostSpentCategory } from "../features/dashboardSlice";
+import { fetchSummary } from "../features/dashboardSlice";
 
 // TODO: add loading state until we get response from backend
 
@@ -12,8 +12,7 @@ function DashboardContent(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchSpending('60ea858bbc80e195b3f3f6a4'))
-    dispatch(fetchMostSpentCategory('60ea858bbc80e195b3f3f6a4'))
+    dispatch(fetchSummary(props.user._id))
   }, [])
 
   const userName = `${props.user.fname} ${props.user.lname}`,
@@ -26,7 +25,7 @@ function DashboardContent(props) {
   return (
     <Row gutter={16} className='dashboard-row-content'>
       <Col span={20} offset={2}>
-        <Card className='card' title={`👋 \u00A0\u00A0\u00A0\u00A0Hey, \u00A0\u00A0${userName}! `} >
+        <Card className='card' title={`👋 \u00A0\u00A0\u00A0\u00A0Hey, \u00A0\u00A0${userName}! `} loading={!props.user._id || props.isLoading} >
           {/* <Row> */}
           {/* <img src={userImg} alt="UserImg" /> */}
           {/* <span>&#128075; &nbsp;&nbsp;&nbsp;Hey,&nbsp;&nbsp; {userName}! </span> */}
@@ -63,7 +62,8 @@ const mapStateToProps = (state) => {
     mostSpentCategory: state.dashboard.mostSpentCategory,
     mostSpentCategorySpending: state.dashboard.mostSpentCategorySpending,
     user: state.global.user,
-    isLoggedIn: state.global.isLoggedIn
+    isLoggedIn: state.global.isLoggedIn,
+    isLoading: state.dashboard.isLoading,
   }
 }
 
