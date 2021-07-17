@@ -39,7 +39,7 @@
 }
 
 .reportpage__chartArea {
-  width: 80vw;
+  /* width: 80vw; */
   height: 60vh;
 }
 
@@ -50,6 +50,18 @@
   width: 56vw;
   height: 60vh;
   margin: 0 18vw;
+}
+
+.reportpage__loading {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  width: 80vw;
+  height: 70vh;
+  background-color: white;
+  top: 22vh;
 }
 
 .ant-carousel .slick-dots li button {
