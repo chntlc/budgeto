@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addCategory,
   editCategory,
@@ -13,11 +13,13 @@ import "./CategoryPicker.css";
 import { unwrapResult } from "@reduxjs/toolkit";
 
 function CategoryPicker(props) {
+  const user_id = useSelector((state) => state.global.user._id);
   const [modal, toggleModal] = useState(false);
   const [edit, toggleEdit] = useState(false);
   const [categoryInModal, setCategoryInModal] = useState({});
   const [customName, setCustomName] = useState("");
-  const [customIcon, setCustomIcon] = useState("");
+  const [customIconBase64, setCustomIconBase64] = useState("");
+  const [customIconFile, setCustomIconFile] = useState({});
   const [customColor, setCustomeColor] = useState("");
   const [addCategoryStatus, setAddCategoryStatus] = useState("idle");
   const [editCategoryStatus, setEditCategoryStatus] = useState("idle");
@@ -28,7 +30,7 @@ function CategoryPicker(props) {
   function showAddModal() {
     const templateCategory = {
       name: "",
-      icon_img: customIcon,
+      icon_img: customIconBase64,
       color: "#E1E5EA",
     };
 
@@ -62,6 +64,7 @@ function CategoryPicker(props) {
             <label id="customFileUpload">
               <input
                 type="file"
+                name="icon_img"
                 accept="image/png, image/jpeg"
                 onChange={chooseIcon}
               />
@@ -77,7 +80,7 @@ function CategoryPicker(props) {
           </form>
           <Category
             iconAlt={name}
-            iconImg={customIcon ? customIcon : icon_img}
+            iconImg={customIconBase64 ? customIconBase64 : icon_img}
             color={customColor ? customColor : color}
           />
         </div>
@@ -99,9 +102,11 @@ function CategoryPicker(props) {
   }
 
   function chooseIcon(event) {
-    if (event.target.files && event.target.files[0]) {
-      const chosenIcon = URL.createObjectURL(event.target.files[0]);
-      setCustomIcon(chosenIcon);
+    const files = event.target.files;
+    if (files && files[0]) {
+      const chosenIcon = URL.createObjectURL(files[0]);
+      setCustomIconBase64(chosenIcon);
+      setCustomIconFile(files[0]);
     }
   }
 
@@ -112,7 +117,8 @@ function CategoryPicker(props) {
   async function onAddCategory() {
     const selectedName = customName ? customName : "Unknown";
     const selectedColor = customColor ? customColor : "#39A9CB";
-    const selectedIcon = customIcon ? customIcon : QuestionMarkIcon;
+    // const selectedIcon = customIconBase64 ? customIconBase64 : QuestionMarkIcon;
+    const selectedIcon = customIconFile;
 
     try {
       setAddCategoryStatus("pending");
@@ -122,6 +128,7 @@ function CategoryPicker(props) {
           name: selectedName,
           color: selectedColor,
           icon_img: selectedIcon,
+          user_id,
         })
       );
       unwrapResult(resultAction);
@@ -137,7 +144,8 @@ function CategoryPicker(props) {
     const { _id, name, color, icon_img } = category;
     const updatedName = customName ? customName : name;
     const updatedColor = customColor ? customColor : color;
-    const updatedIcon = customIcon ? customIcon : icon_img;
+    // const updatedIcon = customIconBase64 ? customIconBase64 : icon_img;
+    const updatedIcon = customIconFile ? customIconFile : null;
 
     try {
       setEditCategoryStatus("pending");
@@ -161,11 +169,12 @@ function CategoryPicker(props) {
 
   async function onDeleteCategory(category) {
     const { _id } = category;
+    const deletePayload = { user_id, category_id: _id };
 
     try {
       setDeleteCategoryStatus("pending");
 
-      const resultAction = await dispatch(deleteCategory(_id));
+      const resultAction = await dispatch(deleteCategory(deletePayload));
       unwrapResult(resultAction);
     } catch (err) {
       console.log("Failed to delete the category", err);
@@ -178,8 +187,9 @@ function CategoryPicker(props) {
   function closeModal() {
     toggleModal(false);
     setCustomName("");
-    setCustomIcon("");
     setCustomeColor("");
+    setCustomIconBase64("");
+    setCustomIconFile({});
   }
 
   return (

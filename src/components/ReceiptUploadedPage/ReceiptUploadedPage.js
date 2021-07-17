@@ -15,6 +15,7 @@ import { useEffect } from "react";
 
 function ReceiptUploadedPage() {
   const dispatch = useDispatch();
+  const user_id = useSelector((state) => state.global.user._id);
   const categories = useSelector((state) => state.categories.categories);
   const categoriesStatus = useSelector((state) => state.categories.status);
   const error = useSelector((state) => state.categories.error);
@@ -54,7 +55,7 @@ function ReceiptUploadedPage() {
 
   useEffect(() => {
     if (categoriesStatus === "idle") {
-      dispatch(getCategories());
+      dispatch(getCategories(user_id));
     }
   }, [categoriesStatus, dispatch]);
 
@@ -183,7 +184,7 @@ function ReceiptUploadedPage() {
         </div>
         <div className="categoryView">
           <CategoryPicker categories={categories} />
-          {/* <CategoryFilter /> */}
+          <CategoryFilter />
         </div>
       </DragDropContext>
     </div>
