@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
 import axios from "axios";
-import GroceryIcon from "../images/groceryIcon.png";
-import RestaurantIcon from "../images/restaurantIcon.png";
-import ClothingIcon from "../images/clothingIcon.png";
-import TransportationIcon from "../images/transportationIcon.png";
-import TravelingIcon from "../images/travelingIcon.png";
+// import GroceryIcon from "../images/groceryIcon.png";
+// import RestaurantIcon from "../images/restaurantIcon.png";
+// import ClothingIcon from "../images/clothingIcon.png";
+// import TransportationIcon from "../images/transportationIcon.png";
+// import TravelingIcon from "../images/travelingIcon.png";
 
 const initialState = {
   categories: [
@@ -48,10 +48,24 @@ const initialState = {
   error: null,
 };
 
+function arrayBufferToBase64(category) {
+  const { icon_img } = category;
+  const icon_img_buffer = icon_img.data.data;
+  const base64Flag = `data:${icon_img.contentType};base64,`;
+
+  let binary = "";
+  let bytes = [].slice.call(new Uint8Array(icon_img_buffer));
+
+  bytes.forEach((b) => (binary += String.fromCharCode(b)));
+
+  category.icon_img = base64Flag + window.btoa(binary);
+
+  return category;
+}
+
 export const getCategories = createAsyncThunk(
   "categories/getCategories",
-  async () => {
-    const user_id = 1;
+  async (user_id) => {
     const response = await axios.get(
       `http://localhost:3001/categories/${user_id}`
     );
@@ -62,12 +76,25 @@ export const getCategories = createAsyncThunk(
 
 export const addCategory = createAsyncThunk(
   "categories/addCategory",
-  async (category) => {
+  async (categoryPayload) => {
+    const { name, color, icon_img, user_id } = categoryPayload;
+
+    const categoryForm = new FormData();
+    categoryForm.append("name", name);
+    categoryForm.append("color", color);
+    categoryForm.append("icon_img", icon_img);
+    categoryForm.append("user_id", user_id);
+
     const response = await axios.post(
       "http://localhost:3001/categories/addCategory",
-      category
+      categoryForm,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
-    console.log({ response });
+
     return response.data;
   }
 );
@@ -75,23 +102,35 @@ export const addCategory = createAsyncThunk(
 export const editCategory = createAsyncThunk(
   "categories/editCategory",
   async (category) => {
-    const { _id } = category;
-    const response = axios.put(
+    const { _id, name, color, icon_img } = category;
+
+    const categoryForm = new FormData();
+    categoryForm.append("name", name);
+    categoryForm.append("color", color);
+    categoryForm.append("icon_img", icon_img);
+
+    const response = await axios.put(
       `http://localhost:3001/categories/editCategory/${_id}`,
-      category
+      categoryForm,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
-    console.log({ response });
+
     return response.data;
   }
 );
 
 export const deleteCategory = createAsyncThunk(
   "categories/deleteCategory",
-  async (_id) => {
-    const response = axios.delete(
-      `http://localhost:3001/categories/deleteCategory/${_id}`
+  async (deletePayload) => {
+    const { user_id, category_id } = deletePayload;
+    const response = await axios.delete(
+      `http://localhost:3001/categories/deleteCategory/${user_id}/${category_id}`
     );
-    console.log(response);
+
     return response.data;
   }
 );
@@ -100,64 +139,6 @@ const categorySlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
-    // addCategory: {
-    //   reducer: (state, action) => {
-    //     state.categories.push(action.payload);
-    //   },
-    //   prepare: (categoryName, iconImg, iconColour) => {
-    //     const categoryId = nanoid();
-    //     const items = [];
-    //     return {
-    //       payload: {
-    //         categoryId,
-    //         categoryName,
-    //         iconImg,
-    //         iconColour,
-    //         items,
-    //       },
-    //     };
-    //   },
-    // },
-    // deleteCategory: {
-    //   reducer: (state, action) => {
-    //     const categoryId = action.payload;
-    //     const targetCategoryIndex = state.categories.findIndex(
-    //       (category) => category.categoryId === categoryId
-    //     );
-
-    //     if (targetCategoryIndex !== -1) {
-    //       state.categories.splice(targetCategoryIndex, 1);
-    //     }
-    //   },
-    //   prepare: (categoryId) => {
-    //     return { payload: categoryId };
-    //   },
-    // },
-    // editCategory: {
-    //   reducer: (state, action) => {
-    //     const { categoryId, categoryName, iconImg, iconColour } =
-    //       action.payload;
-    //     const categoryToEdit = state.categories.find(
-    //       (category) => category.categoryId === categoryId
-    //     );
-
-    //     if (categoryToEdit) {
-    //       categoryToEdit.categoryName = categoryName;
-    //       categoryToEdit.iconImg = iconImg;
-    //       categoryToEdit.iconColour = iconColour;
-    //     }
-    //   },
-    //   prepare: (categoryId, categoryName, iconImg, iconColour) => {
-    //     return {
-    //       payload: {
-    //         categoryId,
-    //         categoryName,
-    //         iconImg,
-    //         iconColour,
-    //       },
-    //     };
-    //   },
-    // },
     addItemToCategory: {
       reducer: (state, action) => {
         const { item, categoryId, destinationIndex } = action.payload;
@@ -238,18 +219,25 @@ const categorySlice = createSlice({
     },
     [getCategories.fulfilled]: (state, action) => {
       state.status = "succeeded";
-      state.categories = state.categories.concat(action.payload);
+
+      const categoriesCopy = action.payload;
+      categoriesCopy.forEach(arrayBufferToBase64);
+
+      state.categories = state.categories.concat(categoriesCopy);
     },
     [getCategories.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
     },
     [addCategory.fulfilled]: (state, action) => {
-      state.categories.push(action.payload);
+      let categoryCopy = action.payload;
+      categoryCopy = arrayBufferToBase64(categoryCopy);
+
+      state.categories.push(categoryCopy);
     },
     [editCategory.fulfilled]: (state, action) => {
       const { _id, name, color, icon_img } = action.payload;
-      const categoryToEdit = state.categories.find(
+      let categoryToEdit = state.categories.find(
         (category) => category._id === _id
       );
 
@@ -257,12 +245,13 @@ const categorySlice = createSlice({
         categoryToEdit.name = name;
         categoryToEdit.color = color;
         categoryToEdit.icon_img = icon_img;
+        categoryToEdit = arrayBufferToBase64(categoryToEdit);
       }
     },
     [deleteCategory.fulfilled]: (state, action) => {
-      const { _id } = action.payload;
+      const category_id = action.payload;
       const targetCategoryIndex = state.categories.findIndex(
-        (category) => category._id === _id
+        (category) => category._id === category_id
       );
 
       if (targetCategoryIndex !== -1) {
@@ -273,9 +262,6 @@ const categorySlice = createSlice({
 });
 
 export const {
-  // addCategory,
-  // deleteCategory,
-  // editCategory,
   addItemToCategory,
   deleteItemFromCategory,
   reorderItemInCategory,
