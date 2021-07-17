@@ -35,7 +35,7 @@ const dashboardSlice = createSlice({
   extraReducers: {
     [fetchSummary.fulfilled]: (state, action) => {
       console.log(current(state), { action })
-      state.spentForWeek = action.payload.total || 0
+      state.spentForWeek = action.payload.spent || 0
       state.mostSpentCategory = action.payload.name || 'None yet!'
       state.mostSpentCategorySpending = action.payload.total || 0
       state.isLoading = false

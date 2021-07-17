@@ -114,10 +114,10 @@ router.get('/budget/:user_id', function (req, res, next) {
   ])
     .then((items) => {
       console.log({ items });
-      const total = {
-        total: parseFloat(items[0].total)
+      const spent = {
+        spent: parseFloat(items[0].total)
       }
-      res.send(total);
+      res.send(spent);
     })
     .catch((err) => {
       console.log({ err });
