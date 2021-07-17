@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const schema = mongoose.Schema(
   {
-    // id: String,
     name: String,
     color: {
       type: String,
