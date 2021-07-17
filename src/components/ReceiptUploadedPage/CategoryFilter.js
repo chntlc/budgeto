@@ -4,6 +4,7 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 
 function CategoryFilter(props) {
   const categories = useSelector((state) => state.categories.categories);
+  const items = [];
 
   function toggleFilterContainer(event) {
     event.target.classList.toggle("activeCollapsible");
@@ -27,20 +28,20 @@ function CategoryFilter(props) {
 
   return (
     <div className="filterContainer">
-      {categories.map(({ categoryId, categoryName, iconColour, items }) => {
+      {categories.map(({ _id, name, color }) => {
         return (
-          <div className="filter" key={categoryId}>
+          <div className="filter" key={_id}>
             <button
               type="button"
               className="collapsible"
-              style={{ backgroundColor: iconColour }}
+              style={{ backgroundColor: color }}
               onClick={(event) => toggleFilterContainer(event)}
             >
-              {categoryName}
+              {name}
             </button>
             <div className="filteredItems">
               {items.length ? (
-                <Droppable droppableId={categoryId}>
+                <Droppable droppableId={_id}>
                   {(provided) => (
                     <ul
                       className="transactions"
@@ -83,7 +84,7 @@ function CategoryFilter(props) {
                   )}
                 </Droppable>
               ) : (
-                <Droppable droppableId={categoryId}>
+                <Droppable droppableId={_id}>
                   {(provided) => (
                     <div
                       className="emptyCategory"
