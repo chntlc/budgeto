@@ -13,7 +13,7 @@ function DashboardContent(props) {
 
   useEffect(() => {
     dispatch(fetchSummary(props.user._id))
-  }, [])
+  }, [props.user._id])
 
   const userName = `${props.user.fname} ${props.user.lname}`,
     // userImg = "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png",
@@ -25,7 +25,7 @@ function DashboardContent(props) {
   return (
     <Row gutter={16} className='dashboard-row-content'>
       <Col span={20} offset={2}>
-        <Card className='card' title={`👋 \u00A0\u00A0\u00A0\u00A0Hey, \u00A0\u00A0${userName}! `} loading={!props.user._id || props.isLoading} >
+        <Card className='card' title={`👋 \u00A0\u00A0\u00A0\u00A0Hey, \u00A0\u00A0${userName}! `} loading={props.isLoading} >
           {/* <Row> */}
           {/* <img src={userImg} alt="UserImg" /> */}
           {/* <span>&#128075; &nbsp;&nbsp;&nbsp;Hey,&nbsp;&nbsp; {userName}! </span> */}
