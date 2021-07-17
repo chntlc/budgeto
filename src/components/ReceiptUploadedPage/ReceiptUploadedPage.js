@@ -3,7 +3,7 @@ import CategoryPicker from "./CategoryPicker";
 import CategoryFilter from "./CategoryFilter";
 import "./ReceiptUploadedPage.css";
 import { connect } from "react-redux";
-
+// hello
 function ReceiptUploadedPage(props) {
   return (
     <div className="container">
