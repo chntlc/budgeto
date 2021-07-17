@@ -65,7 +65,9 @@ function LoginSignup(props) {
 
    async function handleSignup() {
     if (signupPassword !== signupPassword2) {
+      alert("Password not matching! Please try again.");
       window.location.replace("http://localhost:3000/");
+      return;
     }
 
     const newUser = {
