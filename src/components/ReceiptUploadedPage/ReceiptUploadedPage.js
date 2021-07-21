@@ -13,7 +13,7 @@ import {
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect } from "react";
 
-function ReceiptUploadedPage() {
+function ReceiptUploadedPage(props) {
   const dispatch = useDispatch();
   const user_id = useSelector((state) => state.global.user._id);
   const categories = useSelector((state) => state.categories.categories);
@@ -51,7 +51,7 @@ function ReceiptUploadedPage() {
       quantity: "Qty: 1",
     },
   ];
-  const [items, updateItems] = useState(transactions);
+  const [items, updateItems] = useState(props.items);
 
   useEffect(() => {
     if (categoriesStatus === "idle") {
