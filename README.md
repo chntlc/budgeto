@@ -1,6 +1,7 @@
-# broke.io
+# Budgeto
 
 ## Project Description
+Budgeto is a web application to assist individuals who want to manage their expenses and gain clear insights into their spending patterns. Seamlessly upload your receipts, edit & filter items by categories, and view the trends of your expenses. See more. Spend less. Budgeto.
 
 ### Who is it for?
 * People who want to see their spending behaviour
