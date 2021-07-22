@@ -132,7 +132,7 @@ function ReceiptUploadedPage() {
   }
 
   function handleItemToTransactions(categoryId, sourceIndex, destinationIndex) {
-    const selectedItem = getAndDeleteItemFromCategory(categoryId, sourceIndex);
+    const selectedItem = getItemFromCategory(categoryId, sourceIndex);
     const itemsCopy = [...items];
 
     itemsCopy.splice(destinationIndex, 0, selectedItem);
@@ -147,10 +147,7 @@ function ReceiptUploadedPage() {
     sourceIndex,
     destinationIndex
   ) {
-    const selectedItem = getAndDeleteItemFromCategory(
-      fromCategoryId,
-      sourceIndex
-    );
+    const selectedItem = getItemFromCategory(fromCategoryId, sourceIndex);
     const { itemId, itemName, price, quantity } = selectedItem;
 
     dispatch(
@@ -166,12 +163,10 @@ function ReceiptUploadedPage() {
     dispatch(deleteItemFromCategory(sourceIndex, fromCategoryId));
   }
 
-  function getAndDeleteItemFromCategory(categoryId, itemIndex) {
-    const category = categories.find(
-      (category) => category.categoryId === categoryId
-    );
+  function getItemFromCategory(categoryId, itemIndex) {
+    const category = categories.find((category) => category._id === categoryId);
     const categoryItems = [...category.items];
-    const [selectedItem] = categoryItems.splice(itemIndex, 1);
+    const selectedItem = categoryItems[itemIndex];
 
     return selectedItem;
   }
@@ -185,6 +180,10 @@ function ReceiptUploadedPage() {
         <div className="categoryView">
           <CategoryPicker categories={categories} />
           <CategoryFilter />
+          <div className="buttonView">
+            <button id="back">Back</button>
+            <button id="finish">Finish</button>
+          </div>
         </div>
       </DragDropContext>
     </div>

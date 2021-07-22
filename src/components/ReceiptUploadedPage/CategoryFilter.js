@@ -2,7 +2,7 @@ import "./CategoryFilter.css";
 import { useSelector } from "react-redux";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
-function CategoryFilter(props) {
+function CategoryFilter() {
   const categories = useSelector((state) => state.categories.categories);
   const items = [];
 
@@ -28,7 +28,7 @@ function CategoryFilter(props) {
 
   return (
     <div className="filterContainer">
-      {categories.map(({ _id, name, color }) => {
+      {categories.map(({ _id, name, color, items }) => {
         return (
           <div className="filter" key={_id}>
             <button

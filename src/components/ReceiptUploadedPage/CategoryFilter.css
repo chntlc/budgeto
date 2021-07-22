@@ -1,5 +1,13 @@
+@import url("../../css/App.css");
+
 .filterContainer {
-  overflow-y: scroll;
+  height: 350px;
+  overflow: auto;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+  background-color: #ffe9d6;
+  box-shadow: inset 0px -8px 10px rgb(0 0 0 / 20%);
+  padding: 12px;
 }
 
 .filter {
