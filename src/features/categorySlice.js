@@ -48,6 +48,12 @@ const initialState = {
   error: null,
 };
 
+function addItemsArray(category) {
+  category.items = [];
+
+  return category;
+}
+
 function arrayBufferToBase64(category) {
   const { icon_img } = category;
   const icon_img_buffer = icon_img.data.data;
@@ -143,7 +149,7 @@ const categorySlice = createSlice({
       reducer: (state, action) => {
         const { item, categoryId, destinationIndex } = action.payload;
         const category = state.categories.find(
-          (category) => category.categoryId === categoryId
+          (category) => category._id === categoryId
         );
 
         if (category) {
@@ -173,7 +179,7 @@ const categorySlice = createSlice({
       reducer: (state, action) => {
         const { itemIndex, categoryId } = action.payload;
         const category = state.categories.find(
-          (category) => category.categoryId === categoryId
+          (category) => category._id === categoryId
         );
 
         if (category) {
@@ -190,7 +196,7 @@ const categorySlice = createSlice({
       reducer: (state, action) => {
         const { categoryId, sourceIndex, destinationIndex } = action.payload;
         const categoryToEdit = state.categories.find(
-          (category) => category.categoryId === categoryId
+          (category) => category._id === categoryId
         );
 
         if (categoryToEdit) {
@@ -221,6 +227,7 @@ const categorySlice = createSlice({
       state.status = "succeeded";
 
       const categoriesCopy = action.payload;
+      categoriesCopy.forEach(addItemsArray);
       categoriesCopy.forEach(arrayBufferToBase64);
 
       state.categories = state.categories.concat(categoriesCopy);
@@ -231,6 +238,7 @@ const categorySlice = createSlice({
     },
     [addCategory.fulfilled]: (state, action) => {
       let categoryCopy = action.payload;
+      categoryCopy = addItemsArray(categoryCopy);
       categoryCopy = arrayBufferToBase64(categoryCopy);
 
       state.categories.push(categoryCopy);
