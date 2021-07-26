@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport")
 const User = require("../schemas/Users");
 const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../strategies/authenticate");
 // const mongoose = require("mongoose");
@@ -9,9 +10,46 @@ const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../strategies/aut
 // const passport = require("passport");
 // const passportLocalMongoose = require("passport-local-mongoose");
 
+router.post("/login", passport.authenticate("local"), (req, res, next) => {
+  console.log("This is the POST METHOD for /users/login");
+  console.log("This is what you have requested: ", req.body);
+  console.log("This is what you have requested: ", req.user);
+
+  const token = getToken({ _id: req.user._id });
+  const refreshToken = getRefreshToken({ _id: req.user._id });
+
+  console.log("This is the value of token: ", token);
+  console.log("This is the value of refreshToken: ", refreshToken);
+
+  User.findById(req.user._id).then(
+    user => {
+      console.log("Found user during /users/login POST METHOD:", user);
+      user.refreshToken.push({ refreshToken })
+      user.save((err, user) => {
+        if (err) {
+          res.statusCode = 500;
+          res.send(err);
+        } else {
+          res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+          console.log("This is the logged in User: ", user);
+          const loggedInUser = {
+            _id: user._id,
+            username: user.username,
+            fname: user.fname,
+            lname: user.lname,
+            budget: user.budget,
+            category_ids: user.category_ids
+          }
+          res.send({ success: true, loggedInUser, token });
+        }
+      })
+    },
+    err => next(err)
+  )
+})
+
 router.post("/signup", (req, res, next) => {
   console.log("This is the POST METHOD for /users/signup");
-  // console.log("This is what you have requested: ", req);
   console.log("This is what you have requested: ", req.body);
 
   User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
@@ -31,7 +69,6 @@ router.post("/signup", (req, res, next) => {
           res.statusCode = 500;
           res.send(err);
         } else {
-          console.log("Got User token set up. Need to set up cookie on response");
           res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
           console.log("This is the signed up User: ", user);
           const signedUser = {
