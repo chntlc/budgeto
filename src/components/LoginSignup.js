@@ -17,6 +17,7 @@ function LoginSignup(props) {
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
   const [signupEmail, setSignupEmail] = useState('')
+  const [signupBudget, setSignupBudget] = useState(0)
   const [signupPassword, setSignupPassword] = useState('')
   const [signupPassword2, setSignupPassword2] = useState('')
   const [signupFirstName, setSignupFirstName] = useState('')
@@ -34,7 +35,7 @@ function LoginSignup(props) {
 
   async function handleLogin() {
     const loginUser = {
-      email: loginEmail,
+      username: loginEmail,
       password: loginPassword,
     };
 
@@ -65,15 +66,24 @@ function LoginSignup(props) {
 
    async function handleSignup() {
     if (signupPassword !== signupPassword2) {
+      alert("Password not matching! Please try again.");
       window.location.replace("http://localhost:3000/");
+      return;
     }
 
     const newUser = {
       fname: signupFirstName,
       lname: signupLastName,
-      budget: 0,
-      email: signupEmail,
+      budget: signupBudget,
+      username: signupEmail,
       password: signupPassword,
+      category_ids: [
+        "60f290e8ce75a0e1c42e404c",
+        "60f2afba040b34ebc74be130",
+        "60f2b0fed9e4daec224be7aa",
+        "60f2cbd65e51f2f481a0698f",
+        "60f2cbd65e51f2f481a0698f",
+      ],
     };
 
     console.log("This is handleSignup method.");
@@ -88,6 +98,7 @@ function LoginSignup(props) {
     })
       .then(res => res.json())
       .then(res => {
+        // TODO: Need to handle new response
         setUser(res);
         console.log("Current User: ", user);
         dispatch(userSignup(res));
@@ -140,6 +151,8 @@ function LoginSignup(props) {
       <label>Last Name</label>
       <input className='signup-last-name-input' value={signupLastName} onChange={(e) => setSignupLastName(e.target.value)} />
       <label>Email</label>
+      <input className='signup-budget-input' value={signupBudget} onChange={(e) => setSignupBudget(e.target.value)} />
+      <label>Budget</label>
       <input className='signup-email-input' value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} />
       <label>Password</label>
       <input type='password' className='signup-password-input' value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} />

@@ -9,7 +9,7 @@ const globalSlice = createSlice({
       fname: '',
       lname: '',
       budget: 0,
-      email: '',
+      username: '',
     },
     showLoginModal: '',  // can be: login, signup, or ''
     showSettingsModal: '' // can be: settings or ''
@@ -39,7 +39,7 @@ const globalSlice = createSlice({
       state.user.fname = action.payload.fname;
       state.user.lname = action.payload.lname;
       state.user.budget = action.payload.budget;
-      state.user.email = action.payload.email;
+      state.user.username = action.payload.username;
       state.showSettingsModal = '';
     },
     toggleLoginModal: (state, action) => {
