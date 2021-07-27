@@ -1,14 +1,55 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport")
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+const path = require("path");
 const User = require("../schemas/Users");
-const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../strategies/authenticate");
+const { getToken, COOKIE_OPTIONS, getRefreshToken, verifyUser } = require("../strategies/authenticate");
+
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+
 // const mongoose = require("mongoose");
 // const userSchema = require("../schemas/Users");
 // const accountSchema = require("../schemas/Accounts");
 // const session = require("express-session");
 // const passport = require("passport");
 // const passportLocalMongoose = require("passport-local-mongoose");
+
+router.get("/", function (req, res, next) {
+  console.log("This is GET method to /users.");
+  console.log("This is what you have requested: ", req.body);
+
+  res.send(false);
+});
+
+router.get("/me", verifyUser, (req, res, next) => {
+  res.send(req.user);
+});
+
+router.get("/logout", verifyUser, (req, res, next) => {
+  const { signedCookies = {} } = req
+  const { refreshToken } = signedCookies
+  User.findById(req.user._id).then(
+    user => {
+      const tokenIndex = user.refreshToken.findIndex(
+        item => item.refreshToken === refreshToken
+      )
+      if (tokenIndex !== -1) {
+        user.refreshToken.id(user.refreshToken[tokenIndex]._id).remove()
+      }
+      user.save((err, user) => {
+        if (err) {
+          res.statusCode = 500
+          res.send(err)
+        } else {
+          res.clearCookie("refreshToken", COOKIE_OPTIONS)
+          res.send({ success: true })
+        }
+      })
+    },
+    err => next(err)
+  )
+});
 
 router.post("/login", passport.authenticate("local"), (req, res, next) => {
   console.log("This is the POST METHOD for /users/login");
@@ -27,6 +68,7 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
       user.refreshToken.push({ refreshToken })
       user.save((err, user) => {
         if (err) {
+          console.log("Something went wrong during user.save in /users/login POST METHOD");
           res.statusCode = 500;
           res.send(err);
         } else {
@@ -45,7 +87,7 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
       })
     },
     err => next(err)
-  )
+  );
 })
 
 router.post("/signup", (req, res, next) => {
@@ -54,18 +96,27 @@ router.post("/signup", (req, res, next) => {
 
   User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
     if (err) {
+      console.log("Something went wrong during User.register in /users/signup POST METHOD");
       res.statusCode = 500;
       res.send(err);
     } else {
       user.fname = req.body.fname;
       user.lname = req.body.lname;
       user.budget = req.body.budget;
-      user.category_ids = req.body.category_ids;
+      // user.category_ids = req.body.category_ids;
+      user.category_ids =  [
+        "60f290e8ce75a0e1c42e404c",
+        "60f2afba040b34ebc74be130",
+        "60f2b0fed9e4daec224be7aa",
+        "60f2cbd65e51f2f481a0698f",
+        "60f2cbd65e51f2f481a0698f",
+      ];
       const token = getToken({ _id: user._id });
       const refreshToken = getRefreshToken({ _id: user._id });
       user.refreshToken.push({ refreshToken });
       user.save((err, user) => {
         if (err) {
+          console.log("Something went wrong during user.save in /users/signup POST METHOD");
           res.statusCode = 500;
           res.send(err);
         } else {
@@ -86,6 +137,64 @@ router.post("/signup", (req, res, next) => {
   });
 })
 
+router.post("/refreshToken", (req, res, next) => {
+  const { signedCookies = {} } = req
+  const { refreshToken } = signedCookies
+  if (refreshToken) {
+    try {
+      const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
+      const userId = payload._id
+      User.findOne({ _id: userId }).then(
+        user => {
+          if (user) {
+            // Find the refresh token against the user record in database
+            const tokenIndex = user.refreshToken.findIndex(
+              item => item.refreshToken === refreshToken
+            )
+            if (tokenIndex === -1) {
+              res.statusCode = 401;
+              res.send("Unauthorized");
+            } else {
+              const token = getToken({ _id: userId })
+              // If the refresh token exists, then create new one and replace it.
+              const newRefreshToken = getRefreshToken({ _id: userId })
+              user.refreshToken[tokenIndex] = { refreshToken: newRefreshToken }
+              user.save((err, user) => {
+                if (err) {
+                  res.statusCode = 500;
+                  res.send(err);
+                } else {
+                  res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
+                  console.log("This is the User with refreshedToken: ", user);
+                  const refreshedUser = {
+                    _id: user._id,
+                    username: user.username,
+                    fname: user.fname,
+                    lname: user.lname,
+                    budget: user.budget,
+                    category_ids: user.category_ids
+                  }
+                  res.send({ success: true, refreshedUser, token });
+                  // res.send({ success: true, token });
+                }
+              })
+            }
+          } else {
+            res.statusCode = 401;
+            res.send("Unauthorized");
+          }
+        },
+        err => next(err)
+      )
+    } catch (err) {
+      res.statusCode = 401;
+      res.send("Unauthorized");
+    }
+  } else {
+    res.statusCode = 401;
+    res.send("Unauthorized");
+  }
+})
 
 
 

@@ -53,14 +53,14 @@ function LoginSignup(props) {
       .then(res => {
         console.log("Found User: ", res);
 
-        setUser(res);
-        dispatch(userLogin(res));
-        dispatch(toggleLoginModal(''));
+        // setUser(res);
+        // dispatch(userLogin(res));
+        // dispatch(toggleLoginModal(''));
       })
       .catch(err => {
         console.log(err);
-        alert("Wrong User credential! Please try again.");
-        window.location.replace("http://localhost:3000/");
+        // alert("Wrong User credential! Please try again.");
+        // window.location.replace("http://localhost:3000/");
       });
   }
 
@@ -77,13 +77,13 @@ function LoginSignup(props) {
       budget: signupBudget,
       username: signupEmail,
       password: signupPassword,
-      category_ids: [
-        "60f290e8ce75a0e1c42e404c",
-        "60f2afba040b34ebc74be130",
-        "60f2b0fed9e4daec224be7aa",
-        "60f2cbd65e51f2f481a0698f",
-        "60f2cbd65e51f2f481a0698f",
-      ],
+      // category_ids: [
+      //   "60f290e8ce75a0e1c42e404c",
+      //   "60f2afba040b34ebc74be130",
+      //   "60f2b0fed9e4daec224be7aa",
+      //   "60f2cbd65e51f2f481a0698f",
+      //   "60f2cbd65e51f2f481a0698f",
+      // ],
     };
 
     console.log("This is handleSignup method.");
@@ -108,8 +108,9 @@ function LoginSignup(props) {
       })
       .catch(err => {
         console.log(err);
-        alert("Failed to signup! Please try again.");
-        window.location.replace("http://localhost:3000/");
+        // alert("Failed to signup! Please try again.");
+        // window.location.replace("http://localhost:3000/");
+
         // window.location.href = "http://localhost:3000/";
         // props.history.push("/");
       })
@@ -151,9 +152,9 @@ function LoginSignup(props) {
       <label>Last Name</label>
       <input className='signup-last-name-input' value={signupLastName} onChange={(e) => setSignupLastName(e.target.value)} />
       <label>Email</label>
-      <input className='signup-budget-input' value={signupBudget} onChange={(e) => setSignupBudget(e.target.value)} />
-      <label>Budget</label>
       <input className='signup-email-input' value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} />
+      <label>Budget</label>
+      <input className='signup-budget-input' value={signupBudget} onChange={(e) => setSignupBudget(e.target.value)} />
       <label>Password</label>
       <input type='password' className='signup-password-input' value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} />
       <label>Confirm Password</label>
