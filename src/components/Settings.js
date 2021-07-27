@@ -2,7 +2,8 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Modal from './Modal'
 import '../css/Settings.css'
 import { UserContext } from "./context/UserContext"
-import { updateUser, toggleSettingsModal } from "../features/globalSlice";
+import { Link, NavLink } from "react-router-dom"
+import { updateUser, userLogout, toggleSettingsModal } from "../features/globalSlice"
 import { connect, useDispatch } from 'react-redux'
 
 function Settings(props) {
@@ -95,12 +96,15 @@ function Settings(props) {
         };
         setUser(emptyUser);
         dispatch(updateUser(emptyUser));
-        window.localStorage.setItem("logout", Date.now())
+        dispatch(userLogout(emptyUser));
+        window.localStorage.setItem("logout", Date.now());
         alert('Successfully Logged Out!');
+        // TODO: This is a workaround!! Try using NavLink to work
+        window.location.replace("http://localhost:3000/");
       })
       .catch(err => {
         console.log(err);
-        alert("Updating user failed! Please try again.");
+        alert("Logging out user failed! Please try again.");
         // window.location.replace("http://localhost:3000/dashboard");
       });
     }
@@ -129,7 +133,7 @@ function Settings(props) {
   }
 
   const profileForm =
-    <form className='signup-form'>
+    <form className='settings-form'>
       <label>First Name</label>
       <input type="text" id="fname" value={user.fname} onChange={handleChange}/>
       <label>Last Name</label>
@@ -142,13 +146,19 @@ function Settings(props) {
       <input type="password" id="password"/>
       <label>Confirm Password</label>
       <input type="password" id="password2"/>
-      <button className="setting-submit-button" onClick={handleSettingChange}>Confirm</button>
+      <button className="settings-submit-button" onClick={handleSettingChange}>Confirm</button>
     </form>
 
   const logoutForm =
-    <form className='signup-form'>
-      <button className="setting-submit-button" onClick={handleLogout}>Logout</button>
+    <form className='logout-form'>
+      <div className='logout-submit-button-wrapper'>
+        <NavLink to='/' className='logout-submit-link'>
+          <button className='logout-submit-button' onClick={handleLogout}>LOGOUT!</button>
+        </NavLink>
+      </div>
     </form>
+
+  // <button className="setting-submit-button" onClick={handleLogout}>Logout</button>
 
   return (
     <Modal

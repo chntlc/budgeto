@@ -30,8 +30,11 @@ const globalSlice = createSlice({
       state.isLoggedIn = true
       console.log("user state updated in globalSlice")
     },
-    userLogout: (state) => {
+    userLogout: (state, action) => {
+      console.log({ action })
       console.log('hit userLogout action')
+      state.isLoggedIn = false
+      console.log("User logged out")
     },
     updateUser: (state, action) => {
       console.log('hit updateUser action')
