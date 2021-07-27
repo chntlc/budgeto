@@ -44,6 +44,7 @@ function LoginSignup(props) {
 
     await fetch('/users/login', {
       method: 'POST',
+      credentials: "include",
       headers: {
         'Content-Type': 'application/json',
       },
@@ -91,6 +92,7 @@ function LoginSignup(props) {
 
     await fetch('/users/signup', {
       method: 'POST',
+      credentials: "include",
       headers: {
         'Content-Type': 'application/json',
       },
