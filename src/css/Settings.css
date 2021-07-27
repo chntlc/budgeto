@@ -39,6 +39,8 @@ Link {
   background-color: var(--light-purple);
 }
 
+#settings-header,
+#logout-header,
 .close-button {
   background-color: transparent;
   outline: none;
@@ -46,6 +48,8 @@ Link {
   font-size: 18px;
 }
 
+#settings-header:hover,
+#logout-header:hover,
 .close-button:hover {
   color: var(--light-purple);
 }

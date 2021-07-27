@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Modal from './Modal'
 import '../css/Settings.css'
+import { UserContext } from "./context/UserContext"
 import { updateUser, toggleSettingsModal } from "../features/globalSlice";
 import { connect, useDispatch } from 'react-redux'
 
@@ -13,6 +14,7 @@ function Settings(props) {
     budget: props.user.budget,
     username: props.user.username,
   })
+  const [userContext, setUserContext] = useContext(UserContext)
 
   async function handleSettingChange(event) {
     event.preventDefault();
@@ -67,6 +69,42 @@ function Settings(props) {
     }
   }
 
+  async function handleLogout(event) {
+    event.preventDefault();
+
+    await fetch('/users/logout', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userContext.token}`,
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log("Response for /users/logout GET METHOD: ", res);
+        setUserContext(oldValues => {
+          return { ...oldValues, details: undefined, token: null }
+        })
+        const emptyUser = {
+          _id: '',
+          fname: '',
+          lname: '',
+          budget: 0,
+          username: ''
+        };
+        setUser(emptyUser);
+        dispatch(updateUser(emptyUser));
+        window.localStorage.setItem("logout", Date.now())
+        alert('Successfully Logged Out!');
+      })
+      .catch(err => {
+        console.log(err);
+        alert("Updating user failed! Please try again.");
+        // window.location.replace("http://localhost:3000/dashboard");
+      });
+    }
+
   const handleChange = (event) => {
     const { id, value } = event.target;
 
@@ -76,6 +114,14 @@ function Settings(props) {
         [id]: value
       };
     });
+  }
+
+  const redirectSettings = () => {
+    dispatch(toggleSettingsModal('settings'))
+  }
+
+  const redirectLogout = () => {
+    dispatch(toggleSettingsModal('logout'))
   }
 
   const closeSettingsModal = () => {
@@ -99,9 +145,19 @@ function Settings(props) {
       <button className="setting-submit-button" onClick={handleSettingChange}>Confirm</button>
     </form>
 
+  const logoutForm =
+    <form className='signup-form'>
+      <button className="setting-submit-button" onClick={handleLogout}>Logout</button>
+    </form>
+
   return (
     <Modal
-      content={props.showSettings === "settings" ? profileForm : profileForm}
+      header={(<React.Fragment>
+        <button id='settings-header' className={props.showSettings === 'settings' ? 'underline-label' : ''} onClick={redirectSettings}>SETTINGS</button>
+        <span>&nbsp;/&nbsp;</span>
+        <button id='logout-header' className={props.showSettings === 'logout' ? 'underline-label' : ''} onClick={redirectLogout}>LOGOUT</button>
+      </React.Fragment>)}
+      content={props.showSettings === "settings" ? profileForm : logoutForm}
       onClose={closeSettingsModal}
     >
     </Modal>
