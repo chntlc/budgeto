@@ -1,5 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import DashboardBtn from "./DashboardBtn";
+import Slogan from './Slogan';
+import StartSaving from './StartSaving';
+import { UserContext } from "./context/UserContext"
 import "../css/Dashboard.css";
 import "../images/profile.png";
 import { connect, useDispatch } from 'react-redux';
@@ -10,6 +13,8 @@ import { fetchSummary } from "../features/dashboardSlice";
 
 function DashboardContent(props) {
   const dispatch = useDispatch();
+  const [userContext, setUserContext] = useContext(UserContext);
+  console.log("This is userContext value in /Dashboard path:", userContext);
 
   useEffect(() => {
     dispatch(fetchSummary(props.user._id))
@@ -22,7 +27,7 @@ function DashboardContent(props) {
     moneyDiff = userBudget - userSpending,
     mostSpentCat = props.mostSpentCategory;
 
-  return (
+  return userContext.token ? (
     <Row gutter={16} className='dashboard-row-content'>
       <Col span={20} offset={2}>
         <Card className='card' title={`👋 \u00A0\u00A0\u00A0\u00A0Hey, \u00A0\u00A0${userName}! `} loading={props.isLoading} >
@@ -53,7 +58,14 @@ function DashboardContent(props) {
         </Card>
       </Col>
     </Row>
-  );
+  ) : (
+    <section className="home-section">
+      <div className="helper"></div><div className="vertical-center">
+        <Slogan />
+        <StartSaving />
+      </div>
+    </section>
+  )
 }
 
 const mapStateToProps = (state) => {

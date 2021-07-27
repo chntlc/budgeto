@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import Modal from './Modal'
 import '../css/LoginSignup.css'
 import { Link, NavLink } from "react-router-dom";
 import { toggleLoginModal, userLogin, userSignup } from "../features/globalSlice";
 import { connect, useDispatch } from 'react-redux';
+import { UserContext } from "./context/UserContext"
 
 function LoginSignup(props) {
   const dispatch = useDispatch()
@@ -23,6 +24,8 @@ function LoginSignup(props) {
   const [signupFirstName, setSignupFirstName] = useState('')
   const [signupLastName, setSignupLastName] = useState('')
   const [hasError, setErrors] = useState(false);
+  const [error, setError] = useState("")
+  const [userContext, setUserContext] = useContext(UserContext)
 
   useEffect(() => {
     fetch('/users')
@@ -33,7 +36,12 @@ function LoginSignup(props) {
       });
   }, []);
 
-  async function handleLogin() {
+  async function handleLogin(event) {
+    // event.preventDefault();
+    setError("");
+
+    const genericErrorMessage = "Something went wrong! Please try again later."
+
     const loginUser = {
       username: loginEmail,
       password: loginPassword,
@@ -44,28 +52,39 @@ function LoginSignup(props) {
 
     await fetch('/users/login', {
       method: 'POST',
-      credentials: "include",
+      credentials: 'include',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(loginUser),
     })
       .then(res => res.json())
       .then(res => {
-        console.log("Found User: ", res);
+        console.log("Returned Response in /users/login: ", res);
 
-        // setUser(res);
-        // dispatch(userLogin(res));
-        // dispatch(toggleLoginModal(''));
+        setUserContext(oldValues => {
+          return { ...oldValues, token: res.token }
+        });
+        setUser(res.loggedInUser);
+        dispatch(userLogin(res.loggedInUser));
+        dispatch(toggleLoginModal(''));
+
+        // props.history.push("/dashboard");
       })
       .catch(err => {
+        setError(genericErrorMessage);
         console.log(err);
         // alert("Wrong User credential! Please try again.");
         // window.location.replace("http://localhost:3000/");
       });
   }
 
-   async function handleSignup() {
+  async function handleSignup(event) {
+    // event.preventDefault();
+    setError("");
+
+    const genericErrorMessage = "Something went wrong! Please try again later."
+
     if (signupPassword !== signupPassword2) {
       alert("Password not matching! Please try again.");
       window.location.replace("http://localhost:3000/");
@@ -78,14 +97,30 @@ function LoginSignup(props) {
       budget: signupBudget,
       username: signupEmail,
       password: signupPassword,
-      // category_ids: [
-      //   "60f290e8ce75a0e1c42e404c",
-      //   "60f2afba040b34ebc74be130",
-      //   "60f2b0fed9e4daec224be7aa",
-      //   "60f2cbd65e51f2f481a0698f",
-      //   "60f2cbd65e51f2f481a0698f",
-      // ],
+      category_ids: [
+        "60f290e8ce75a0e1c42e404c",
+        "60f2afba040b34ebc74be130",
+        "60f2b0fed9e4daec224be7aa",
+        "60f2cbd65e51f2f481a0698f",
+        "60f2cbd65e51f2f481a0698f",
+      ],
     };
+
+    // const newUser = {
+    //   "username": "test@example.com",
+    //   "password": "1234",
+    //   "fname": "Kevin",
+    //   "lname": "Lee",
+    //   "budget": "0",
+    //   "category_ids": [
+    //     "60f290e8ce75a0e1c42e404c",
+    //     "60f2afba040b34ebc74be130",
+    //     "60f2b0fed9e4daec224be7aa",
+    //     "60f2cbd65e51f2f481a0698f",
+    //     "60f2cd9bc034faf55bde2154",
+    //     "60f3567428727ffd6263757d"
+    //   ]
+    // }
 
     console.log("This is handleSignup method.");
     console.log("This is what you have requested: ", newUser);
@@ -100,15 +135,19 @@ function LoginSignup(props) {
     })
       .then(res => res.json())
       .then(res => {
-        // TODO: Need to handle new response
-        setUser(res);
-        console.log("Current User: ", user);
-        dispatch(userSignup(res));
+        console.log("Returned Response in /users/signup: ", res);
+        setUserContext(oldValues => {
+          return { ...oldValues, token: res.token }
+        });
+        setUser(res.signedUser);
+        dispatch(userSignup(res.signedUser));
         dispatch(toggleLoginModal(''));
+
         // props.history.push("/dashboard");
         // window.location.href = "http://localhost:3000/dashboard";
       })
       .catch(err => {
+        setError(genericErrorMessage);
         console.log(err);
         // alert("Failed to signup! Please try again.");
         // window.location.replace("http://localhost:3000/");

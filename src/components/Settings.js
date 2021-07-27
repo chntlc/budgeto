@@ -11,7 +11,7 @@ function Settings(props) {
     fname: props.user.fname,
     lname: props.user.lname,
     budget: props.user.budget,
-    email: props.user.email,
+    username: props.user.username,
   })
 
   async function handleSettingChange(event) {
@@ -30,19 +30,20 @@ function Settings(props) {
       const fname = user.fname;
       const lname = user.lname;
       const budget = user.budget;
-      const email = user.email;
+      const username = user.username;
 
       const updatedUser = {
         _id: _id,
         fname: fname,
         lname: lname,
         budget: budget,
-        email: email,
+        username: username,
         password: password
       };
 
       await fetch('/users/settings', {
         method: 'PATCH',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -50,16 +51,18 @@ function Settings(props) {
       })
         .then(res => res.json())
         .then(res => {
-          console.log("Updated User: ", res);
+          const user = res.updatedUser;
+          console.log("Updated User: ", user);
 
-          setUser(res);
-          dispatch(updateUser({fname, lname, budget, email}));
+
+          setUser(user);
+          dispatch(updateUser(user));
           alert('Settings Changed!');
         })
         .catch(err => {
           console.log(err);
           alert("Updating user failed! Please try again.");
-          window.location.replace("http://localhost:3000/dashboard");
+          // window.location.replace("http://localhost:3000/dashboard");
         });
     }
   }
@@ -88,7 +91,7 @@ function Settings(props) {
       <label>Budget</label>
       <input type="number" id="budget" value={user.budget} onChange={handleChange}/>
       <label>Email</label>
-      <input type="email" id="email" value={user.email} onChange={handleChange}/>
+      <input type="email" id="email" value={user.username} onChange={handleChange}/>
       <label>Password</label>
       <input type="password" id="password"/>
       <label>Confirm Password</label>

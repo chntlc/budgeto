@@ -21,14 +21,14 @@ const globalSlice = createSlice({
       console.log('hit userLogin action')
       state.user = action.payload
       state.isLoggedIn = true
-      console.log("user state updated in globalSlice");
-      // window.location.href = "http://localhost:3000/dashboard";
+      console.log("user state updated in globalSlice")
     },
     userSignup: (state, action) => {
       console.log({ action })
       console.log('hit userSignup action')
       state.user = action.payload
       state.isLoggedIn = true
+      console.log("user state updated in globalSlice")
     },
     userLogout: (state) => {
       console.log('hit userLogout action')

@@ -103,14 +103,7 @@ router.post("/signup", (req, res, next) => {
       user.fname = req.body.fname;
       user.lname = req.body.lname;
       user.budget = req.body.budget;
-      // user.category_ids = req.body.category_ids;
-      user.category_ids =  [
-        "60f290e8ce75a0e1c42e404c",
-        "60f2afba040b34ebc74be130",
-        "60f2b0fed9e4daec224be7aa",
-        "60f2cbd65e51f2f481a0698f",
-        "60f2cbd65e51f2f481a0698f",
-      ];
+      user.category_ids = req.body.category_ids;
       const token = getToken({ _id: user._id });
       const refreshToken = getRefreshToken({ _id: user._id });
       user.refreshToken.push({ refreshToken });
@@ -196,7 +189,38 @@ router.post("/refreshToken", (req, res, next) => {
   }
 })
 
+router.patch("/settings", (req, res, next) => {
+  console.log("This is the POST METHOD for /users/settings");
+  console.log("This is what you have requested: ", req.body);
 
+  User.findById(req.body._id).then(
+    user => {
+      console.log("Found user during /users/settings POST METHOD:", user);
+      user.fname = req.body.fname;
+      user.lname = req.body.lname;
+      user.budget = req.body.budget;
+      user.save((err, user) => {
+        if (err) {
+          console.log("Something went wrong during user.save in /users/settings POST METHOD");
+          res.statusCode = 500;
+          res.send(err);
+        } else {
+          console.log("This is the updated in User: ", user);
+          const updatedUser = {
+            _id: user._id,
+            username: user.username,
+            fname: user.fname,
+            lname: user.lname,
+            budget: user.budget,
+            category_ids: user.category_ids
+          }
+          res.send({ success: true, updatedUser});
+        }
+      })
+    },
+    err => next(err)
+  );
+})
 
 
 
