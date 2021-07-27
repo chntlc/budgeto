@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './AddPage.css'
 import { Card, Col, Row } from 'antd';
 import { Link } from "react-router-dom";
@@ -13,6 +13,18 @@ function AddPage(props) {
     qty: '',
     price: ''
   }])
+
+  useEffect(() => {
+    console.log(props.items)
+    if (props.items) {
+      setItems(props.items)
+      const inputRowsArray = [];
+      for (let i = 0; i < props.items.length - 1; i++) {
+        inputRowsArray.push({})
+      }
+      setInputRows(inputRowsArray)
+    }
+  }, [])
 
   const addInputRow = () => {
     console.log('add input row')
@@ -29,33 +41,17 @@ function AddPage(props) {
    * https://stackoverflow.com/questions/29537299/react-how-to-update-state-item1-in-state-using-setstate
    */
 
-  const handleNameInput = (value, index) => {
+  const handleInput = (value, index, property) => {
     let itemsCopy = [...items]
     let item = { ...itemsCopy[index] }
-    item.name = value
-    itemsCopy[index] = item;
-    setItems(itemsCopy);
-  }
-
-  const handleQtyInput = (value, index) => {
-    let itemsCopy = [...items]
-    let item = { ...itemsCopy[index] }
-    item.qty = value
-    itemsCopy[index] = item;
-    setItems(itemsCopy);
-  }
-
-  const handlePriceInput = (value, index) => {
-    let itemsCopy = [...items]
-    let item = { ...itemsCopy[index] }
-    item.price = value
+    item[property] = value
     itemsCopy[index] = item;
     setItems(itemsCopy);
   }
 
   return (
     <div>
-      <Row gutter={16} justify="end" className='button-row'>
+      <Row gutter={16} justify="end" className='button-row-add'>
         <Col className='col-content'>
           <Link to='/receiptUploaded' className='next-button' onClick={handleAddItems}>
             Next
@@ -72,34 +68,35 @@ function AddPage(props) {
         </Col>
         <Col flex={3} className='col-content'>
           <Card title='Enter Items' bordered={true} className='card'>
-            <form className='item-form'>
+            <form className='item-form' style={{ width: '97%', marginRight: '15px' }} >
               <Row gutter={16} className='input-row'>
                 <Col span={16}>
                   <label>Name</label>
-                  <input className='item-name-input' type='text' onChange={(e) => handleNameInput(e.target.value, 0)} />
+                  <input className='item-name-input' type='text' onChange={(e) => handleInput(e.target.value, 0, 'name')} defaultValue={items[0]?.name || ''} />
                 </Col>
                 <Col span={4}>
                   <label>Quantity</label>
-                  <input className='item-qty-input' type='number' onChange={(e) => handleQtyInput(e.target.value, 0)} />
+                  <input className='item-qty-input' type='number' onChange={(e) => handleInput(e.target.value, 0, 'qty')} defaultValue={items[0]?.qty || ''} />
                 </Col>
                 <Col span={4}>
                   <label>Price</label>
-                  <input className='item-price-input' type='number' onChange={(e) => handlePriceInput(e.target.value, 0)} />
+                  <input className='item-price-input' type='number' onChange={(e) => handleInput(e.target.value, 0, 'price')} defaultValue={items[0]?.price || ''} />
                 </Col>
               </Row>
               {
                 inputRows.map((item, index) => {
+                  // update input row here
                   let itemId = `item-${index + 1}`
                   return (
                     <Row key={itemId + '-row'} gutter={16} className='input-row'>
                       <Col span={16}>
-                        <input key={itemId + '-name'} className='item-name-input' type='text' onChange={(e) => handleNameInput(e.target.value, index + 1)} />
+                        <input key={itemId + '-name'} className='item-name-input' type='text' onChange={(e) => handleInput(e.target.value, index + 1, 'name')} defaultValue={items[index + 1]?.name || ''} />
                       </Col>
                       <Col span={4}>
-                        <input key={itemId + '-qty'} className='item-qty-input' type='number' onChange={(e) => handleQtyInput(e.target.value, index + 1)} />
+                        <input key={itemId + '-qty'} className='item-qty-input' type='number' onChange={(e) => handleInput(e.target.value, index + 1, 'qty')} defaultValue={items[index + 1]?.qty || ''} />
                       </Col>
                       <Col span={4}>
-                        <input key={itemId + '-price'} className='item-price-input' type='number' onChange={(e) => handlePriceInput(e.target.value, index + 1)} />
+                        <input key={itemId + '-price'} className='item-price-input' type='number' onChange={(e) => handleInput(e.target.value, index + 1, 'price')} defaultValue={items[index + 1]?.price || ''} />
                       </Col>
                     </Row>
                   )
@@ -110,7 +107,7 @@ function AddPage(props) {
           </Card>
         </Col>
       </Row>
-    </div >
+    </div>
   )
 }
 

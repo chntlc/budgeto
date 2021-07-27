@@ -1,25 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import axios from 'axios'
+
+export const addItems = createAsyncThunk('receipt/addItems', async (items) => {
+
+  const response = await axios.post(`http://localhost:3001/receipt/items/`, {
+    items
+  })
+
+  return response.data
+})
 
 const receiptSlice = createSlice({
   name: 'receipt',
   initialState: {
-    items: [
-      // {
-      //   name: 'chocolate',
-      //   qty: 1,
-      //   price: 2
-      // },
-      // {
-      //   name: 'chips',
-      //   qty: 3,
-      //   price: 1
-      // },
-      // {
-      //   name: 't-shirt',
-      //   qty: 1,
-      //   price: 20
-      // }
-    ]
+    items: []
   },
   reducers: {
     addItems: (state, items) => {
@@ -27,15 +21,17 @@ const receiptSlice = createSlice({
       console.log(items.payload)
       state.items = items.payload
     },
-    deleteItem: (state) => {
+    deleteItem: (state, itemToDelete) => {
       console.log('hit deleteItem action')
-    },
-    editItem: (state) => {
-      console.log('hit editItem action')
+      // TODO: implement support for deleting item
+
+      // look for item in array, delete it
+      // const itemsCopy = state.items.filter((item) => item.name !== itemToDelete.payload)
+      // state.items = itemsCopy
     }
   }
 })
 
-export const { addItems, deleteItem, editItem } = receiptSlice.actions
+export const { deleteItem } = receiptSlice.actions
 
 export default receiptSlice.reducer

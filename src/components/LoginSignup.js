@@ -21,6 +21,7 @@ function LoginSignup(props) {
   const [signupPassword2, setSignupPassword2] = useState('')
   const [signupFirstName, setSignupFirstName] = useState('')
   const [signupLastName, setSignupLastName] = useState('')
+  const [signupBudget, setSignupBudget] = useState('')
   const [hasError, setErrors] = useState(false);
 
   useEffect(() => {
@@ -63,7 +64,7 @@ function LoginSignup(props) {
       });
   }
 
-   async function handleSignup() {
+  async function handleSignup() {
     if (signupPassword !== signupPassword2) {
       window.location.replace("http://localhost:3000/");
     }
@@ -71,7 +72,7 @@ function LoginSignup(props) {
     const newUser = {
       fname: signupFirstName,
       lname: signupLastName,
-      budget: 0,
+      budget: signupBudget,
       email: signupEmail,
       password: signupPassword,
     };
@@ -139,6 +140,8 @@ function LoginSignup(props) {
       <input className='signup-first-name-input' value={signupFirstName} onChange={(e) => setSignupFirstName(e.target.value)} />
       <label>Last Name</label>
       <input className='signup-last-name-input' value={signupLastName} onChange={(e) => setSignupLastName(e.target.value)} />
+      <label>Budget</label>
+      <input type='number' className='signup-budget-input' value={signupBudget} onChange={(e) => setSignupBudget(e.target.value)} />
       <label>Email</label>
       <input className='signup-email-input' value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} />
       <label>Password</label>

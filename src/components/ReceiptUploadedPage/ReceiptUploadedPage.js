@@ -12,6 +12,7 @@ import {
 } from "../../features/categorySlice";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function ReceiptUploadedPage(props) {
   const dispatch = useDispatch();
@@ -176,18 +177,32 @@ function ReceiptUploadedPage(props) {
     return selectedItem;
   }
 
+  function handleSubmitItems() {
+    // TODO: call API
+  }
+
   return (
-    <div className="container">
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <div className="receiptView">
-          <Receipt items={items} />
-        </div>
-        <div className="categoryView">
-          <CategoryPicker categories={categories} />
-          <CategoryFilter />
-        </div>
-      </DragDropContext>
-    </div>
+    <>
+      <div className="button-row-uploaded">
+        <Link to='/add' className='back-button'>
+          Back
+      </Link>
+        <Link to='/dashboard' className='submit-button' onClick={handleSubmitItems}>
+          Submit
+      </Link>
+      </div>
+      <div className="container">
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <div className="receiptView">
+            <Receipt items={items} />
+          </div>
+          <div className="categoryView">
+            <CategoryPicker categories={categories} />
+            <CategoryFilter />
+          </div>
+        </DragDropContext>
+      </div>
+    </>
   );
 }
 

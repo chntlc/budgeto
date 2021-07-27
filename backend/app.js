@@ -11,6 +11,8 @@ const dashboardRouter = require("./routes/dashboard");
 const viewRouter = require("./routes/view");
 const reportRouter = require("./routes/report");
 const categoriesRouter = require("./routes/categories");
+const receiptsRouter = require("./routes/receipts");
+
 var app = express();
 
 // setup CORS
@@ -34,6 +36,7 @@ app.use("/dashboard", dashboardRouter);
 app.use("/view", viewRouter);
 app.use("/report", reportRouter);
 app.use("/categories", categoriesRouter);
+app.use("/receipts", receiptsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
