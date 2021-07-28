@@ -29,7 +29,7 @@
     "node": "14.15.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cd backend && node ./bin/www",
     "build": "react-scripts build",
     "heroku-prebuild": "npm install && npm run build",
     "test": "react-scripts test",
