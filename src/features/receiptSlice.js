@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-export const addItems = createAsyncThunk('receipt/addItems', async (items) => {
+// export const addItems = createAsyncThunk('receipt/addItems', async (items) => {
 
-  const response = await axios.post(`http://localhost:3001/receipt/items/`, {
-    items
-  })
+//   const response = await axios.post(`http://localhost:3001/receipt/items/`, {
+//     items
+//   })
 
-  return response.data
-})
+//   return response.data
+// })
 
 const receiptSlice = createSlice({
   name: 'receipt',
@@ -32,6 +32,6 @@ const receiptSlice = createSlice({
   }
 })
 
-export const { deleteItem } = receiptSlice.actions
+export const { addItems, deleteItem } = receiptSlice.actions
 
 export default receiptSlice.reducer
