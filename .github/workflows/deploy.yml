@@ -2,7 +2,7 @@ name: Deploy to Heroku
 
 on:
   push:
-    branches: [ main, deploy ]
+    branches: [ main, deploy, project-5 ]
 
 jobs:
   deploy:
@@ -14,4 +14,4 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          branch: "deploy"
+          branch: "project-5"
