@@ -5,25 +5,31 @@
   align-items: center;
 }
 
-.dashboard__greeting img {
-  width: 10vw;
-  height: 10vw;
+.card img {
+  width: 5vw;
+  height: 5vw;
   border-radius: 50%;
-  box-shadow: 0px 5px 10px;
+  /* box-shadow: 0px 5px 10px; */
 }
 
-.dashboard__greeting span {
+.card span {
   margin-left: 2vw;
-  font-size: 5vw;
+  font-size: 3vw;
+  font-family: "Baloo";
+  color: var(--purple);
 }
 
 .dashboard__report {
-  margin-left: 12vw;
+  /* margin-left: 12vw; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .dashboard__report p {
   margin: 15px 0px;
-  font-size: 25px;
+  font-size: 1.5vw;
+  color: var(--purple);
 }
 
 .dashboard__report .green {
@@ -53,16 +59,17 @@
   align-items: center;
   justify-content: center;
   height: 20vh;
+  padding: 0 100px;
 }
 
 .dashboard__btn {
   text-decoration: none;
-  margin: 0px 12vw;
+  margin: 0px 2vw;
   color: white;
-  box-shadow: 0px 5px 15px black;
-  font-size: 25px;
-  border-radius: 35px;
-  padding: 5vh 5vw;
+  /* box-shadow: 0px 5px 15px black; */
+  font-size: 1.5vw;
+  border-radius: 20px;
+  padding: 3vh 5vw;
   background-color: var(--light-pink);
   transition: background-color 0.4s ease-in-out;
 }
@@ -75,4 +82,19 @@
   background-color: var(--light-purple);
   transition: background-color 0.4s ease-in-out;
   color: white;
+}
+
+.dashboard-row-content {
+  margin-top: 100px;
+}
+
+.dashboard-row-content .ant-card-head-title {
+  margin-left: 2vw;
+  font-size: 3vw;
+  font-family: "Baloo";
+  color: var(--purple);
+}
+
+hr {
+  border-top: 0.5px solid var(--light-orange);
 }

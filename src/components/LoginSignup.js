@@ -1,50 +1,107 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
 import '../css/LoginSignup.css'
+import { Link, NavLink } from "react-router-dom";
 import { toggleLoginModal, userLogin, userSignup } from "../features/globalSlice";
-import { connect, useDispatch } from 'react-redux'
-import { Link } from "react-router-dom";
+import { connect, useDispatch } from 'react-redux';
 
 function LoginSignup(props) {
   const dispatch = useDispatch()
   const [user, setUser] = useState({
-    id: '',
+    _id: '',
     email: '',
-    name: '',
+    fname: '',
+    lname: '',
     budget: 0
   })
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
-
   const [signupEmail, setSignupEmail] = useState('')
   const [signupPassword, setSignupPassword] = useState('')
+  const [signupPassword2, setSignupPassword2] = useState('')
   const [signupFirstName, setSignupFirstName] = useState('')
   const [signupLastName, setSignupLastName] = useState('')
+  const [hasError, setErrors] = useState(false);
 
-  const handleLogin = () => {
-    const testUser = ({
-      id: 'testId',
+  useEffect(() => {
+    fetch('/users')
+      .then(res => {
+        console.log("This is the useEffect method.");
+        console.log("This is the response: ", res);
+        setErrors(res)
+      });
+  }, []);
+
+  async function handleLogin() {
+    const loginUser = {
       email: loginEmail,
-      name: 'Test Name',
-      budget: 200
-    })
+      password: loginPassword,
+    };
 
-    // alert('logged in')
-    console.log({ user })
-    dispatch(userLogin(testUser))
-    dispatch(toggleLoginModal(''))
+    console.log("This is handleLogin method.");
+    console.log("This is what you have requested: ", loginUser);
+
+    await fetch('/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginUser),
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log("Found User: ", res);
+
+        setUser(res);
+        dispatch(userLogin(res));
+        dispatch(toggleLoginModal(''));
+      })
+      .catch(err => {
+        console.log(err);
+        alert("Wrong User credential! Please try again.");
+        window.location.replace("http://localhost:3000/");
+      });
   }
 
-  const handleSignup = () => {
-    const testUser = ({
-      id: 'testId',
+   async function handleSignup() {
+    if (signupPassword !== signupPassword2) {
+      window.location.replace("http://localhost:3000/");
+    }
+
+    const newUser = {
+      fname: signupFirstName,
+      lname: signupLastName,
+      budget: 0,
       email: signupEmail,
-      name: `${signupFirstName} ${signupLastName}`,
-      budget: 200
+      password: signupPassword,
+    };
+
+    console.log("This is handleSignup method.");
+    console.log("This is what you have requested: ", newUser);
+
+    await fetch('/users/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newUser),
     })
-    // alert('signed up')
-    dispatch(userSignup(testUser))
-    dispatch(toggleLoginModal(''))
+      .then(res => res.json())
+      .then(res => {
+        setUser(res);
+        console.log("Current User: ", user);
+        dispatch(userSignup(res));
+        dispatch(toggleLoginModal(''));
+        // props.history.push("/dashboard");
+        // window.location.href = "http://localhost:3000/dashboard";
+      })
+      .catch(err => {
+        console.log(err);
+        alert("Failed to signup! Please try again.");
+        window.location.replace("http://localhost:3000/");
+        // window.location.href = "http://localhost:3000/";
+        // props.history.push("/");
+      })
   }
 
   const redirectLogin = () => {
@@ -64,13 +121,15 @@ function LoginSignup(props) {
       <label>Email</label>
       <input className='login-email-input' value={loginEmail} onChange={(e) => {
         setLoginEmail(e.target.value)
-        console.log(e.target.value, { loginEmail })
       }} />
       <label>Password</label>
       <input type='password' className='login-password-input last-form-input' value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} />
-      <Link to='/dashboard' className='login-submit-link'>
+      {/* <NavLink to={props.isLoggedIn ? '/dashboard' : '/'} className='login-submit-link'> */}
+      {/* <NavLink to='/' className='login-submit-link'> */}
+      {/* <NavLink to='/dashboard' className='login-submit-link'> */}
+      <NavLink to='/dashboard' className='login-submit-link'>
         <button type='button' className='login-submit-button' onClick={handleLogin}>GO!</button>
-      </Link>
+      </NavLink>
       {/* <button type='button' className='login-submit-button' onClick={handleLogin}>GO!</button> */}
     </form>
 
@@ -85,11 +144,11 @@ function LoginSignup(props) {
       <label>Password</label>
       <input type='password' className='signup-password-input' value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} />
       <label>Confirm Password</label>
-      <input type='password' className='signup-password-confirm-input' />
+      <input type='password' className='signup-password-confirm-input' value={signupPassword2} onChange={(e) => setSignupPassword2(e.target.value)} />
       <div className='login-submit-button-wrapper'>
-        <Link to='/dashboard' className='login-submit-link'>
+        <NavLink to='/dashboard' className='login-submit-link'>
           <button className='login-submit-button' onClick={handleSignup}>SIGN ME UP!</button>
-        </Link>
+        </NavLink>
       </div>
     </form>
 

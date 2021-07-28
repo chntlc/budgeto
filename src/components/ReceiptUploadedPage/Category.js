@@ -1,12 +1,12 @@
 import "./Category.css";
 
 function Category(props) {
-  const { iconImg, iconAlt, iconColour, clickEvent } = props;
+  const { iconAlt, color, iconImg, clickEvent } = props;
 
   return (
     <div
       className="categoryIcon"
-      style={{ backgroundColor: iconColour }}
+      style={{ backgroundColor: color }}
       onClick={clickEvent}
     >
       <img src={iconImg} alt={iconAlt} />

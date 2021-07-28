@@ -11,6 +11,9 @@ const viewSlice = createSlice({
     periodStart: "",
     periodEnd: "",
     reportBtnEnabled: false,
+    // dailyValues: new Map(),
+    // monthlyValues: new Map(),
+    // needUpdate: false,
   },
   reducers: {
     toggleMode: (state, action) => {

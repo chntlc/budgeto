@@ -5,11 +5,11 @@ const globalSlice = createSlice({
   initialState: {
     isLoggedIn: false,
     user: {
-      id: 'budgeto.io',
-      fname: 'Kevin',
-      lname: 'Lee',
+      _id: '',
+      fname: '',
+      lname: '',
       budget: 0,
-      email: 'budgeto@gmail.com',
+      email: '',
     },
     showLoginModal: '',  // can be: login, signup, or ''
     showSettingsModal: '' // can be: settings or ''
@@ -21,6 +21,8 @@ const globalSlice = createSlice({
       console.log('hit userLogin action')
       state.user = action.payload
       state.isLoggedIn = true
+      console.log("user state updated in globalSlice");
+      // window.location.href = "http://localhost:3000/dashboard";
     },
     userSignup: (state, action) => {
       console.log({ action })
@@ -34,7 +36,6 @@ const globalSlice = createSlice({
     updateUser: (state, action) => {
       console.log('hit updateUser action')
 
-      state.user.id = action.payload.id;
       state.user.fname = action.payload.fname;
       state.user.lname = action.payload.lname;
       state.user.budget = action.payload.budget;

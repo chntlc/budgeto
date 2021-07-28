@@ -2,6 +2,7 @@ import React from "react";
 import { Calendar } from "antd";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import moment from "moment";
 import {
   toggleMode,
@@ -10,6 +11,8 @@ import {
   toggleCalendarMode,
   toggleReportBtn,
 } from "../features/viewSlice";
+import CalendarDayCell from "./CalendarDayCell";
+import CalendarMonthCell from "./CalendarMonthCell";
 
 class ViewCalendar extends React.Component {
   constructor(props) {
@@ -29,82 +32,98 @@ class ViewCalendar extends React.Component {
   }
 
   toggleMode(value, mode) {
-    this.props.dispatch(toggleCalendarMode(mode));
-    if (mode === "month") {
-      this.onDateSelect(value);
-    } else {
-      this.onMonthSelect(value);
+    if (mode !== this.props.calendarMode) {
+      this.props.dispatch(toggleCalendarMode(mode));
+      if (mode === "month") {
+        this.onDateSelect(value);
+      } else {
+        this.onMonthSelect(value);
+      }
     }
   }
 
   onDateSelect(value) {
+    this.props.dispatch(toggleReportBtn(false));
     this.props.dispatch(selectDay(value.format("YYYY-MM-DD")));
-    if (this.getDailyData(value) !== 0) {
-      this.props.dispatch(toggleReportBtn(true));
-    } else {
-      this.props.dispatch(toggleReportBtn(false));
-    }
+    this.getDailyData(value).then((val) => {
+      if (val !== 0) {
+        this.props.dispatch(toggleReportBtn(true));
+      }
+    });
   }
 
   onMonthSelect(value) {
+    this.props.dispatch(toggleReportBtn(false));
     this.props.dispatch(selectMonth(value.format("YYYY-MM-DD")));
-    if (this.getMonthlyData(value) !== 0) {
-      this.props.dispatch(toggleReportBtn(true));
-    } else {
-      this.props.dispatch(toggleReportBtn(false));
-    }
+    this.getMonthlyData(value).then((val) => {
+      if (val !== 0) {
+        this.props.dispatch(toggleReportBtn(true));
+      }
+    });
   }
 
-  getDailyData(value) {
+  async getDailyData(value) {
     const year = value.year(),
       // month value range 0-11
       month = value.month() + 1,
       day = value.date();
+    let spending = 1;
     if (month !== moment(this.props.selectedDate).month() + 1) {
-      return 0;
+      spending *= -1;
     }
-    //mock data, will create http request eventually
-    if (year === 2021 && month === 6 && day === 1) {
-      return 100;
-    }
-    if (year === 2021 && month === 6 && day === 24) {
-      return 140;
-    }
-    if (year === 2021 && month === 4 && day === 4) {
-      return 42;
-    }
-    return 0;
+
+    const date = `${year}-${month < 10 ? "0" + month : month}-${
+      day < 10 ? "0" + day : day
+    }`;
+
+    return await axios
+      .get(`http://localhost:3001/view/dailyspend/${this.props.userId}/${date}`)
+      .then((result) => {
+        const dailySpend =
+          result.data.dailyspend !== 0
+            ? parseFloat(result.data.dailyspend.$numberDecimal)
+            : 0;
+        return spending * dailySpend;
+      });
   }
 
-  getMonthlyData(value) {
+  async getMonthlyData(value) {
     const year = value.year(),
       // month value range 0-11
       month = value.month() + 1;
-    if (year === 2021 && month === 4) {
-      return 42;
-    }
-    if (year === 2021 && month === 6) {
-      return 240;
-    }
-    return 0;
+
+    const date = `${year}-${month < 10 ? "0" + month : month}-01`;
+
+    return await axios
+      .get(
+        `http://localhost:3001/view/monthlyspend/${this.props.userId}/${date}`
+      )
+      .then((result) => {
+        const monthlySpend =
+          result.data.monthlyspend !== 0
+            ? parseFloat(result.data.monthlyspend.$numberDecimal)
+            : 0;
+        return monthlySpend;
+      });
   }
 
   dateCellRender(value) {
-    const dailySpend = this.getDailyData(value);
-    console.log("rendered");
     return (
-      <div className="calendar__cell">
-        <span>{dailySpend === 0 ? "" : `$${dailySpend}`}</span>
-      </div>
+      <CalendarDayCell
+        userId={this.props.userId}
+        selectedDate={this.props.selectedDate}
+        date={value}
+      />
     );
   }
 
   monthCellRender(value) {
-    const monthlySpend = this.getMonthlyData(value);
     return (
-      <div className="calendar__cell">
-        <span>{monthlySpend === 0 ? "" : `$${monthlySpend}`}</span>
-      </div>
+      <CalendarMonthCell
+        userId={this.props.userId}
+        selectedDate={this.props.selectedDate}
+        date={value}
+      />
     );
   }
 
@@ -155,6 +174,7 @@ function mapStateToProps(state) {
     selectedDate: state.view.selectedDate,
     selectedMonth: state.view.selectedMonth,
     reportBtnEnabled: state.view.reportBtnEnabled,
+    userId: state.global.user._id,
   };
 }
 

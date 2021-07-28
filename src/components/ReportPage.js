@@ -1,15 +1,27 @@
 import React from "react";
 import moment from "moment";
 import { connect } from "react-redux";
-import { Carousel } from "antd";
-import { Pie, Line } from "react-chartjs-2";
+import { Carousel, Spin } from "antd";
 import { FaArrowLeft } from "react-icons/fa";
 import "../css/ReportPage.css";
 import { Link } from "react-router-dom";
+import ReportPieChart from "./ReportPieChart";
+import ReportLineGraph from "./ReportLineGraph";
+import {
+  toggleLineReady,
+  togglePieReady,
+  toggleReportReady,
+} from "../features/reportSlice";
 
 class ReportPage extends React.Component {
   constructor(props) {
     super();
+  }
+
+  componentDidMount() {
+    this.props.dispatch(togglePieReady(false));
+    this.props.dispatch(toggleLineReady(false));
+    this.props.dispatch(toggleReportReady(false));
   }
 
   isSingleDayReport() {
@@ -18,6 +30,18 @@ class ReportPage extends React.Component {
       (mode === "calendar" && calendarMode === "month") ||
       (mode === "custom-range" && periodStart === periodEnd)
     );
+  }
+
+  isReportReady() {
+    if (this.isSingleDayReport()) {
+      this.props.dispatch(toggleReportReady(this.props.pieReady));
+      return this.props.pieReady;
+    } else {
+      this.props.dispatch(
+        toggleReportReady(this.props.pieReady && this.props.lineReady)
+      );
+      return this.props.pieReady && this.props.lineReady;
+    }
   }
 
   dateTextHelper() {
@@ -39,63 +63,6 @@ class ReportPage extends React.Component {
   }
 
   render() {
-    const pieOptions = {
-      plugins: {
-        labels: {
-          render: "percentage",
-          fontColor: "black",
-          precision: 2,
-        },
-        legend: {
-          position: "bottom",
-        },
-      },
-
-      maintainAspectRatio: false,
-    };
-
-    const pieData = {
-      labels: ["Food", "Groceries", "Entertainment", "etc."],
-      datasets: [
-        {
-          label: "Spendings per Category ($)",
-          data: [12, 15, 7, 3],
-          backgroundColor: [
-            "rgba(54, 162, 235, 0.5)",
-            "rgba(175, 42, 42, 0.5)",
-            "rgba(153, 102, 255, 0.5)",
-            "rgba(255, 206, 86, 0.5)",
-          ],
-          hoverOffset: 4,
-        },
-      ],
-    };
-
-    const lineData = {
-      labels: ["1", "2", "3", "4", "5", "6"],
-      datasets: [
-        {
-          label: "Spendings",
-          data: [12, 19, 3, 5, 2, 3],
-          fill: false,
-          backgroundColor: "rgb(255, 99, 132)",
-          borderColor: "rgba(255, 99, 132, 0.2)",
-        },
-      ],
-    };
-    const lineOptions = {
-      maintainAspectRatio: false,
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-            },
-          },
-        ],
-      },
-    };
-
     return (
       <div className="reportpage page-content">
         <div className="reportpage__goback">
@@ -107,21 +74,30 @@ class ReportPage extends React.Component {
         <span className="reportpage__title">
           Here is your report ({this.dateTextHelper()}):
         </span>
-        {this.isSingleDayReport() ? (
-          <div className="reportpage__chartArea">
-            <Pie data={pieData} options={pieOptions} />
+        {this.isReportReady() ? null : (
+          <div className="reportpage__loading">
+            <Spin />
           </div>
+        )}
+        {this.isSingleDayReport() ? (
+          <ReportPieChart
+            userId={this.props.user}
+            isSingleDay={true}
+            date={this.dateTextHelper()}
+          />
         ) : (
           <Carousel dotPosition="right">
-            <div className="reportpage__chartArea">
-              <Pie data={pieData} options={pieOptions} />
-            </div>
+            <ReportPieChart
+              userId={this.props.user}
+              isSingleDay={false}
+              date={this.dateTextHelper()}
+            />
 
-            <div className="reportpage__chartArea">
-              <div>
-                <Line data={lineData} options={lineOptions} />
-              </div>
-            </div>
+            <ReportLineGraph
+              userId={this.props.user}
+              isSingleDay={false}
+              date={this.dateTextHelper()}
+            />
           </Carousel>
         )}
       </div>
@@ -131,12 +107,16 @@ class ReportPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    user: state.global.user._id,
     mode: state.view.mode,
     calendarMode: state.view.calendarMode,
     selectedDate: state.view.selectedDate,
     selectedMonth: state.view.selectedMonth,
     periodStart: state.view.periodStart,
     periodEnd: state.view.periodEnd,
+    reportReady: state.report.reportReady,
+    pieReady: state.report.pieReady,
+    lineReady: state.report.lineReady,
   };
 }
 
