@@ -1,6 +1,7 @@
-# broke.io
+# Budgeto
 
 ## Project Description
+Budgeto is a web application to assist individuals who want to manage their expenses and gain clear insights into their spending patterns. Seamlessly upload your receipts, edit & filter items by categories, and view the trends of your expenses. See more. Spend less. Budgeto.
 
 ### Who is it for?
 * People who want to see their spending behaviour
@@ -32,18 +33,19 @@
 * Choose a category
 * Ability to enter receipt info
 * Set a budget
-* See spending: daily, weekly, monthly (in a plain format)
+* See spending: daily, monthly (in a plain format)
 
 ### "Standard" Requirements (3-7)
 * Pie graph for spending
-* Bar graph for spending
-* Parse a receipt from an image
-* Warning messages for approaching budget 
-     * Notifications
+* Line chart for spending
+* Show weekly summary on dashboard
 * Calendar to show total spending
-     * Pick a date or specific timeframe (day, week, month)
+     * Pick a date or specific timeframe (day, month & custom range)
 
 ### Stretch Requirements (2-3)
+* Warning messages for approaching budget 
+     * Notifications
+* Parse a receipt from an image
 * Create some kind of grocery list
      * Based on analytics
 * Generate suggestions
