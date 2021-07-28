@@ -27,7 +27,7 @@ app.use(express.static(path.resolve(__dirname, '../build')));
 // All other GET requests not handled before will return our React app
 app.get('/', (req, res) => {
   console.log("app.get request called");
-  res.sendFile(path.resolve(__dirname, '../build', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../build'));
 });
 
 app.use(logger("dev"));
