@@ -106,22 +106,6 @@ function LoginSignup(props) {
       ],
     };
 
-    // const newUser = {
-    //   "username": "test@example.com",
-    //   "password": "1234",
-    //   "fname": "Kevin",
-    //   "lname": "Lee",
-    //   "budget": "0",
-    //   "category_ids": [
-    //     "60f290e8ce75a0e1c42e404c",
-    //     "60f2afba040b34ebc74be130",
-    //     "60f2b0fed9e4daec224be7aa",
-    //     "60f2cbd65e51f2f481a0698f",
-    //     "60f2cd9bc034faf55bde2154",
-    //     "60f3567428727ffd6263757d"
-    //   ]
-    // }
-
     console.log("This is handleSignup method.");
     console.log("This is what you have requested: ", newUser);
 
@@ -177,13 +161,9 @@ function LoginSignup(props) {
       }} />
       <label>Password</label>
       <input type='password' className='login-password-input last-form-input' value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} />
-      {/* <NavLink to={props.isLoggedIn ? '/dashboard' : '/'} className='login-submit-link'> */}
-      {/* <NavLink to='/' className='login-submit-link'> */}
-      {/* <NavLink to='/dashboard' className='login-submit-link'> */}
       <NavLink to='/dashboard' className='login-submit-link'>
         <button type='button' className='login-submit-button' onClick={handleLogin}>GO!</button>
       </NavLink>
-      {/* <button type='button' className='login-submit-button' onClick={handleLogin}>GO!</button> */}
     </form>
 
   const signupForm =

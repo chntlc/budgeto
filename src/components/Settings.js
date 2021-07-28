@@ -158,8 +158,6 @@ function Settings(props) {
       </div>
     </form>
 
-  // <button className="setting-submit-button" onClick={handleLogout}>Logout</button>
-
   return (
     <Modal
       header={(<React.Fragment>
