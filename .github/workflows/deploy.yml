@@ -1,17 +1,24 @@
-name: Deploy to Heroku
-
+# Workflow to deploy app to heroku
+name: heroku-deploy
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main, deploy ]
+    branches: [test-deploy]
 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12 # Action: akhileshns/heroku-deploy@v3.12.12
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Deploy Heroku
+        uses: akhileshns/heroku-deploy@v3.0.0
         with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          branch: "deploy"
+          heroku_api_key: ${{secrets.HEROKU_API_KEY_TEST}}
+          heroku_app_name: "test-budgeto"
+          heroku_email: "chantaalchung@gmail.com"
