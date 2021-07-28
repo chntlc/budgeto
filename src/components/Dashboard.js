@@ -27,7 +27,7 @@ function DashboardContent(props) {
     moneyDiff = userBudget - userSpending,
     mostSpentCat = props.mostSpentCategory;
 
-  return userContext.token ? (
+  return (
     <Row gutter={16} className='dashboard-row-content'>
       <Col span={20} offset={2}>
         <Card className='card' title={`👋 \u00A0\u00A0\u00A0\u00A0Hey, \u00A0\u00A0${userName}! `} loading={props.isLoading} >
@@ -58,13 +58,6 @@ function DashboardContent(props) {
         </Card>
       </Col>
     </Row>
-  ) : (
-    <section className="home-section">
-      <div className="helper"></div><div className="vertical-center">
-        <Slogan />
-        <StartSaving />
-      </div>
-    </section>
   )
 }
 

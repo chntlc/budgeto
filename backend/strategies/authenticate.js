@@ -1,7 +1,11 @@
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+
+if (process.env.NODE_ENV !== "production") {
+  // Load environment variables from .env file in non prod environments
+  require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+}
 
 const dev = process.env.NODE_ENV !== "production"
 
