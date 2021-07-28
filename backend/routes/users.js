@@ -116,10 +116,10 @@ router.patch("/settings", function (req, res, next) {
   const findUpdateUser = (hash) => {
     // only update fields if they've changed
     const $set = {};
-    if (req.body.email) $set.req.body.email;
-    if (req.body.fname) $set.req.body.fname;
-    if (req.body.lname) $set.req.body.lname;
-    if (req.body.budget) $set.req.body.budget;
+    if (req.body.email) $set.email = req.body.email;
+    if (req.body.fname) $set.fname = req.body.fname;
+    if (req.body.lname) $set.lname = req.body.lname;
+    if (req.body.budget) $set.budget = req.body.budget;
     if (req.body.password) $set.password = hash;
 
     User.findOneAndUpdate(
