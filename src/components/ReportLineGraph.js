@@ -21,7 +21,7 @@ function ReportLineGraph(props) {
       };
       console.log({ params });
       axios
-        .get(`http://localhost:3001/report/linedata/${props.userId}`, {
+        .get(`/report/linedata/${props.userId}`, {
           params,
         })
         .then((result) => {

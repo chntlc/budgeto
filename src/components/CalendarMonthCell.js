@@ -17,7 +17,7 @@ function CalendarMonthCell(props) {
     const date = `${year}-${month < 10 ? "0" + month : month}-01`;
 
     axios
-      .get(`http://localhost:3001/view/monthlyspend/${props.userId}/${date}`)
+      .get(`/view/monthlyspend/${props.userId}/${date}`)
       .then((result) => {
         const monthlySpend =
           result.data.monthlyspend !== 0
