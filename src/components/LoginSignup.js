@@ -8,13 +8,6 @@ import { UserContext } from "./context/UserContext"
 
 function LoginSignup(props) {
   const dispatch = useDispatch()
-  const [user, setUser] = useState({
-    _id: '',
-    email: '',
-    fname: '',
-    lname: '',
-    budget: 0
-  })
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
   const [signupEmail, setSignupEmail] = useState('')
@@ -65,7 +58,7 @@ function LoginSignup(props) {
         setUserContext(oldValues => {
           return { ...oldValues, token: res.token }
         });
-        setUser(res.loggedInUser);
+        // setUser(res.loggedInUser);
         dispatch(userLogin(res.loggedInUser));
         dispatch(toggleLoginModal(''));
 
@@ -123,7 +116,7 @@ function LoginSignup(props) {
         setUserContext(oldValues => {
           return { ...oldValues, token: res.token }
         });
-        setUser(res.signedUser);
+        // setUser(res.signedUser);
         dispatch(userSignup(res.signedUser));
         dispatch(toggleLoginModal(''));
 

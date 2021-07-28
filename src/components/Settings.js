@@ -17,6 +17,24 @@ function Settings(props) {
   })
   const [userContext, setUserContext] = useContext(UserContext)
 
+  useEffect(() => {
+    fetch('/users/me', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userContext.token}`,
+      }
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log("This is the useEffect method.");
+        console.log("This is the response: ", res);
+        setUser(res)
+        dispatch(updateUser(res));
+      });
+  }, []);
+
   async function handleSettingChange(event) {
     event.preventDefault();
 
@@ -57,9 +75,9 @@ function Settings(props) {
           const user = res.updatedUser;
           console.log("Updated User: ", user);
 
-
           setUser(user);
           dispatch(updateUser(user));
+          dispatch(toggleSettingsModal(''));
           alert('Settings Changed!');
         })
         .catch(err => {

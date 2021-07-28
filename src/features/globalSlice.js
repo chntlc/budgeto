@@ -39,11 +39,21 @@ const globalSlice = createSlice({
     updateUser: (state, action) => {
       console.log('hit updateUser action')
 
+      // state.user._id = action.payload._id;
       state.user.fname = action.payload.fname;
       state.user.lname = action.payload.lname;
       state.user.budget = action.payload.budget;
       state.user.username = action.payload.username;
-      state.showSettingsModal = '';
+      // state.showSettingsModal = '';
+    },
+    refreshUser: (state, action) => {
+      console.log('hit refreshUser action')
+
+      state.user._id = action.payload._id;
+      state.user.fname = action.payload.fname;
+      state.user.lname = action.payload.lname;
+      state.user.budget = action.payload.budget;
+      state.user.username = action.payload.username;
     },
     toggleLoginModal: (state, action) => {
       console.log('hit toggleLoginModal action')
@@ -57,6 +67,6 @@ const globalSlice = createSlice({
 })
 
 
-export const { userLogin, userSignup, userLogout, updateUser, toggleLoginModal, toggleSettingsModal } = globalSlice.actions
+export const { userLogin, userSignup, userLogout, updateUser, refreshUser, toggleLoginModal, toggleSettingsModal } = globalSlice.actions
 
 export default globalSlice.reducer
