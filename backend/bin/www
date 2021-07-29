@@ -10,7 +10,6 @@ var http = require("http");
 const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
 const mongoose = require("mongoose");
 
-console.log(process.env.MONGO_ID, process.env.MONGO_PW, process.env.MONGO_DB, __dirname)
 /**
  * Get port from environment and store in Express.
  */
