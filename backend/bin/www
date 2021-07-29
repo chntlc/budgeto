@@ -7,8 +7,10 @@
 var app = require("../app");
 var debug = require("debug")("backend:server");
 var http = require("http");
-// const config = require("./config");
+const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
 const mongoose = require("mongoose");
+
+console.log(process.env.MONGO_ID, process.env.MONGO_PW, process.env.MONGO_DB, __dirname)
 /**
  * Get port from environment and store in Express.
  */
@@ -20,6 +22,19 @@ app.set("port", port);
  * Create HTTP server.
  */
 var server = http.createServer(app);
+
+// let connectionString;
+
+// if (process.env.MONGO_ID && process.env.MONGO_PW && process.env.MONGO_DB) {
+//   console.log('if')
+//   connectionString = `mongodb+srv://${process.env.MONGO_ID}:${process.env.MONGO_PW}@budgeto.irn1u.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+// } else {
+//   console.log('else')
+//   const config = require("./config");
+//   connectionString = `mongodb+srv://${config.mongoId}:${config.mongoPw}@budgeto.irn1u.mongodb.net/${config.mongoDb}?retryWrites=true&w=majority`;
+// }
+
+// console.log(connectionString)
 
 /**
  * Connect to Database and Listen on provided port, on all network interfaces.
