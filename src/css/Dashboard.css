@@ -1,0 +1,100 @@
+@import url("App.css");
+
+.dashboard__greeting {
+  display: flex;
+  align-items: center;
+}
+
+.card img {
+  width: 5vw;
+  height: 5vw;
+  border-radius: 50%;
+  /* box-shadow: 0px 5px 10px; */
+}
+
+.card span {
+  margin-left: 2vw;
+  font-size: 3vw;
+  font-family: "Baloo";
+  color: var(--purple);
+}
+
+.dashboard__report {
+  /* margin-left: 12vw; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard__report p {
+  margin: 15px 0px;
+  font-size: 1.5vw;
+  color: var(--purple);
+}
+
+.dashboard__report .green {
+  color: #29bb89;
+}
+
+.dashboard__report .red {
+  color: tomato;
+}
+
+.dashboard__report .brown {
+  color: #cc9955;
+}
+
+.dashboard__report .blue {
+  color: #3088c8;
+}
+
+.dashboard__border {
+  margin: 5vh 0px;
+  background-color: black;
+  height: 5px;
+}
+
+.dashboard__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20vh;
+  padding: 0 100px;
+}
+
+.dashboard__btn {
+  text-decoration: none;
+  margin: 0px 2vw;
+  color: white;
+  /* box-shadow: 0px 5px 15px black; */
+  font-size: 1.5vw;
+  border-radius: 20px;
+  padding: 3vh 5vw;
+  background-color: var(--light-pink);
+  transition: background-color 0.4s ease-in-out;
+}
+
+.dashboard__btn:focus {
+  border: none;
+}
+
+.dashboard__btn:hover {
+  background-color: var(--light-purple);
+  transition: background-color 0.4s ease-in-out;
+  color: white;
+}
+
+.dashboard-row-content {
+  margin-top: 100px;
+}
+
+.dashboard-row-content .ant-card-head-title {
+  margin-left: 2vw;
+  font-size: 3vw;
+  font-family: "Baloo";
+  color: var(--purple);
+}
+
+hr {
+  border-top: 0.5px solid var(--light-orange);
+}

@@ -4,10 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
-/bin/config
-/client/node_modules
-/uploads/
-.env
+/backend/node_modules
+/backend/bin/config
+/backend/uploads/
 
 # testing
 /coverage
