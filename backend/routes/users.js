@@ -3,8 +3,24 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const userSchema = require("../schemas/Users");
 const bcrypt = require("bcrypt");
+const fs = require("fs");
+const multer = require("multer");
+var path = require("path");
 
 const saltRounds = 10;
+
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    var dirName = path.join(process.cwd(), "../profilePics/");
+    console.log({ dirName });
+    if (!fs.existsSync(dirName)) {
+      fs.mkdirSync(dirName);
+    }
+    cb(null, dirName);
+  },
+});
+
+var upload = multer({ storage: storage });
 
 // Level 2: Database Encryption
 // const encrypt = require("mongoose-encryption");
@@ -46,6 +62,7 @@ router.post("/login", function (req, res, next) {
               lname: foundUser.lname,
               email: foundUser.email,
               budget: foundUser.budget,
+              profileImg: foundUser.profileImg,
             };
             res.json(filteredUser);
           } else {
@@ -70,6 +87,7 @@ router.post("/signup", function (req, res, next) {
       fname: req.body.fname,
       lname: req.body.lname,
       budget: req.body.budget,
+      profileImg: req.body.profileImg,
       password: hash,
       category_ids: [
         "60f290e8ce75a0e1c42e404c",
@@ -94,6 +112,7 @@ router.post("/signup", function (req, res, next) {
           "email",
           "budget",
           "category_ids",
+          "profileImg",
         ];
         User.findById(savedUser.id, returningFields, function (err, docs) {
           console.log("This is the saved User with specified fields: ", docs);
@@ -108,44 +127,60 @@ router.post("/signup", function (req, res, next) {
   });
 });
 
-router.patch("/settings", function (req, res, next) {
-  const userToChange = req.body;
-  console.log("This is PATCH method to /users/settings");
-  console.log("This is what you have requested: ", userToChange);
-  bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-    User.findOneAndUpdate(
-      { _id: userToChange._id },
-      {
-        $set: {
-          email: req.body.email,
-          fname: req.body.fname,
-          lname: req.body.lname,
-          budget: req.body.budget,
-          password: hash,
-        },
-      },
-      { returnOriginal: false }
-    ).then((updatedUser) => {
-      console.log("This is the updated User: ", updatedUser);
+router.patch(
+  "/settings",
+  upload.single("profileImg"),
+  function (req, res, next) {
+    console.log("hello");
+    const userToChange = req.body;
+    console.log("This is PATCH method to /users/settings");
+    console.log("This is what you have requested: ", userToChange);
+    let profileImg = "";
 
-      const returningFields = [
-        "_id",
-        "fname",
-        "lname",
-        "email",
-        "budget",
-        "category_ids",
-      ];
-      User.findById(updatedUser.id, returningFields, function (err, docs) {
-        console.log("This is the updated User with specified fields: ", docs);
-        res.json(docs);
-      }).catch((err) => {
-        console.log(err);
-        res.status(400).send("Bad Requests!");
-        // res.redirect(400, "http://localhost:3000/dashboard");
+    if (req.file) {
+      const icon_img_buffer = fs.readFileSync(req.file.path);
+      const icon_img_type = req.file.mimetype;
+      let binary = icon_img_buffer.toString("base64");
+      profileImg = `data:${icon_img_type};base64,${binary}`;
+    }
+
+    bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+      User.findOneAndUpdate(
+        { _id: userToChange._id },
+        {
+          $set: {
+            email: req.body.email,
+            fname: req.body.fname,
+            lname: req.body.lname,
+            budget: req.body.budget,
+            profileImg: profileImg,
+            password: hash,
+          },
+        },
+        { returnOriginal: false }
+      ).then((updatedUser) => {
+        console.log("This is the updated User: ", updatedUser);
+
+        const returningFields = [
+          "_id",
+          "fname",
+          "lname",
+          "email",
+          "budget",
+          "category_ids",
+          "profileImg",
+        ];
+        User.findById(updatedUser.id, returningFields, function (err, docs) {
+          console.log("This is the updated User with specified fields: ", docs);
+          res.json(docs);
+        }).catch((err) => {
+          console.log(err);
+          res.status(400).send("Bad Requests!");
+          // res.redirect(400, "http://localhost:3000/dashboard");
+        });
       });
     });
-  });
-});
+  }
+);
 
 module.exports = router;

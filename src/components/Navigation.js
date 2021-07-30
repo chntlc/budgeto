@@ -1,9 +1,8 @@
 import React from "react";
 import "../css/Navbar.css";
 import Logo from "../images/logo.png";
-import ProfilePic from "../images/profile.png";
+import ProfilePic from "../images/defaultProfile.jpg";
 import { NavLink } from "react-router-dom";
-import NavBarProfile from "./NavBarProfile";
 import LoginSignup from "./LoginSignup";
 import Settings from "./Settings";
 import { connect, useDispatch } from "react-redux";
@@ -12,7 +11,7 @@ import { toggleSettingsModal } from "../features/globalSlice";
 
 function Navigation(props) {
   const dispatch = useDispatch();
-  const pages = props.pages;
+  const { pages, profileImg } = props;
 
   const handleLoginSignup = () => {
     dispatch(toggleLoginModal("login"));
@@ -22,10 +21,7 @@ function Navigation(props) {
     dispatch(toggleSettingsModal("settings"));
   };
 
-  const userImgUrl =
-    "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png";
-
-  const userImg = ProfilePic;
+  const userImg = profileImg === "" ? ProfilePic : profileImg;
 
   return (
     <React.Fragment>
@@ -79,14 +75,12 @@ function Navigation(props) {
   );
 }
 
-// Below props.loggedIn ?
-/* <NavBarProfile key="profile" imgUrl={userImgUrl} onClick={handleSettings} /> */
-
 const mapStateToProps = (state) => {
   return {
     showLoginModal: state.global.showLoginModal,
     showSettingsModal: state.global.showSettingsModal,
     isLoggedIn: state.global.isLoggedIn,
+    profileImg: state.global.user.profileImg,
   };
 };
 
