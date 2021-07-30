@@ -46,6 +46,7 @@ const initialState = {
   ],
   status: "idle",
   error: null,
+  submitStatus: null,
 };
 
 function arrayBufferToBase64(category) {
@@ -134,6 +135,33 @@ export const deleteCategory = createAsyncThunk(
     return response.data;
   }
 );
+
+// submit what is already in store
+export const addItemsToCategories = createAsyncThunk(
+  'categories/addItemsToCategories', async (user_id, categories) => {
+    const currentDate = new Date();
+
+    // TODO: figure out receipt id?
+
+    const allItems = [];
+
+    categories.forEach((category) => {
+      category.items.forEach((item) => {
+        // organize item object so it matches DB
+        item.category_id = category.categoryId;
+        item.user_id = user_id;
+        item.date = currentDate;
+        allItems.push(item);
+        // assuming all the other fields: name, price, qty are correct
+      })
+    })
+
+    const response = await axios.post(`http://localhost:3001/receipts/items`, {
+      items: allItems
+    })
+
+    return response.data
+  })
 
 const categorySlice = createSlice({
   name: "categories",
@@ -257,6 +285,15 @@ const categorySlice = createSlice({
       if (targetCategoryIndex !== -1) {
         state.categories.splice(targetCategoryIndex, 1);
       }
+    },
+    [addItemsToCategories.pending]: (state, action) => {
+      state.submitStatus = "loading";
+    },
+    [addItemsToCategories.fulfilled]: (state, action) => {
+      state.submitStatus = "succeeded";
+    },
+    [addItemsToCategories.rejected]: (state, action) => {
+      state.status = "failed";
     },
   },
 });

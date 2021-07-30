@@ -5,6 +5,7 @@ import "./ReceiptUploadedPage.css";
 import { useState } from "react";
 import { connect, useSelector, useDispatch } from "react-redux";
 import {
+  addItemsToCategories,
   addItemToCategory,
   deleteItemFromCategory,
   getCategories,
@@ -12,7 +13,7 @@ import {
 } from "../../features/categorySlice";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function ReceiptUploadedPage(props) {
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ function ReceiptUploadedPage(props) {
     },
   ];
   const [items, updateItems] = useState(props.items);
+  const history = useHistory();
 
   useEffect(() => {
     if (categoriesStatus === "idle") {
@@ -179,6 +181,12 @@ function ReceiptUploadedPage(props) {
 
   function handleSubmitItems() {
     // TODO: call API
+    dispatch(addItemsToCategories(user_id, props.categories))
+    // also clear all items from form if success
+    if (props.submitStatus === 'succeeded') {
+      // TODO: clear items from categories
+      // TODO: clear items from receiptSlice
+    }
   }
 
   return (
@@ -187,7 +195,7 @@ function ReceiptUploadedPage(props) {
         <Link to='/add' className='back-button'>
           Back
       </Link>
-        <Link to='/dashboard' className='submit-button' onClick={handleSubmitItems}>
+        <Link to={props.submitStatus === 'succeeded' ? '/dashboard' : 'receiptUploaded'} className='submit-button' onClick={handleSubmitItems}>
           Submit
       </Link>
       </div>
@@ -209,6 +217,8 @@ function ReceiptUploadedPage(props) {
 const mapStateToProps = (state) => {
   return {
     items: state.receipt.items,
+    categories: state.categories.categories,
+    submitStatus: state.categories.submitStatus
   };
 };
 

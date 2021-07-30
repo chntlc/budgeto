@@ -3,12 +3,21 @@ import axios from 'axios'
 
 // export const addItems = createAsyncThunk('receipt/addItems', async (items) => {
 
-//   const response = await axios.post(`http://localhost:3001/receipt/items/`, {
+//   const response = await axios.post(`http://localhost:3001/receipts/items/`, {
 //     items
 //   })
 
 //   return response.data
 // })
+
+export const addReceipt = createAsyncThunk('receipt/addReceipt', async (receipt) => {
+
+  const response = await axios.post(`http://localhost:3001/receipts/receipt`, {
+    receipt
+  })
+
+  return response.data
+})
 
 const receiptSlice = createSlice({
   name: 'receipt',
