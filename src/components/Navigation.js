@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import "../css/Navbar.css";
 import Logo from "../images/logo.png";
 import ProfilePic from "../images/profile.png";
@@ -14,7 +14,6 @@ import { toggleSettingsModal } from "../features/globalSlice";
 function Navigation(props) {
   const dispatch = useDispatch();
   const pages = props.pages;
-
   const [userContext, setUserContext] = useContext(UserContext);
 
   const handleLoginSignup = () => {
@@ -89,7 +88,6 @@ const mapStateToProps = (state) => {
   return {
     showLoginModal: state.global.showLoginModal,
     showSettingsModal: state.global.showSettingsModal,
-    isLoggedIn: state.global.isLoggedIn,
   };
 };
 

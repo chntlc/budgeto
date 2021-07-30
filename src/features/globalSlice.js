@@ -54,6 +54,7 @@ const globalSlice = createSlice({
       state.user.lname = action.payload.lname;
       state.user.budget = action.payload.budget;
       state.user.username = action.payload.username;
+      state.isLoggedIn = true;
     },
     toggleLoginModal: (state, action) => {
       console.log('hit toggleLoginModal action')

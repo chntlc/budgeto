@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import DashboardBtn from "./DashboardBtn";
-import Slogan from './Slogan';
-import StartSaving from './StartSaving';
 import { UserContext } from "./context/UserContext"
 import "../css/Dashboard.css";
 import "../images/profile.png";

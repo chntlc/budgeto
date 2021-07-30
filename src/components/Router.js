@@ -8,11 +8,13 @@ import ReceiptUploadedPage from "./ReceiptUploadedPage/ReceiptUploadedPage";
 import ReportPage from "./ReportPage";
 import AddPage from "./AddReceiptPage/AddPage";
 import { UserContext } from "./context/UserContext";
+import { connect, useDispatch } from 'react-redux';
+import { refreshUser } from "../features/globalSlice";
 
 function Router(props) {
   // How to go back to previous page: https://stackoverflow.com/questions/30915173/react-router-go-back-a-page-how-do-you-configure-history
   // Another doc: https://stackoverflow.com/questions/46681387/react-router-v4-how-to-go-back
-
+  const dispatch = useDispatch()
   const pages = props.pages;
   const [userContext, setUserContext] = useContext(UserContext)
 
@@ -27,6 +29,7 @@ function Router(props) {
         setUserContext(oldValues => {
           return { ...oldValues, token: data.token }
         })
+        dispatch(refreshUser(data.refreshedUser))
       } else {
         setUserContext(oldValues => {
           return { ...oldValues, token: null }
@@ -72,4 +75,10 @@ function Router(props) {
   );
 }
 
-export default Router;
+const mapStateToProps = (state) => {
+  return {
+    user: state.global.user
+  }
+}
+
+export default connect(mapStateToProps)(Router);

@@ -3,7 +3,7 @@ import Modal from './Modal'
 import '../css/Settings.css'
 import { UserContext } from "./context/UserContext"
 import { Link, NavLink } from "react-router-dom"
-import { updateUser, userLogout, toggleSettingsModal } from "../features/globalSlice"
+import { refreshUser, updateUser, userLogout, toggleSettingsModal } from "../features/globalSlice"
 import { connect, useDispatch } from 'react-redux'
 
 function Settings(props) {
@@ -28,10 +28,10 @@ function Settings(props) {
     })
       .then(res => res.json())
       .then(res => {
-        console.log("This is the useEffect method.");
-        console.log("This is the response: ", res);
+        console.log("This is the useEffect method.")
+        console.log("This is the response: ", res)
         setUser(res)
-        dispatch(updateUser(res));
+        dispatch(refreshUser(res))
       });
   }, []);
 
