@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import Modal from './Modal'
 import '../css/LoginSignup.css'
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { toggleLoginModal, userLogin, userSignup } from "../features/globalSlice";
 import { connect, useDispatch } from 'react-redux';
 import { UserContext } from "./context/UserContext"
@@ -16,18 +16,9 @@ function LoginSignup(props) {
   const [signupPassword2, setSignupPassword2] = useState('')
   const [signupFirstName, setSignupFirstName] = useState('')
   const [signupLastName, setSignupLastName] = useState('')
-  const [hasError, setErrors] = useState(false);
   const [error, setError] = useState("")
   const [userContext, setUserContext] = useContext(UserContext)
 
-  useEffect(() => {
-    fetch('/users')
-      .then(res => {
-        console.log("This is the useEffect method.");
-        console.log("This is the response: ", res);
-        setErrors(res)
-      });
-  }, []);
 
   async function handleLogin(event) {
     // event.preventDefault();
@@ -58,17 +49,14 @@ function LoginSignup(props) {
         setUserContext(oldValues => {
           return { ...oldValues, token: res.token }
         });
-        // setUser(res.loggedInUser);
         dispatch(userLogin(res.loggedInUser));
         dispatch(toggleLoginModal(''));
-
-        // props.history.push("/dashboard");
       })
       .catch(err => {
         setError(genericErrorMessage);
         console.log(err);
-        // alert("Wrong User credential! Please try again.");
-        // window.location.replace("http://localhost:3000/");
+        alert("Wrong User credential! Please try again.");
+        window.location.replace("http://localhost:3000/");
       });
   }
 
@@ -116,21 +104,14 @@ function LoginSignup(props) {
         setUserContext(oldValues => {
           return { ...oldValues, token: res.token }
         });
-        // setUser(res.signedUser);
         dispatch(userSignup(res.signedUser));
         dispatch(toggleLoginModal(''));
-
-        // props.history.push("/dashboard");
-        // window.location.href = "http://localhost:3000/dashboard";
       })
       .catch(err => {
         setError(genericErrorMessage);
         console.log(err);
-        // alert("Failed to signup! Please try again.");
-        // window.location.replace("http://localhost:3000/");
-
-        // window.location.href = "http://localhost:3000/";
-        // props.history.push("/");
+        alert("Failed to signup! Please try again.");
+        window.location.replace("http://localhost:3000/");
       })
   }
 

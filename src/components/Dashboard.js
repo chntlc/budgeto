@@ -1,43 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import DashboardBtn from "./DashboardBtn";
-import { UserContext } from "./context/UserContext"
 import "../css/Dashboard.css";
 import "../images/profile.png";
 import { connect, useDispatch } from 'react-redux';
 import { Row, Card, Col } from 'antd';
-import { refreshUser } from "../features/globalSlice"
 import { fetchSummary } from "../features/dashboardSlice";
 
 // TODO: add loading state until we get response from backend
 
 function DashboardContent(props) {
   const dispatch = useDispatch();
-  const [refresh, setRefresh] = useState(false);
-  const [userContext, setUserContext] = useContext(UserContext);
-  // console.log("This is userContext value in /Dashboard path:", userContext);
-
-  // useEffect(() => {
-  //   dispatch(fetchSummary(props.user._id))
-  // }, [props.user._id])
 
   useEffect(() => {
-    fetch('/users/me', {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userContext.token}`,
-      }
-    })
-      .then(res => res.json())
-      .then(res => {
-        console.log("This is the useEffect method.")
-        console.log("This is the response: ", res)
-        dispatch(refreshUser(res))
-        dispatch(fetchSummary(props.user._id))
-        setRefresh(!refresh)
-      });
-  }, [props.user._id]);
+    dispatch(fetchSummary(props.user._id))
+  }, [props.user._id])
 
 
   const userName = `${props.user.fname} ${props.user.lname}`,

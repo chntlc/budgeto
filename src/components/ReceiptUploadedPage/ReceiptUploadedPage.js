@@ -57,6 +57,11 @@ function ReceiptUploadedPage(props) {
     if (categoriesStatus === "idle") {
       dispatch(getCategories(user_id));
     }
+    // This will redirect to Add page if no items exists
+    if (props.items.length === 0) {
+      alert("You have no item to upload! Please enter them again");
+      window.location.replace("http://localhost:3000/add");
+    }
   }, [categoriesStatus, dispatch]);
 
   function handleOnDragEnd({ source, destination }) {
