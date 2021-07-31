@@ -5,13 +5,17 @@ import "./ReceiptUploadedPage.css";
 import { useState } from "react";
 import { connect, useSelector, useDispatch } from "react-redux";
 import {
+  addItemsToCategories,
   addItemToCategory,
   deleteItemFromCategory,
   getCategories,
   reorderItemInCategory,
+  clearItemsFromCategories,
 } from "../../features/categorySlice";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { clearItems } from "../../features/receiptSlice";
 
 function ReceiptUploadedPage(props) {
   const dispatch = useDispatch();
@@ -140,28 +144,52 @@ function ReceiptUploadedPage(props) {
     return selectedItem;
   }
 
+  function handleSubmitItems() {
+    // TODO: call API
+    dispatch(addItemsToCategories({ user_id, categories: props.categories }))
+    dispatch(clearItems());
+    dispatch(clearItemsFromCategories());
+    // also clear all items from form if success
+    if (props.submitStatus === 'succeeded') {
+      // TODO: clear items from categories
+      // TODO: clear items from receiptSlice
+    }
+  }
+
   return (
-    <div className="container">
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <div className="receiptView">
-          <Receipt items={items} />
-        </div>
-        <div className="categoryView">
-          <CategoryPicker categories={categories} />
-          <CategoryFilter />
-          <div className="buttonView">
-            <button id="back">Back</button>
-            <button id="finish">Finish</button>
+    <>
+      <div className="button-row-uploaded">
+        <Link to='/add' className='back-button'>
+          Back
+        </Link>
+        <Link to='/dashboard' className='submit-button' onClick={handleSubmitItems}>
+          Submit
+        </Link>
+      </div>
+      <div className="container">
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <div className="receiptView">
+            <Receipt items={items} />
           </div>
-        </div>
-      </DragDropContext>
-    </div>
+          <div className="categoryView">
+            <CategoryPicker categories={categories} />
+            <CategoryFilter />
+            <div className="buttonView">
+              <button id="back">Back</button>
+              <button id="finish">Finish</button>
+            </div>
+          </div>
+        </DragDropContext>
+      </div>
+    </>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
     items: state.receipt.items,
+    categories: state.categories.categories,
+    submitStatus: state.categories.submitStatus
   };
 };
 

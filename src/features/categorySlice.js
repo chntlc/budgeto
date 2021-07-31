@@ -10,6 +10,7 @@ const initialState = {
   categories: [],
   status: "idle",
   error: null,
+  submitStatus: null,
 };
 
 function addItemsArray(category) {
@@ -105,6 +106,41 @@ export const deleteCategory = createAsyncThunk(
   }
 );
 
+// submit what is already in store
+export const addItemsToCategories = createAsyncThunk(
+  'categories/addItemsToCategories', async ({ user_id, categories }) => {
+    console.log({ user_id, categories })
+    const currentDate = new Date();
+
+    // TODO: figure out receipt id?
+
+    const allItems = [];
+
+    categories.forEach((category) => {
+      console.log({ category })
+      category.items.forEach((item) => {
+        console.log({ item })
+        const newItem = { ...item };
+        // organize item object so it matches DB
+        newItem.category_id = category._id;
+        newItem.user_id = user_id;
+        newItem.date = currentDate;
+
+        console.log({ newItem })
+        allItems.push(newItem);
+        // assuming all the other fields: name, price, qty are correct
+      })
+    })
+
+    console.log({ allItems })
+
+    const response = await axios.post(`/receipts/items`, {
+      items: allItems
+    })
+
+    return response.data
+  })
+
 const categorySlice = createSlice({
   name: "categories",
   initialState,
@@ -148,6 +184,16 @@ const categorySlice = createSlice({
           payload: { itemIndex, categoryId },
         };
       },
+    },
+    clearItemsFromCategories: {
+      reducer: (state, action) => {
+        const categoriesCopy = [...state.categories];
+        categoriesCopy.forEach((category) => {
+          category.items = [];
+        })
+
+        state.categories = categoriesCopy;
+      }
     },
     reorderItemInCategory: {
       reducer: (state, action) => {
@@ -223,6 +269,15 @@ const categorySlice = createSlice({
         state.categories.splice(targetCategoryIndex, 1);
       }
     },
+    [addItemsToCategories.pending]: (state, action) => {
+      state.submitStatus = "loading";
+    },
+    [addItemsToCategories.fulfilled]: (state, action) => {
+      state.submitStatus = "succeeded";
+    },
+    [addItemsToCategories.rejected]: (state, action) => {
+      state.status = "failed";
+    },
   },
 });
 
@@ -230,6 +285,7 @@ export const {
   addItemToCategory,
   deleteItemFromCategory,
   reorderItemInCategory,
+  clearItemsFromCategories,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;

@@ -22,18 +22,18 @@ function CalendarDayCell(props) {
       value = 0;
     }
 
-    const date = `${year}-${month < 10 ? "0" + month : month}-${
-      day < 10 ? "0" + day : day
-    }`;
+    const date = `${year}-${month < 10 ? "0" + month : month}-${day < 10 ? "0" + day : day
+      }`;
     // if (props.dailyValues.has(date)) {
     //   setSpending(props.dailyValues.get(date));
     // } else {
     axios
       .get(`/view/dailyspend/${props.userId}/${date}`)
       .then((result) => {
+        console.log(result.dailySpend)
         const dailySpend =
           result.data.dailyspend !== 0
-            ? parseFloat(result.data.dailyspend.$numberDecimal)
+            ? parseFloat(result.data.dailyspend)
             : 0;
         setSpending(dailySpend * value);
       });

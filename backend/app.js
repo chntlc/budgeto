@@ -24,6 +24,8 @@ const dashboardRouter = require("./routes/dashboard");
 const viewRouter = require("./routes/view");
 const reportRouter = require("./routes/report");
 const categoriesRouter = require("./routes/categories");
+const receiptsRouter = require("./routes/receipts");
+
 var app = express();
 
 // view engine setup
@@ -34,7 +36,7 @@ app.set("view engine", "jade");
 app.use(express.static(path.resolve(__dirname, "../build")));
 
 // All other GET requests not handled before will return our React app
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
   console.log("app.get request called");
   res.sendFile(path.resolve(__dirname, "../build"));
 });
@@ -57,6 +59,7 @@ app.use("/dashboard", dashboardRouter);
 app.use("/view", viewRouter);
 app.use("/report", reportRouter);
 app.use("/categories", categoriesRouter);
+app.use("/receipts", receiptsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

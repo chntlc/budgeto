@@ -243,11 +243,13 @@ router.patch(
     User.findById(req.body._id).then(
       (user) => {
         console.log("Found user during /users/settings POST METHOD:", user);
-        user.fname = req.body.fname;
-        user.lname = req.body.lname;
-        user.budget = req.body.budget;
-        user.username = req.body.username;
-        user.profileImg = profileImg;
+
+        if (req.body.username) user.username = req.body.username;
+        if (req.body.fname) user.fname = req.body.fname;
+        if (req.body.lname) user.lname = req.body.lname;
+        if (req.body.budget) user.budget = req.body.budget;
+        if (req.file) user.profileImg = profileImg;
+
         user.save((err, user) => {
           if (err) {
             console.log(

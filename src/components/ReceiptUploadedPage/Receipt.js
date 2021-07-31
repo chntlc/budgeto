@@ -30,7 +30,7 @@ function Receipt(props) {
                           <p>{qty}</p>
                         </div>
                         <div className="price">
-                          <p>{price}</p>
+                          <p>${price}</p>
                         </div>
                       </div>
                     </li>
