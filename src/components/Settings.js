@@ -83,7 +83,11 @@ function Settings(props) {
         .catch(err => {
           console.log(err);
           alert("Updating user failed! Please try again.");
-          // window.location.replace("http://localhost:3000/dashboard");
+          if (process.env.NODE_ENV !== "production") {
+            window.location.replace("http://localhost:3000/dashboard");
+          } else {
+            window.location.replace("http://budgeto-app.herokuapp.com/dashboard");
+          }
         });
     }
   }
@@ -117,13 +121,20 @@ function Settings(props) {
         dispatch(userLogout(emptyUser));
         window.localStorage.setItem("logout", Date.now());
         alert('Successfully Logged Out!');
-        // TODO: This is a workaround!! Try using NavLink to work
-        window.location.replace("http://localhost:3000/");
+        if (process.env.NODE_ENV !== "production") {
+          window.location.replace("http://localhost:3000/");
+        } else {
+          window.location.replace("http://budgeto-app.herokuapp.com/");
+        }
       })
       .catch(err => {
         console.log(err);
         alert("Logging out user failed! Please try again.");
-        // window.location.replace("http://localhost:3000/dashboard");
+        if (process.env.NODE_ENV !== "production") {
+          window.location.replace("http://localhost:3000/");
+        } else {
+          window.location.replace("http://budgeto-app.herokuapp.com/");
+        }
       });
     }
 

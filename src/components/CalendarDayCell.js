@@ -29,7 +29,7 @@ function CalendarDayCell(props) {
     //   setSpending(props.dailyValues.get(date));
     // } else {
     axios
-      .get(`http://localhost:3001/view/dailyspend/${props.userId}/${date}`)
+      .get(`/view/dailyspend/${props.userId}/${date}`)
       .then((result) => {
         const dailySpend =
           result.data.dailyspend !== 0
