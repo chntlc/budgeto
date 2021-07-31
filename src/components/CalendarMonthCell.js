@@ -16,15 +16,13 @@ function CalendarMonthCell(props) {
 
     const date = `${year}-${month < 10 ? "0" + month : month}-01`;
 
-    axios
-      .get(`/view/monthlyspend/${props.userId}/${date}`)
-      .then((result) => {
-        const monthlySpend =
-          result.data.monthlyspend !== 0
-            ? parseFloat(result.data.monthlyspend.$numberDecimal)
-            : 0;
-        setSpending(monthlySpend);
-      });
+    axios.get(`/view/monthlyspend/${props.userId}/${date}`).then((result) => {
+      const monthlySpend =
+        result.data.monthlyspend !== 0
+          ? Math.round(result.data.monthlyspend * 100) / 100
+          : 0;
+      setSpending(monthlySpend);
+    });
   };
   return (
     <div className="calendar__cell">

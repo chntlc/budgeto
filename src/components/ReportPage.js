@@ -23,7 +23,10 @@ class ReportPage extends React.Component {
     this.props.dispatch(toggleLineReady(false));
     this.props.dispatch(toggleReportReady(false));
     // This will redirect to View page when the periodStart and periodEnd value is reset during refresh of the page
-    if (this.props.periodStart === '' || this.props.periodEnd === '') {
+    if (
+      (this.props.periodStart === "" || this.props.periodEnd === "") &&
+      this.props.mode === "custom-range"
+    ) {
       if (process.env.NODE_ENV !== "production") {
         window.location.replace("http://localhost:3000/view");
       } else {
@@ -59,8 +62,8 @@ class ReportPage extends React.Component {
       return this.isSingleDayReport()
         ? selectedDate
         : `${moment(selectedMonth)
-          .startOf("month")
-          .format("YYYY-MM-DD")} ~ ${moment(selectedMonth)
+            .startOf("month")
+            .format("YYYY-MM-DD")} ~ ${moment(selectedMonth)
             .endOf("month")
             .format("YYYY-MM-DD")}`;
     } else {

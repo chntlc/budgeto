@@ -81,7 +81,7 @@ class ViewCalendar extends React.Component {
       .then((result) => {
         const dailySpend =
           result.data.dailyspend !== 0
-            ? parseFloat(result.data.dailyspend.$numberDecimal)
+            ? Math.round(result.data.dailyspend * 100) / 100
             : 0;
         return spending * dailySpend;
       });
@@ -95,13 +95,11 @@ class ViewCalendar extends React.Component {
     const date = `${year}-${month < 10 ? "0" + month : month}-01`;
 
     return await axios
-      .get(
-        `/view/monthlyspend/${this.props.userId}/${date}`
-      )
+      .get(`/view/monthlyspend/${this.props.userId}/${date}`)
       .then((result) => {
         const monthlySpend =
           result.data.monthlyspend !== 0
-            ? parseFloat(result.data.monthlyspend.$numberDecimal)
+            ? Math.round(result.data.monthlyspend * 100) / 100
             : 0;
         return monthlySpend;
       });
