@@ -16,19 +16,13 @@ export const fetchSummary = createAsyncThunk(
       startDate: firstday,
       endDate: lastday,
     };
-    const mostSpentCategory = await axios.get(
-      `http://localhost:3001/dashboard/budget/${id}`,
-      {
-        params,
-      }
-    );
+    const mostSpentCategory = await axios.get(`/dashboard/budget/${id}`, {
+      params,
+    });
 
-    const spending = await axios.get(
-      `http://localhost:3001/dashboard/category/${id}`,
-      {
-        params,
-      }
-    );
+    const spending = await axios.get(`/dashboard/category/${id}`, {
+      params,
+    });
     return { ...mostSpentCategory.data, ...spending.data };
   }
 );
