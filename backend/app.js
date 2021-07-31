@@ -38,28 +38,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.static(path.join(__dirname, "public")));
 
-//Add the client URL to the CORS policy
-// const whitelist = process.env.WHITELISTED_DOMAINS
-//   ? process.env.WHITELISTED_DOMAINS.split(",")
-//   : []
-//
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (!origin || whitelist.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credentials: true,
-// }
-
-// app.use(cors(corsOptions));
-
 app.use(cors({credentials: true}));
-// setup CORS
-// app.use(cors());
-// app.options("*", cors());
 
 app.use(passport.initialize());
 
@@ -69,25 +48,6 @@ app.use("/dashboard", dashboardRouter);
 app.use("/view", viewRouter);
 app.use("/report", reportRouter);
 app.use("/categories", categoriesRouter);
-
-
-// const cookieExpirationDate = new Date();
-// const cookieExpirationDays = 365;
-// cookieExpirationDate.setDate(cookieExpirationDate.getDate() + cookieExpirationDays);
-//
-// // Passport setup
-// app.use(session({
-//   secret: "Our little secret.",
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: {
-// 	    httpOnly: true,
-// 	    expires: cookieExpirationDate // use expires instead of maxAge
-// 	}
-// }));
-//
-// app.use(passport.initialize());
-// app.use(passport.session());
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
