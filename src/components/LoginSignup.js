@@ -56,7 +56,11 @@ function LoginSignup(props) {
         setError(genericErrorMessage);
         console.log(err);
         alert("Wrong User credential! Please try again.");
-        window.location.replace("http://localhost:3000/");
+        if (process.env.NODE_ENV !== "production") {
+          window.location.replace("http://localhost:3000/");
+        } else {
+          window.location.replace("http://budgeto-app.herokuapp.com/");
+        }
       });
   }
 
@@ -68,7 +72,11 @@ function LoginSignup(props) {
 
     if (signupPassword !== signupPassword2) {
       alert("Password not matching! Please try again.");
-      window.location.replace("http://localhost:3000/");
+      if (process.env.NODE_ENV !== "production") {
+        window.location.replace("http://localhost:3000/");
+      } else {
+        window.location.replace("http://budgeto-app.herokuapp.com/");
+      }
       return;
     }
 
@@ -111,7 +119,11 @@ function LoginSignup(props) {
         setError(genericErrorMessage);
         console.log(err);
         alert("Failed to signup! Please try again.");
-        window.location.replace("http://localhost:3000/");
+        if (process.env.NODE_ENV !== "production") {
+          window.location.replace("http://localhost:3000/");
+        } else {
+          window.location.replace("http://budgeto-app.herokuapp.com/");
+        }
       })
   }
 
