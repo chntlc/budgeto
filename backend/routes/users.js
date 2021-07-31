@@ -225,48 +225,6 @@ router.post("/refreshToken", (req, res, next) => {
   }
 });
 
-// router.patch("/settings", function (req, res, next) {
-//   const userToChange = req.body;
-//   console.log("This is PATCH method to /users/settings");
-//   console.log("This is what you have requested: ", userToChange);
-
-//   const findUpdateUser = (hash) => {
-//     // only update fields if they've changed
-//     const $set = {};
-//     if (req.body.email) $set.email = req.body.email;
-//     if (req.body.fname) $set.fname = req.body.fname;
-//     if (req.body.lname) $set.lname = req.body.lname;
-//     if (req.body.budget) $set.budget = req.body.budget;
-//     if (req.body.password) $set.password = hash;
-
-//     User.findOneAndUpdate(
-//       { _id: userToChange._id },
-//       {
-//         $set
-//       },
-//       {
-//         fields: { _id: 1, fname: 1, lname: 1, email: 1, budget: 1, category_ids: 1 },
-//         returnOriginal: false
-//       }
-//     ).then((updatedUser) => {
-//       console.log("This is the updated User: ", updatedUser);
-
-//       res.json(updatedUser);
-//     })
-//       .catch((err) => {
-//         console.log(err);
-//         res.status(400).send("Bad Requests!");
-//         // res.redirect(400, "http://localhost:3000/dashboard");
-//       });
-//   }
-
-//   if (req.body.password) {
-//     bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-//       findUpdateUser(hash)
-//     });
-//   } else {
-//     findUpdateUser()
-
 router.patch(
   "/settings",
   upload.single("profileImg"),
@@ -292,11 +250,6 @@ router.patch(
         if (req.body.budget) user.budget = req.body.budget;
         if (req.file) user.profileImg = profileImg;
 
-        // user.fname = req.body.fname;
-        // user.lname = req.body.lname;
-        // user.budget = req.body.budget;
-        // user.username = req.body.username;
-        // user.profileImg = profileImg;
         user.save((err, user) => {
           if (err) {
             console.log(
