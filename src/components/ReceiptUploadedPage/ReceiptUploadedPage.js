@@ -33,7 +33,11 @@ function ReceiptUploadedPage(props) {
     // This will redirect to Add page if no items exists
     if (props.items.length === 0) {
       alert("You have no item to upload! Please enter them again");
-      window.location.replace("http://localhost:3000/add");
+      if (process.env.NODE_ENV !== "production") {
+        window.location.replace("http://localhost:3000/add");
+      } else {
+        window.location.replace("http://budgeto-app.herokuapp.com/add");
+      }
     }
   }, [categoriesStatus, dispatch]);
 
@@ -174,10 +178,6 @@ function ReceiptUploadedPage(props) {
           <div className="categoryView">
             <CategoryPicker categories={categories} />
             <CategoryFilter />
-            <div className="buttonView">
-              <button id="back">Back</button>
-              <button id="finish">Finish</button>
-            </div>
           </div>
         </DragDropContext>
       </div>

@@ -1,7 +1,7 @@
 @import url("../../css/App.css");
 
 .filterContainer {
-  height: 350px;
+  height: 65vh;
   overflow: auto;
   border: 1px solid #dbdbdb;
   border-radius: 5px;
