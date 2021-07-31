@@ -13,7 +13,7 @@ function Home() {
         <StartSaving />
       </div>
     </section>
-  );
+  )
 }
 
 export default Home;

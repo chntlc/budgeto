@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../css/Navbar.css";
 import Logo from "../images/logo.png";
 import ProfilePic from "../images/profile.png";
@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import NavBarProfile from "./NavBarProfile";
 import LoginSignup from "./LoginSignup";
 import Settings from "./Settings";
+import { UserContext } from "./context/UserContext"
 import { connect, useDispatch } from "react-redux";
 import { toggleLoginModal } from "../features/globalSlice";
 import { toggleSettingsModal } from "../features/globalSlice";
@@ -13,6 +14,7 @@ import { toggleSettingsModal } from "../features/globalSlice";
 function Navigation(props) {
   const dispatch = useDispatch();
   const pages = props.pages;
+  const [userContext, setUserContext] = useContext(UserContext);
 
   const handleLoginSignup = () => {
     dispatch(toggleLoginModal("login"));
@@ -56,7 +58,7 @@ function Navigation(props) {
                 </NavLink>
               );
             }
-            return props.isLoggedIn ? (
+            return userContext.token ? (
               <img
                 key="settings-button"
                 src={userImg}
@@ -86,7 +88,6 @@ const mapStateToProps = (state) => {
   return {
     showLoginModal: state.global.showLoginModal,
     showSettingsModal: state.global.showSettingsModal,
-    isLoggedIn: state.global.isLoggedIn,
   };
 };
 

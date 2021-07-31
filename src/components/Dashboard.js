@@ -15,6 +15,7 @@ function DashboardContent(props) {
     dispatch(fetchSummary(props.user._id))
   }, [props.user._id])
 
+
   const userName = `${props.user.fname} ${props.user.lname}`,
     // userImg = "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png",
     userBudget = props.user.budget,
@@ -53,7 +54,7 @@ function DashboardContent(props) {
         </Card>
       </Col>
     </Row>
-  );
+  )
 }
 
 const mapStateToProps = (state) => {
