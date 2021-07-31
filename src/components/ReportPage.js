@@ -24,7 +24,11 @@ class ReportPage extends React.Component {
     this.props.dispatch(toggleReportReady(false));
     // This will redirect to View page when the periodStart and periodEnd value is reset during refresh of the page
     if (this.props.periodStart === '' || this.props.periodEnd === '') {
-      window.location.replace("http://localhost:3000/view");
+      if (process.env.NODE_ENV !== "production") {
+        window.location.replace("http://localhost:3000/view");
+      } else {
+        window.location.replace("http://budgeto-app.herokuapp.com/view");
+      }
     }
   }
 
@@ -55,8 +59,8 @@ class ReportPage extends React.Component {
       return this.isSingleDayReport()
         ? selectedDate
         : `${moment(selectedMonth)
-            .startOf("month")
-            .format("YYYY-MM-DD")} ~ ${moment(selectedMonth)
+          .startOf("month")
+          .format("YYYY-MM-DD")} ~ ${moment(selectedMonth)
             .endOf("month")
             .format("YYYY-MM-DD")}`;
     } else {
