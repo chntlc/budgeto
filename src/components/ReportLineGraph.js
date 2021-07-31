@@ -32,7 +32,7 @@ function ReportLineGraph(props) {
           let values = new Array(labels.length).fill(0);
           for (let i = 0; i < labels.length; i++) {
             if (labels[i] === data[p]._id) {
-              values[i] = parseInt(data[p].total.$numberDecimal);
+              values[i] = Math.round(data[p].total * 100) / 100;
               p++;
               if (p >= data.length) {
                 break;

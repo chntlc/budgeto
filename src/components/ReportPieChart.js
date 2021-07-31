@@ -29,7 +29,7 @@ function ReportPieChart(props) {
         .then((result) => {
           const data = [];
           result.data.data.map((item) => {
-            data.push(parseInt(item.$numberDecimal));
+            data.push(Math.round(item * 100) / 100);
             return "";
           });
           dispatch(setPieData(data));
