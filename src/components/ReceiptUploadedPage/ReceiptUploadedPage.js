@@ -19,39 +19,8 @@ function ReceiptUploadedPage(props) {
   const categories = useSelector((state) => state.categories.categories);
   const categoriesStatus = useSelector((state) => state.categories.status);
   const error = useSelector((state) => state.categories.error);
-  const transactions = [
-    {
-      itemId: "1",
-      itemName: "tomato",
-      price: "$2",
-      quantity: "Qty: 1",
-    },
-    {
-      itemId: "2",
-      itemName: "apple",
-      price: "$2",
-      quantity: "Qty: 1",
-    },
-    {
-      itemId: "3",
-      itemName: "lettuce",
-      price: "$2",
-      quantity: "Qty: 1",
-    },
-    {
-      itemId: "4",
-      itemName: "bacon",
-      price: "$2",
-      quantity: "Qty: 1",
-    },
-    {
-      itemId: "5",
-      itemName: "milk",
-      price: "$2",
-      quantity: "Qty: 1",
-    },
-  ];
-  const [items, updateItems] = useState(props.items);
+  const transactions = useSelector((state) => state.receipt.items);
+  const [items, updateItems] = useState(transactions);
 
   useEffect(() => {
     if (categoriesStatus === "idle") {
@@ -121,23 +90,18 @@ function ReceiptUploadedPage(props) {
     destinationIndex,
     categoryId
   ) {
-    const [selectedItem] = items.splice(sourceIndex, 1);
-    const { itemId, itemName, price, quantity } = selectedItem;
+    const itemsCopy = [...items];
+    const [selectedItem] = itemsCopy.splice(sourceIndex, 1);
+    const { itemId, name, qty, price } = selectedItem;
 
+    updateItems(itemsCopy);
     dispatch(
-      addItemToCategory(
-        itemId,
-        itemName,
-        price,
-        quantity,
-        categoryId,
-        destinationIndex
-      )
+      addItemToCategory(itemId, name, qty, price, categoryId, destinationIndex)
     );
   }
 
   function handleItemToTransactions(categoryId, sourceIndex, destinationIndex) {
-    const selectedItem = getAndDeleteItemFromCategory(categoryId, sourceIndex);
+    const selectedItem = getItemFromCategory(categoryId, sourceIndex);
     const itemsCopy = [...items];
 
     itemsCopy.splice(destinationIndex, 0, selectedItem);
@@ -152,18 +116,15 @@ function ReceiptUploadedPage(props) {
     sourceIndex,
     destinationIndex
   ) {
-    const selectedItem = getAndDeleteItemFromCategory(
-      fromCategoryId,
-      sourceIndex
-    );
-    const { itemId, itemName, price, quantity } = selectedItem;
+    const selectedItem = getItemFromCategory(fromCategoryId, sourceIndex);
+    const { itemId, name, qty, price } = selectedItem;
 
     dispatch(
       addItemToCategory(
         itemId,
-        itemName,
+        name,
+        qty,
         price,
-        quantity,
         toCategoryId,
         destinationIndex
       )
@@ -171,12 +132,10 @@ function ReceiptUploadedPage(props) {
     dispatch(deleteItemFromCategory(sourceIndex, fromCategoryId));
   }
 
-  function getAndDeleteItemFromCategory(categoryId, itemIndex) {
-    const category = categories.find(
-      (category) => category.categoryId === categoryId
-    );
+  function getItemFromCategory(categoryId, itemIndex) {
+    const category = categories.find((category) => category._id === categoryId);
     const categoryItems = [...category.items];
-    const [selectedItem] = categoryItems.splice(itemIndex, 1);
+    const selectedItem = categoryItems[itemIndex];
 
     return selectedItem;
   }
@@ -190,6 +149,10 @@ function ReceiptUploadedPage(props) {
         <div className="categoryView">
           <CategoryPicker categories={categories} />
           <CategoryFilter />
+          <div className="buttonView">
+            <button id="back">Back</button>
+            <button id="finish">Finish</button>
+          </div>
         </div>
       </DragDropContext>
     </div>

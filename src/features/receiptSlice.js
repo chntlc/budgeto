@@ -1,41 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const receiptSlice = createSlice({
-  name: 'receipt',
+  name: "receipt",
   initialState: {
-    items: [
-      // {
-      //   name: 'chocolate',
-      //   qty: 1,
-      //   price: 2
-      // },
-      // {
-      //   name: 'chips',
-      //   qty: 3,
-      //   price: 1
-      // },
-      // {
-      //   name: 't-shirt',
-      //   qty: 1,
-      //   price: 20
-      // }
-    ]
+    items: [],
   },
   reducers: {
     addItems: (state, items) => {
-      console.log('hit addItem action')
-      console.log(items.payload)
-      state.items = items.payload
+      console.log("hit addItem action");
+      console.log(items.payload);
+      let transactions = items.payload;
+
+      for (let i = 0; i < transactions.length; i++) {
+        transactions[i].itemId = nanoid();
+        transactions[i].price = `$${transactions[i].price}`;
+      }
+
+      state.items = items.payload;
     },
     deleteItem: (state) => {
-      console.log('hit deleteItem action')
+      console.log("hit deleteItem action");
     },
     editItem: (state) => {
-      console.log('hit editItem action')
-    }
-  }
-})
+      console.log("hit editItem action");
+    },
+  },
+});
 
-export const { addItems, deleteItem, editItem } = receiptSlice.actions
+export const { addItems, deleteItem, editItem } = receiptSlice.actions;
 
-export default receiptSlice.reducer
+export default receiptSlice.reducer;
