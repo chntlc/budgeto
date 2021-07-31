@@ -14,11 +14,11 @@ export const fetchSummary = createAsyncThunk('dashboard/fetchSummary', async (id
     startDate: firstday,
     endDate: lastday
   }
-  const mostSpentCategory = await axios.get(`/dashboard/budget/${id}`, {
+  const mostSpentCategory = await axios.get(`http://localhost:3001/dashboard/budget/${id}`, {
     params
   })
 
-  const spending = await axios.get(`/dashboard/category/${id}`, {
+  const spending = await axios.get(`http://localhost:3001/dashboard/category/${id}`, {
     params
   })
   return { ...mostSpentCategory.data, ...spending.data }

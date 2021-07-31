@@ -21,8 +21,6 @@ app.options("*", cors());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-// TODO: ensure it works locally
-
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../build')));
 

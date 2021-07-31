@@ -59,7 +59,7 @@ function Settings(props) {
         .catch(err => {
           console.log(err);
           alert("Updating user failed! Please try again.");
-          // window.location.replace("http://localhost:3000/dashboard");
+          window.location.replace("http://localhost:3000/dashboard");
         });
     }
   }

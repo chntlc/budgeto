@@ -59,13 +59,13 @@ function LoginSignup(props) {
       .catch(err => {
         console.log(err);
         alert("Wrong User credential! Please try again.");
-        // window.location.replace("http://localhost:3000/");
+        window.location.replace("http://localhost:3000/");
       });
   }
 
    async function handleSignup() {
     if (signupPassword !== signupPassword2) {
-      // window.location.replace("http://localhost:3000/");
+      window.location.replace("http://localhost:3000/");
     }
 
     const newUser = {
@@ -98,7 +98,7 @@ function LoginSignup(props) {
       .catch(err => {
         console.log(err);
         alert("Failed to signup! Please try again.");
-        // window.location.replace("http://localhost:3000/");
+        window.location.replace("http://localhost:3000/");
         // window.location.href = "http://localhost:3000/";
         // props.history.push("/");
       })
