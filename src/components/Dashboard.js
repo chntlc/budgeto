@@ -76,7 +76,10 @@ function DashboardContent(props) {
               this week
             </p>
             <p>
-              You're <strong className="red">${Math.abs(moneyDiff)}</strong>{" "}
+              You're{" "}
+              <strong className="red">
+                ${Math.round(Math.abs(moneyDiff) * 100) / 100}
+              </strong>{" "}
               {moneyDiff > 0 ? "under" : "over"} your budget of{" "}
               <strong className="brown">${userBudget}</strong>
             </p>
