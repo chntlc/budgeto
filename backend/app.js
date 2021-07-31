@@ -31,12 +31,12 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
 // Have Node serve the files for our built React app
-app.use(express.static(path.resolve(__dirname, '../build')));
+app.use(express.static(path.resolve(__dirname, "../build")));
 
 // All other GET requests not handled before will return our React app
-app.get('/', (req, res) => {
+app.get("*", (req, res) => {
   console.log("app.get request called");
-  res.sendFile(path.resolve(__dirname, '../build'));
+  res.sendFile(path.resolve(__dirname, "../build"));
 });
 
 app.use(logger("dev"));
@@ -47,7 +47,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(cors({credentials: true}));
+app.use(cors({ credentials: true }));
 
 app.use(passport.initialize());
 
