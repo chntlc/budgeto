@@ -5,7 +5,7 @@ import '../css/Home.css';
 
 function Slogan() {
   const TEXTS = [
-    "See More.",
+    "Seesdfsdfs More.",
     "Spend Less."
   ];
 
