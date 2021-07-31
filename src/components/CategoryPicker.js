@@ -4,12 +4,11 @@ import {
   addCategory,
   editCategory,
   deleteCategory,
-} from "../../features/categorySlice";
+} from "../features/categorySlice";
 import Category from "./Category";
-import Modal from "../Modal";
-import AddIcon from "../../images/addIcon.png";
-import QuestionMarkIcon from "../../images/questionMarkIcon.png";
-import "./CategoryPicker.css";
+import Modal from "./Modal";
+import AddIcon from "../images/addIcon.png";
+import "../css/CategoryPicker.css";
 import { unwrapResult } from "@reduxjs/toolkit";
 
 function CategoryPicker(props) {

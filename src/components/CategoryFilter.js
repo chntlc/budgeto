@@ -1,4 +1,4 @@
-import "./CategoryFilter.css";
+import "../css/CategoryFilter.css";
 import { useSelector } from "react-redux";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 

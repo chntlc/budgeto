@@ -1,7 +1,7 @@
 import Receipt from "./Receipt";
 import CategoryPicker from "./CategoryPicker";
 import CategoryFilter from "./CategoryFilter";
-import "./ReceiptUploadedPage.css";
+import "../css/ReceiptUploadedPage.css";
 import { useState } from "react";
 import { connect, useSelector, useDispatch } from "react-redux";
 import {
@@ -11,11 +11,11 @@ import {
   getCategories,
   reorderItemInCategory,
   clearItemsFromCategories,
-} from "../../features/categorySlice";
+} from "../features/categorySlice";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { clearItems } from "../../features/receiptSlice";
+import { clearItems } from "../features/receiptSlice";
 
 function ReceiptUploadedPage(props) {
   const dispatch = useDispatch();
@@ -150,23 +150,31 @@ function ReceiptUploadedPage(props) {
 
   function handleSubmitItems() {
     // TODO: call API
-    dispatch(addItemsToCategories({ user_id, categories: props.categories }))
+    dispatch(addItemsToCategories({ user_id, categories: props.categories }));
     dispatch(clearItems());
     dispatch(clearItemsFromCategories());
     // also clear all items from form if success
-    if (props.submitStatus === 'succeeded') {
+    if (props.submitStatus === "succeeded") {
       // TODO: clear items from categories
       // TODO: clear items from receiptSlice
     }
   }
 
+  function handleBack() {
+    dispatch(clearItemsFromCategories());
+  }
+
   return (
     <>
       <div className="button-row-uploaded">
-        <Link to='/add' className='back-button'>
+        <Link to="/add" className="back-button" onClick={handleBack}>
           Back
         </Link>
-        <Link to='/dashboard' className='submit-button' onClick={handleSubmitItems}>
+        <Link
+          to="/dashboard"
+          className="submit-button"
+          onClick={handleSubmitItems}
+        >
           Submit
         </Link>
       </div>
@@ -189,7 +197,7 @@ const mapStateToProps = (state) => {
   return {
     items: state.receipt.items,
     categories: state.categories.categories,
-    submitStatus: state.categories.submitStatus
+    submitStatus: state.categories.submitStatus,
   };
 };
 

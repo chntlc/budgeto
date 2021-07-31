@@ -1,4 +1,4 @@
-import "./Category.css";
+import "../css/Category.css";
 
 function Category(props) {
   const { iconAlt, color, iconImg, clickEvent } = props;
