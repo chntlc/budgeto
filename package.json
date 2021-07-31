@@ -26,10 +26,13 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cd backend && node ./bin/www",
     "build": "react-scripts build",
+    "heroku-prebuild": "npm install && npm run build && cd backend && npm install",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:local": "npm run build && cd backend && DEBUG=backend:* node ./bin/www",
+    "start:frontend": "react-scripts start"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {

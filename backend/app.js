@@ -21,6 +21,15 @@ app.options("*", cors());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, '../build')));
+
+// All other GET requests not handled before will return our React app
+app.get('/', (req, res) => {
+  console.log("app.get request called");
+  res.sendFile(path.resolve(__dirname, '../build'));
+});
+
 app.use(logger("dev"));
 app.use("/uploads", express.static("uploads"));
 app.use(express.json());
