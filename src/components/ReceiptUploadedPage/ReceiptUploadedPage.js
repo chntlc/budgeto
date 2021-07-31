@@ -13,7 +13,7 @@ import {
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect } from "react";
 
-function ReceiptUploadedPage() {
+function ReceiptUploadedPage(props) {
   const dispatch = useDispatch();
   const user_id = useSelector((state) => state.global.user._id);
   const categories = useSelector((state) => state.categories.categories);
@@ -25,6 +25,11 @@ function ReceiptUploadedPage() {
   useEffect(() => {
     if (categoriesStatus === "idle") {
       dispatch(getCategories(user_id));
+    }
+    // This will redirect to Add page if no items exists
+    if (props.items.length === 0) {
+      alert("You have no item to upload! Please enter them again");
+      window.location.replace("http://localhost:3000/add");
     }
   }, [categoriesStatus, dispatch]);
 

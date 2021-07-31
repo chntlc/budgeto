@@ -37,7 +37,7 @@ export const getCategories = createAsyncThunk(
   "categories/getCategories",
   async (user_id) => {
     const response = await axios.get(
-      `http://localhost:3001/categories/${user_id}`
+      `/categories/${user_id}`
     );
 
     return response.data;
@@ -56,7 +56,7 @@ export const addCategory = createAsyncThunk(
     categoryForm.append("user_id", user_id);
 
     const response = await axios.post(
-      "http://localhost:3001/categories/addCategory",
+      "/categories/addCategory",
       categoryForm,
       {
         headers: {
@@ -80,7 +80,7 @@ export const editCategory = createAsyncThunk(
     categoryForm.append("icon_img", icon_img);
 
     const response = await axios.put(
-      `http://localhost:3001/categories/editCategory/${_id}`,
+      `/categories/editCategory/${_id}`,
       categoryForm,
       {
         headers: {
@@ -98,7 +98,7 @@ export const deleteCategory = createAsyncThunk(
   async (deletePayload) => {
     const { user_id, category_id } = deletePayload;
     const response = await axios.delete(
-      `http://localhost:3001/categories/deleteCategory/${user_id}/${category_id}`
+      `/categories/deleteCategory/${user_id}/${category_id}`
     );
 
     return response.data;
