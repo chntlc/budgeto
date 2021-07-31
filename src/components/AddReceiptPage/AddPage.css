@@ -10,6 +10,10 @@
   flex-direction: column;
 }
 
+.item-form label {
+  margin: 0 0 5px 5px;
+}
+
 label {
   color: var(--dark-purple);
 }
@@ -24,6 +28,16 @@ input {
 
 .items {
   margin-top: 12vh;
+}
+
+.item-qty-input {
+  text-align: center;
+}
+
+.item-name-input,
+.item-qty-input,
+.item-price-input {
+  padding-left: 10px;
 }
 
 .row-content {
@@ -41,8 +55,6 @@ input {
 }
 
 .card {
-  /* padding-right: 30px;
-  padding-left: 30px; */
   border-radius: 11px;
   border-color: var(--light-pink);
   background-color: var(--background);
@@ -67,17 +79,10 @@ Link {
   background-color: var(--purple);
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   width: 100%;
   height: 25px;
   margin-top: 10px;
-}
-
-.upload-receipt-button:hover,
-.add-another-item-button:hover,
-.next-button:hover {
-  background-color: var(--light-purple);
-  color: white;
 }
 
 .next-button {
@@ -89,14 +94,42 @@ Link {
   transition: background-color 0.4s ease-in-out;
 }
 
-.choose-file-button {
+.uploadContainer {
+  height: 55vh;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#billImg {
+  height: 45vh;
+}
+
+.uploadContainer input[type="file"] {
+  display: none;
+}
+
+#receiptUpload {
+  margin: 0;
+  border-radius: 3px;
+  border: 1px solid var(--light-orange);
+  padding: 6px;
   background-color: var(--purple);
   color: white;
-  border: none;
-  border-radius: 10px;
-  width: 100%;
-  height: 25px;
-  margin-top: 10px;
-  padding: 0.5rem;
+}
+
+.upload-receipt-button:hover,
+.add-another-item-button:hover,
+.next-button:hover,
+#receiptUpload:hover {
   cursor: pointer;
+  background-color: var(--light-purple);
+  color: white;
 }

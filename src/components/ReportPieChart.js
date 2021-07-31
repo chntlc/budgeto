@@ -25,7 +25,7 @@ function ReportPieChart(props) {
         params.periodEnd = params.periodEnd.substring(13);
       }
       axios
-        .get(`http://localhost:3001/report/piedata/${props.userId}`, { params })
+        .get(`/report/piedata/${props.userId}`, { params })
         .then((result) => {
           const data = [];
           result.data.data.map((item) => {

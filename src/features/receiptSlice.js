@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 // export const addItems = createAsyncThunk('receipt/addItems', async (items) => {
@@ -20,15 +20,25 @@ export const addReceipt = createAsyncThunk('receipt/addReceipt', async (receipt)
 })
 
 const receiptSlice = createSlice({
-  name: 'receipt',
+  name: "receipt",
   initialState: {
-    items: []
+    items: [],
   },
   reducers: {
     addItems: (state, items) => {
-      console.log('hit addItem action')
-      console.log(items.payload)
-      state.items = items.payload
+      console.log("hit addItem action");
+      console.log(items.payload);
+      let transactions = items.payload;
+
+      for (let i = 0; i < transactions.length; i++) {
+        if (!transactions[i].itemId) transactions[i].itemId = nanoid();
+        // transactions[i].price = `$${transactions[i].price}`;
+      }
+
+      state.items = items.payload;
+    },
+    clearItems: (state) => {
+      state.items = [];
     },
     deleteItem: (state, itemToDelete) => {
       console.log('hit deleteItem action')
@@ -41,6 +51,6 @@ const receiptSlice = createSlice({
   }
 })
 
-export const { addItems, deleteItem } = receiptSlice.actions
+export const { addItems, deleteItem, clearItems } = receiptSlice.actions
 
-export default receiptSlice.reducer
+export default receiptSlice.reducer;

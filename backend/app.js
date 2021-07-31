@@ -1,9 +1,22 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var cors = require("cors");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");
+
+require("./strategies/JwtStrategy");
+require("./strategies/LocalStrategy");
+require("./strategies/authenticate");
+
+if (process.env.NODE_ENV !== "production") {
+  // Load environment variables from .env file in non prod environments
+  require("dotenv").config();
+}
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -15,20 +28,30 @@ const receiptsRouter = require("./routes/receipts");
 
 var app = express();
 
-// setup CORS
-app.use(cors());
-app.options("*", cors());
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, "../build")));
+
+// All other GET requests not handled before will return our React app
+app.get("/", (req, res) => {
+  console.log("app.get request called");
+  res.sendFile(path.resolve(__dirname, "../build"));
+});
+
 app.use(logger("dev"));
 app.use("/uploads", express.static("uploads"));
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(cors({ credentials: true }));
+
+app.use(passport.initialize());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

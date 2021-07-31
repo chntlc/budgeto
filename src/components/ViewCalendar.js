@@ -77,7 +77,7 @@ class ViewCalendar extends React.Component {
     }`;
 
     return await axios
-      .get(`http://localhost:3001/view/dailyspend/${this.props.userId}/${date}`)
+      .get(`/view/dailyspend/${this.props.userId}/${date}`)
       .then((result) => {
         const dailySpend =
           result.data.dailyspend !== 0
@@ -96,7 +96,7 @@ class ViewCalendar extends React.Component {
 
     return await axios
       .get(
-        `http://localhost:3001/view/monthlyspend/${this.props.userId}/${date}`
+        `/view/monthlyspend/${this.props.userId}/${date}`
       )
       .then((result) => {
         const monthlySpend =

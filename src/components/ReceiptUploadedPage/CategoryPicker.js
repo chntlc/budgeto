@@ -107,6 +107,7 @@ function CategoryPicker(props) {
       const chosenIcon = URL.createObjectURL(files[0]);
       setCustomIconBase64(chosenIcon);
       setCustomIconFile(files[0]);
+      console.log({ icon: files[0] });
     }
   }
 
