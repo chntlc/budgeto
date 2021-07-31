@@ -7,43 +7,7 @@ import axios from "axios";
 // import TravelingIcon from "../images/travelingIcon.png";
 
 const initialState = {
-  categories: [
-    // {
-    //   categoryId: nanoid(),
-    //   categoryName: "Grocery",
-    //   iconImg: GroceryIcon,
-    //   iconColour: "#EAC495",
-    //   items: [],
-    // },
-    // {
-    //   categoryId: nanoid(),
-    //   categoryName: "Dining Out",
-    //   iconImg: RestaurantIcon,
-    //   iconColour: "#E7AD9E",
-    //   items: [],
-    // },
-    // {
-    //   categoryId: nanoid(),
-    //   categoryName: "Clothing",
-    //   iconImg: ClothingIcon,
-    //   iconColour: "#46436A",
-    //   items: [],
-    // },
-    // {
-    //   categoryId: nanoid(),
-    //   categoryName: "Transportation",
-    //   iconImg: TransportationIcon,
-    //   iconColour: "#2F2D4F",
-    //   items: [],
-    // },
-    // {
-    //   categoryId: nanoid(),
-    //   categoryName: "Traveling",
-    //   iconImg: TravelingIcon,
-    //   iconColour: "#301B3F",
-    //   items: [],
-    // },
-  ],
+  categories: [],
   status: "idle",
   error: null,
 };
@@ -156,19 +120,12 @@ const categorySlice = createSlice({
           category.items.splice(destinationIndex, 0, item);
         }
       },
-      prepare: (
-        itemId,
-        itemName,
-        price,
-        quantity,
-        categoryId,
-        destinationIndex
-      ) => {
+      prepare: (itemId, name, qty, price, categoryId, destinationIndex) => {
         const item = {
           itemId,
-          itemName,
+          name,
+          qty,
           price,
-          quantity,
         };
         return {
           payload: { item, categoryId, destinationIndex },

@@ -37,7 +37,8 @@
 .filteredItems {
   padding: 0 18px;
   max-height: 0;
-  overflow: scroll;
+  height: auto !important;
+  overflow: auto;
   transition: max-height 0.2s ease-out;
   border-radius: 3px 3px 0px 0px;
 }

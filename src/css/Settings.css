@@ -4,7 +4,7 @@
   text-decoration: underline;
 }
 
-input {
+.signup-form input {
   border-radius: 10px;
   border: 1px solid var(--light-orange);
   display: block;

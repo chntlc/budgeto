@@ -13,7 +13,7 @@ function Receipt(props) {
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            {items.map(({ itemId, itemName, price, quantity }, index) => {
+            {items.map(({ itemId, name, qty, price }, index) => {
               return (
                 <Draggable key={itemId} draggableId={itemId} index={index}>
                   {(provided) => (
@@ -24,13 +24,13 @@ function Receipt(props) {
                     >
                       <div className="item">
                         <div className="itemName">
-                          <p>{itemName}</p>
+                          <p>{name}</p>
+                        </div>
+                        <div className="quantity">
+                          <p>{qty}</p>
                         </div>
                         <div className="price">
                           <p>{price}</p>
-                        </div>
-                        <div className="quantity">
-                          <p>{quantity}</p>
                         </div>
                       </div>
                     </li>
