@@ -13,7 +13,9 @@
     "chart.js": "^3.3.2",
     "chartjs-plugin-labels": "^1.1.0",
     "cors": "^2.8.5",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.2",
+    "passport-jwt": "^4.0.0",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
     "react-chartjs-2": "^3.0.3",
@@ -26,10 +28,13 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cd backend && node ./bin/www",
     "build": "react-scripts build",
+    "heroku-prebuild": "npm install && npm run build && cd backend && npm install",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:local": "npm run build && cd backend && DEBUG=backend:* node ./bin/www",
+    "start:frontend": "react-scripts start"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {

@@ -7,8 +7,9 @@
 var app = require("../app");
 var debug = require("debug")("backend:server");
 var http = require("http");
-const config = require("./config");
+const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
 const mongoose = require("mongoose");
+
 /**
  * Get port from environment and store in Express.
  */
@@ -27,7 +28,7 @@ var server = http.createServer(app);
 
 mongoose
   .connect(
-    `mongodb+srv://${config.mongoId}:${config.mongoPw}@budgeto.irn1u.mongodb.net/${config.mongoDb}?retryWrites=true&w=majority`,
+    `mongodb+srv://${process.env.MONGO_ID}:${process.env.MONGO_PW}@budgeto.irn1u.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

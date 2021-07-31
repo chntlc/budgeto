@@ -9,8 +9,8 @@ const globalSlice = createSlice({
       fname: "",
       lname: "",
       budget: 0,
-      email: "",
       profileImg: "",
+      username: "",
     },
     showLoginModal: "", // can be: login, signup, or ''
     showSettingsModal: "", // can be: settings or ''
@@ -23,16 +23,19 @@ const globalSlice = createSlice({
       state.user = action.payload;
       state.isLoggedIn = true;
       console.log("user state updated in globalSlice");
-      // window.location.href = "http://localhost:3000/dashboard";
     },
     userSignup: (state, action) => {
       console.log({ action });
       console.log("hit userSignup action");
       state.user = action.payload;
       state.isLoggedIn = true;
+      console.log("user state updated in globalSlice");
     },
-    userLogout: (state) => {
+    userLogout: (state, action) => {
+      console.log({ action });
       console.log("hit userLogout action");
+      state.isLoggedIn = false;
+      console.log("User logged out");
     },
     updateUser: (state, action) => {
       console.log("hit updateUser action");
@@ -40,9 +43,20 @@ const globalSlice = createSlice({
       state.user.fname = action.payload.fname;
       state.user.lname = action.payload.lname;
       state.user.budget = action.payload.budget;
-      state.user.email = action.payload.email;
+      state.user.username = action.payload.username;
       state.user.profileImg = action.payload.profileImg;
-      state.showSettingsModal = "";
+      // state.showSettingsModal = '';
+    },
+    refreshUser: (state, action) => {
+      console.log("hit refreshUser action");
+
+      state.user._id = action.payload._id;
+      state.user.fname = action.payload.fname;
+      state.user.lname = action.payload.lname;
+      state.user.budget = action.payload.budget;
+      state.user.username = action.payload.username;
+      state.user.profileImg = action.payload.profileImg;
+      state.isLoggedIn = true;
     },
     toggleLoginModal: (state, action) => {
       console.log("hit toggleLoginModal action");
@@ -60,6 +74,7 @@ export const {
   userSignup,
   userLogout,
   updateUser,
+  refreshUser,
   toggleLoginModal,
   toggleSettingsModal,
 } = globalSlice.actions;

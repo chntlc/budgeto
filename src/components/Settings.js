@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Modal from "./Modal";
 import "../css/Settings.css";
-import { updateUser, toggleSettingsModal } from "../features/globalSlice";
+import { UserContext } from "./context/UserContext";
+import { Link, NavLink } from "react-router-dom";
+import {
+  refreshUser,
+  updateUser,
+  userLogout,
+  toggleSettingsModal,
+} from "../features/globalSlice";
 import { connect, useDispatch } from "react-redux";
 import axios from "axios";
 
@@ -12,8 +19,27 @@ function Settings(props) {
     fname: props.user.fname,
     lname: props.user.lname,
     budget: props.user.budget,
-    email: props.user.email,
+    username: props.user.username,
   });
+  const [userContext, setUserContext] = useContext(UserContext);
+
+  useEffect(() => {
+    fetch("/users/me", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userContext.token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log("This is the useEffect method.");
+        console.log("This is the response: ", res);
+        setUser(res);
+        dispatch(refreshUser(res));
+      });
+  }, []);
 
   async function handleSettingChange(event) {
     event.preventDefault();
@@ -31,15 +57,15 @@ function Settings(props) {
       const fname = user.fname;
       const lname = user.lname;
       const budget = user.budget;
-      const email = user.email;
+      const username = user.username;
 
       const updatedUser = new FormData();
       updatedUser.append("_id", _id);
       updatedUser.append("fname", fname);
       updatedUser.append("lname", lname);
       updatedUser.append("budget", budget);
-      updatedUser.append("email", email);
       updatedUser.append("password", password);
+      updatedUser.append("username", username);
       if (image) {
         console.log({ image });
         updatedUser.append("profileImg", image);
@@ -55,9 +81,11 @@ function Settings(props) {
         })
         .then((res) => {
           console.log("Updated User: ", res);
-          const { fname, lname, budget, email, profileImg } = res.data;
+          const { fname, lname, budget, username, profileImg } =
+            res.data.updatedUser;
           setUser(res);
-          dispatch(updateUser({ fname, lname, budget, email, profileImg }));
+          dispatch(updateUser({ fname, lname, budget, username, profileImg }));
+          dispatch(toggleSettingsModal(""));
           alert("Settings Changed!");
         })
         .catch((err) => {
@@ -66,6 +94,46 @@ function Settings(props) {
           // window.location.replace("http://localhost:3000/dashboard");
         });
     }
+  }
+
+  async function handleLogout(event) {
+    event.preventDefault();
+
+    await fetch("/users/logout", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userContext.token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log("Response for /users/logout GET METHOD: ", res);
+        setUserContext((oldValues) => {
+          return { ...oldValues, details: undefined, token: null };
+        });
+        const emptyUser = {
+          _id: "",
+          fname: "",
+          lname: "",
+          budget: 0,
+          username: "",
+          profileImg: "",
+        };
+        setUser(emptyUser);
+        dispatch(updateUser(emptyUser));
+        dispatch(userLogout(emptyUser));
+        window.localStorage.setItem("logout", Date.now());
+        alert("Successfully Logged Out!");
+        // TODO: This is a workaround!! Try using NavLink to work
+        window.location.replace("http://localhost:3000/");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Logging out user failed! Please try again.");
+        // window.location.replace("http://localhost:3000/dashboard");
+      });
   }
 
   const handleChange = (event) => {
@@ -79,12 +147,20 @@ function Settings(props) {
     });
   };
 
+  const redirectSettings = () => {
+    dispatch(toggleSettingsModal("settings"));
+  };
+
+  const redirectLogout = () => {
+    dispatch(toggleSettingsModal("logout"));
+  };
+
   const closeSettingsModal = () => {
     dispatch(toggleSettingsModal(""));
   };
 
   const profileForm = (
-    <form className="signup-form">
+    <form className="settings-form">
       <label>First Name</label>
       <input
         type="text"
@@ -110,7 +186,7 @@ function Settings(props) {
       <input
         type="email"
         id="email"
-        value={user.email}
+        value={user.username}
         onChange={handleChange}
       />
       <label>Password</label>
@@ -119,15 +195,48 @@ function Settings(props) {
       <input type="password" id="password2" />
       <label>Profile Picture</label>
       <input type="file" accept=".jpeg, ,png, .jpg" id="image" />
-      <button className="setting-submit-button" onClick={handleSettingChange}>
+      <button className="settings-submit-button" onClick={handleSettingChange}>
         Confirm
       </button>
     </form>
   );
 
+  const logoutForm = (
+    <form className="logout-form">
+      <div className="logout-submit-button-wrapper">
+        <NavLink to="/" className="logout-submit-link">
+          <button className="logout-submit-button" onClick={handleLogout}>
+            LOGOUT!
+          </button>
+        </NavLink>
+      </div>
+    </form>
+  );
+
   return (
     <Modal
-      content={props.showSettings === "settings" ? profileForm : profileForm}
+      header={
+        <React.Fragment>
+          <button
+            id="settings-header"
+            className={
+              props.showSettings === "settings" ? "underline-label" : ""
+            }
+            onClick={redirectSettings}
+          >
+            SETTINGS
+          </button>
+          <span>&nbsp;/&nbsp;</span>
+          <button
+            id="logout-header"
+            className={props.showSettings === "logout" ? "underline-label" : ""}
+            onClick={redirectLogout}
+          >
+            LOGOUT
+          </button>
+        </React.Fragment>
+      }
+      content={props.showSettings === "settings" ? profileForm : logoutForm}
       onClose={closeSettingsModal}
     ></Modal>
   );

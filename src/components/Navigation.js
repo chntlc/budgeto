@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../css/Navbar.css";
 import Logo from "../images/logo.png";
 import ProfilePic from "../images/defaultProfile.jpg";
 import { NavLink } from "react-router-dom";
 import LoginSignup from "./LoginSignup";
 import Settings from "./Settings";
+import { UserContext } from "./context/UserContext";
 import { connect, useDispatch } from "react-redux";
 import { toggleLoginModal } from "../features/globalSlice";
 import { toggleSettingsModal } from "../features/globalSlice";
@@ -12,6 +13,7 @@ import { toggleSettingsModal } from "../features/globalSlice";
 function Navigation(props) {
   const dispatch = useDispatch();
   const { pages, profileImg } = props;
+  const [userContext, setUserContext] = useContext(UserContext);
 
   const handleLoginSignup = () => {
     dispatch(toggleLoginModal("login"));
@@ -52,7 +54,7 @@ function Navigation(props) {
                 </NavLink>
               );
             }
-            return props.isLoggedIn ? (
+            return userContext.token ? (
               <img
                 key="settings-button"
                 src={userImg}
