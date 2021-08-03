@@ -36,9 +36,9 @@ app.set("view engine", "jade");
 app.use(express.static(path.resolve(__dirname, "../build")));
 
 // All other GET requests not handled before will return our React app
-app.get("/", (req, res) => {
+app.get("/*", (req, res) => {
   console.log("app.get request called");
-  res.sendFile(path.resolve(__dirname, "../build"));
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
 });
 
 app.use(logger("dev"));
