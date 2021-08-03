@@ -36,8 +36,33 @@ app.set("view engine", "jade");
 app.use(express.static(path.resolve(__dirname, "../build")));
 
 // All other GET requests not handled before will return our React app
-app.get("/*", (req, res) => {
-  console.log("app.get request called");
+app.get("/", (req, res) => {
+  console.log("app.get / request called");
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
+});
+
+app.get("/dashboard", (req, res) => {
+  console.log("app.get /dashboard request called");
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
+});
+
+app.get("/view", (req, res) => {
+  console.log("app.get /view request called");
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
+});
+
+app.get("/add", (req, res) => {
+  console.log("app.get /add request called");
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
+});
+
+app.get("/receiptUploaded", (req, res) => {
+  console.log("app.get /receiptUploaded request called");
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
+});
+
+app.get("/report", (req, res) => {
+  console.log("app.get /report request called");
   res.sendFile(path.resolve(__dirname, "../build/index.html"));
 });
 
