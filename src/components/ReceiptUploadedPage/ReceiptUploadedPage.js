@@ -33,11 +33,9 @@ function ReceiptUploadedPage(props) {
     // This will redirect to Add page if no items exists
     if (props.items.length === 0) {
       alert("You have no item to upload! Please enter them again");
-      if (process.env.NODE_ENV !== "production") {
-        window.location.replace("http://localhost:3000/add");
-      } else {
-        window.location.replace("http://budgeto-app.herokuapp.com/add");
-      }
+      props.history.push({
+        pathname: '/add'
+      })
     }
   }, [categoriesStatus, dispatch]);
 
