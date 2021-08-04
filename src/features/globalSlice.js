@@ -18,21 +18,18 @@ const globalSlice = createSlice({
   reducers: {
     // global states we need to keep track of
     userLogin: (state, action) => {
-      console.log({ action });
       console.log("hit userLogin action");
       state.user = action.payload;
       state.isLoggedIn = true;
       console.log("user state updated in globalSlice");
     },
     userSignup: (state, action) => {
-      console.log({ action });
       console.log("hit userSignup action");
       state.user = action.payload;
       state.isLoggedIn = true;
       console.log("user state updated in globalSlice");
     },
     userLogout: (state, action) => {
-      console.log({ action });
       console.log("hit userLogout action");
       state.isLoggedIn = false;
       console.log("User logged out");

@@ -1,14 +1,9 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "./Modal";
 import "../css/Settings.css";
 import { UserContext } from "./context/UserContext";
-import { Link, NavLink } from "react-router-dom";
-import {
-  refreshUser,
-  updateUser,
-  userLogout,
-  toggleSettingsModal,
-} from "../features/globalSlice";
+import { NavLink } from "react-router-dom";
+import {refreshUser, updateUser, userLogout, toggleSettingsModal} from "../features/globalSlice";
 import { connect, useDispatch } from "react-redux";
 import axios from "axios";
 
@@ -47,8 +42,6 @@ function Settings(props) {
     const password = document.getElementById("password").value;
     const password2 = document.getElementById("password2").value;
     let image = event.target.form[6].files[0];
-    console.log("password: ", password);
-    console.log("password2: ", password2);
 
     if (password !== password2) {
       alert("Password do not match!");
@@ -67,7 +60,6 @@ function Settings(props) {
       updatedUser.append("password", password);
       updatedUser.append("username", username);
       if (image) {
-        console.log({ image });
         updatedUser.append("profileImg", image);
       } else {
         updatedUser.append("profileImg", "");
@@ -80,7 +72,6 @@ function Settings(props) {
           },
         })
         .then((res) => {
-          console.log("Updated User: ", res);
           const { fname, lname, budget, username, profileImg } =
             res.data.updatedUser;
           setUser(res);
@@ -94,9 +85,7 @@ function Settings(props) {
           if (process.env.NODE_ENV !== "production") {
             window.location.replace("http://localhost:3000/dashboard");
           } else {
-            window.location.replace(
-              "http://budgeto-app.herokuapp.com/dashboard"
-            );
+            window.location.replace("http://budgeto-app.herokuapp.com/dashboard");
           }
         });
     }
@@ -115,7 +104,6 @@ function Settings(props) {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log("Response for /users/logout GET METHOD: ", res);
         setUserContext((oldValues) => {
           return { ...oldValues, details: undefined, token: null };
         });

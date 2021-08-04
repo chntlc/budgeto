@@ -6,12 +6,7 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const User = require("../schemas/Users");
-const {
-  getToken,
-  COOKIE_OPTIONS,
-  getRefreshToken,
-  verifyUser,
-} = require("../strategies/authenticate");
+const {getToken, COOKIE_OPTIONS, getRefreshToken, verifyUser} = require("../strategies/authenticate");
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -32,9 +27,6 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 router.get("/", function (req, res, next) {
-  console.log("This is GET method to /users.");
-  console.log("This is what you have requested: ", req.body);
-
   res.send(false);
 });
 
@@ -68,19 +60,11 @@ router.get("/logout", verifyUser, (req, res, next) => {
 });
 
 router.post("/login", passport.authenticate("local"), (req, res, next) => {
-  console.log("This is the POST METHOD for /users/login");
-  console.log("This is what you have requested: ", req.body);
-  console.log("This is what you have requested: ", req.user);
-
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
 
-  console.log("This is the value of token: ", token);
-  console.log("This is the value of refreshToken: ", refreshToken);
-
   User.findById(req.user._id).then(
     (user) => {
-      console.log("Found user during /users/login POST METHOD:", user);
       user.refreshToken.push({ refreshToken });
       user.save((err, user) => {
         if (err) {
@@ -91,7 +75,6 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
           res.send(err);
         } else {
           res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-          console.log("This is the logged in User: ", user);
           const loggedInUser = {
             _id: user._id,
             username: user.username,
@@ -110,10 +93,6 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
 });
 
 router.post("/signup", (req, res, next) => {
-  console.log("This is the POST METHOD for /users/signup");
-  console.log("This is what you have requested: ", req.body);
-  console.log({ username: req.body.username });
-  console.log({ pw: req.body.password });
   User.register(
     new User({ username: req.body.username }),
     req.body.password,
@@ -144,7 +123,6 @@ router.post("/signup", (req, res, next) => {
             res.send(err);
           } else {
             res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-            console.log("This is the signed up User: ", user);
             const signedUser = {
               _id: user._id,
               username: user.username,
@@ -193,7 +171,6 @@ router.post("/refreshToken", (req, res, next) => {
                   res.send(err);
                 } else {
                   res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
-                  console.log("This is the User with refreshedToken: ", user);
                   const refreshedUser = {
                     _id: user._id,
                     username: user.username,
@@ -204,7 +181,6 @@ router.post("/refreshToken", (req, res, next) => {
                     profileImg: user.profileImg,
                   };
                   res.send({ success: true, refreshedUser, token });
-                  // res.send({ success: true, token });
                 }
               });
             }
@@ -225,12 +201,7 @@ router.post("/refreshToken", (req, res, next) => {
   }
 });
 
-router.patch(
-  "/settings",
-  upload.single("profileImg"),
-  function (req, res, next) {
-    console.log("This is the POST METHOD for /users/settings");
-    console.log("This is what you have requested: ", req.body);
+router.patch("/settings", upload.single("profileImg"), function (req, res, next) {
     let profileImg = "";
 
     if (req.file) {
@@ -240,10 +211,8 @@ router.patch(
       profileImg = `data:${icon_img_type};base64,${binary}`;
     }
 
-    User.findById(req.body._id).then(
-      (user) => {
-        console.log("Found user during /users/settings POST METHOD:", user);
-
+    User.findById(req.body._id)
+      .then((user) => {
         if (req.body.username) user.username = req.body.username;
         if (req.body.fname) user.fname = req.body.fname;
         if (req.body.lname) user.lname = req.body.lname;
@@ -258,7 +227,6 @@ router.patch(
             res.statusCode = 500;
             res.send(err);
           } else {
-            console.log("This is the updated in User: ", user);
             const updatedUser = {
               _id: user._id,
               username: user.username,
