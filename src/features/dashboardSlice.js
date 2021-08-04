@@ -9,12 +9,14 @@ export const fetchSummary = createAsyncThunk(
     const first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
     const last = first + 6; // last day is the first day + 6
 
-    const firstday = new Date(curr.setDate(first)).toUTCString();
-    const lastday = new Date(curr.setDate(last)).toUTCString();
+    const firstday = new Date(curr.setDate(first));
+    firstday.setUTCHours(0, 0, 0, 0);
+    const lastday = new Date(curr.setDate(last));
+    lastday.setUTCHours(23, 59, 59, 999);
 
     const params = {
-      startDate: firstday,
-      endDate: lastday,
+      startDate: firstday.toUTCString(),
+      endDate: lastday.toUTCString(),
     };
     const mostSpentCategory = await axios.get(`/dashboard/budget/${id}`, {
       params,
