@@ -23,7 +23,7 @@ function DashboardContent(props) {
     // userImg = "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png",
     userBudget = props.user.budget,
     userSpending = props.spending,
-    moneyDiff = userBudget - userSpending,
+    moneyDiff = Math.round((userBudget - userSpending) * 100) / 100,
     mostSpentCat = props.mostSpentCategory,
     notificationCheck = props.notificationCheck;
 
