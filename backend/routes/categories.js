@@ -2,13 +2,9 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 const multer = require("multer");
-const mongoose = require("mongoose");
 const Categories = require("../schemas/Categories");
 const User = require("../schemas/Users");
 const path = require("path");
-// const userSchema = require("../schemas/Users");
-//
-// const User = mongoose.model("User", userSchema);
 
 router.get("/:user_id", async function (req, res, next) {
   const { user_id } = req.params;
