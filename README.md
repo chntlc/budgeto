@@ -29,26 +29,27 @@ Budgeto is a web application to assist individuals who want to manage their expe
 ## Project Task Requirements
 
 ### Minimal Requirements (3-5)
-* Create user, login, logout
-* Choose a category
-* Ability to enter receipt info
-* Set a budget
-* See spending: daily, weekly, monthly (in a plain format)
+* Create user, login, logout ✅
+* Choose a category ✅
+* Ability to enter receipt info ✅
+* Set a budget ✅
+* See spending: daily, monthly (in a plain format) ✅
 
 ### "Standard" Requirements (3-7)
-* Pie graph for spending
-* Bar graph for spending
-* Parse a receipt from an image
-* Warning messages for approaching budget 
-     * Notifications
-* Calendar to show total spending
-     * Pick a date or specific timeframe (day, week, month)
+* Pie graph for spending ✅
+* Line chart for spending ✅
+* Show weekly summary on dashboard ✅
+* Calendar to show total spending ✅
+     * Pick a date or specific timeframe (day, month & custom range) ✅
 
 ### Stretch Requirements (2-3)
-* Create some kind of grocery list
-     * Based on analytics
-* Generate suggestions
-* Look for offers, or find best price for certain items
+* Warning messages for approaching budget ✅
+     * Notifications ✅
+* Parse a receipt from an image ✅
+* Create some kind of grocery list ❗ (╯°□°）╯︵ ┻━┻
+     * Based on analytics ❗ (╯°□°）╯︵ ┻━┻
+* Generate suggestions ❗ (╯°□°）╯︵ ┻━┻
+* Look for offers, or find best price for certain items ❗ (╯°□°）╯︵ ┻━┻
 
 ## Task Breakdown
 Choose a category:
