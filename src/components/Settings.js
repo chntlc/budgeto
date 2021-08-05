@@ -29,8 +29,6 @@ function Settings(props) {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log("This is the useEffect method.");
-        console.log("This is the response: ", res);
         setUser(res);
         dispatch(refreshUser(res));
       });
