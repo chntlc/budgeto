@@ -24,11 +24,10 @@ class ReportPage extends React.Component {
     this.props.dispatch(toggleReportReady(false));
     // This will redirect to View page when the periodStart and periodEnd value is reset during refresh of the page
     if (this.props.periodStart === "" || this.props.periodEnd === "") {
-      if (process.env.NODE_ENV !== "production") {
-        window.location.replace("http://localhost:3000/view");
-      } else {
-        window.location.replace("http://budgeto-app.herokuapp.com/view");
-      }
+      // alert("Please select the dates again!")
+      this.props.history.push({
+        pathname: "/view",
+      });
     }
   }
 

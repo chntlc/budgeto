@@ -34,9 +34,6 @@ function LoginSignup(props) {
       password: loginPassword,
     };
 
-    console.log("This is handleLogin method.");
-    console.log("This is what you have requested: ", loginUser);
-
     await fetch("/users/login", {
       method: "POST",
       credentials: "include",
@@ -47,8 +44,6 @@ function LoginSignup(props) {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log("Returned Response in /users/login: ", res);
-
         setUserContext((oldValues) => {
           return { ...oldValues, token: res.token };
         });
@@ -98,9 +93,6 @@ function LoginSignup(props) {
       ],
     };
 
-    console.log("This is handleSignup method.");
-    console.log("This is what you have requested: ", newUser);
-
     await fetch("/users/signup", {
       method: "POST",
       credentials: "include",
@@ -111,7 +103,6 @@ function LoginSignup(props) {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log("Returned Response in /users/signup: ", res);
         setUserContext((oldValues) => {
           return { ...oldValues, token: res.token };
         });

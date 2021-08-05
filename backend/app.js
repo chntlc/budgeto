@@ -5,9 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const session = require("express-session");
 const passport = require("passport");
-const passportLocalMongoose = require("passport-local-mongoose");
 
 require("./strategies/JwtStrategy");
 require("./strategies/LocalStrategy");
@@ -37,8 +35,33 @@ app.use(express.static(path.resolve(__dirname, "../build")));
 
 // All other GET requests not handled before will return our React app
 app.get("/", (req, res) => {
-  console.log("app.get request called");
-  res.sendFile(path.resolve(__dirname, "../build"));
+  console.log("app.get / request called");
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
+});
+
+app.get("/dashboard", (req, res) => {
+  console.log("app.get /dashboard request called");
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
+});
+
+app.get("/view", (req, res) => {
+  console.log("app.get /view request called");
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
+});
+
+app.get("/add", (req, res) => {
+  console.log("app.get /add request called");
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
+});
+
+app.get("/receiptUploaded", (req, res) => {
+  console.log("app.get /receiptUploaded request called");
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
+});
+
+app.get("/report", (req, res) => {
+  console.log("app.get /report request called");
+  res.sendFile(path.resolve(__dirname, "../build/index.html"));
 });
 
 app.use(logger("dev"));

@@ -1,7 +1,6 @@
 import React from 'react';
 import Slogan from './Slogan';
 import StartSaving from './StartSaving';
-
 import '../css/Home.css';
 
 function Home() {
