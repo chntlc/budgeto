@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import DashboardBtn from "./DashboardBtn";
 import "../css/Dashboard.css";
 import "../images/profile.png";
-import { connect, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { Row, Card, Col, notification } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import {
@@ -12,17 +12,28 @@ import {
 
 function DashboardContent(props) {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.global.user);
+  const spending = useSelector((state) => state.dashboard.spentForWeek);
+  const mostSpentCategory = useSelector(
+    (state) => state.dashboard.mostSpentCategory
+  );
+  const notificationCheckSlice = useSelector(
+    (state) => state.dashboard.notificationCheck
+  );
+  // const isLoggedIn = useSelector((state) => state.global.isLoggedIn);
+  const isLoading = useSelector((state) => state.dashboard.isLoading);
+  const submitStatus = useSelector((state) => state.categories.submitStatus);
 
   useEffect(() => {
-    dispatch(fetchSummary(props.user._id));
-  }, [props.user._id]);
+    dispatch(fetchSummary(user._id));
+  }, [user._id]);
 
-  const userName = `${props.user.fname} ${props.user.lname}`,
-    userBudget = props.user.budget,
-    userSpending = props.spending,
+  const userName = `${user.fname} ${user.lname}`,
+    userBudget = user.budget,
+    userSpending = spending,
     moneyDiff = Math.round((userBudget - userSpending) * 100) / 100,
-    mostSpentCat = props.mostSpentCategory,
-    notificationCheck = props.notificationCheck;
+    mostSpentCat = mostSpentCategory,
+    notificationCheck = notificationCheckSlice;
 
   const openNotification = () => {
     dispatch(updateNotificationState(true));
@@ -60,7 +71,7 @@ function DashboardContent(props) {
         <Card
           className="card"
           title={`👋 \u00A0\u00A0\u00A0\u00A0Hey, \u00A0\u00A0${userName}! `}
-          loading={props.isLoading}
+          loading={isLoading}
         >
           <div className="dashboard__report">
             <p>
@@ -93,13 +104,13 @@ function DashboardContent(props) {
 
 const mapStateToProps = (state) => {
   return {
-    spending: state.dashboard.spentForWeek,
-    mostSpentCategory: state.dashboard.mostSpentCategory,
-    mostSpentCategorySpending: state.dashboard.mostSpentCategorySpending,
-    user: state.global.user,
-    isLoggedIn: state.global.isLoggedIn,
-    isLoading: state.dashboard.isLoading,
-    notificationCheck: state.dashboard.notificationCheck,
+    // spending: state.dashboard.spentForWeek,
+    // mostSpentCategory: state.dashboard.mostSpentCategory,
+    // mostSpentCategorySpending: state.dashboard.mostSpentCategorySpending,
+    // user: state.global.user,
+    // isLoggedIn: state.global.isLoggedIn,
+    // isLoading: state.dashboard.isLoading,
+    // notificationCheck: state.dashboard.notificationCheck,
   };
 };
 
