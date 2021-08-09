@@ -12,9 +12,9 @@ import {
   reorderItemInCategory,
   clearItemsFromCategories,
 } from "../features/categorySlice";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 import { useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { clearItems } from "../features/receiptSlice";
 
 function ReceiptUploadedPage(props) {
@@ -22,7 +22,6 @@ function ReceiptUploadedPage(props) {
   const user_id = useSelector((state) => state.global.user._id);
   const categories = useSelector((state) => state.categories.categories);
   const categoriesStatus = useSelector((state) => state.categories.status);
-  const error = useSelector((state) => state.categories.error);
   const transactions = useSelector((state) => state.receipt.items);
   const [items, updateItems] = useState(transactions);
 
@@ -34,8 +33,8 @@ function ReceiptUploadedPage(props) {
     if (props.items.length === 0) {
       alert("You have no item to upload! Please enter them again");
       props.history.push({
-        pathname: '/add'
-      })
+        pathname: "/add",
+      });
     }
   }, [categoriesStatus, dispatch]);
 
@@ -147,15 +146,9 @@ function ReceiptUploadedPage(props) {
   }
 
   function handleSubmitItems() {
-    // TODO: call API
     dispatch(addItemsToCategories({ user_id, categories: props.categories }));
     dispatch(clearItems());
     dispatch(clearItemsFromCategories());
-    // also clear all items from form if success
-    if (props.submitStatus === "succeeded") {
-      // TODO: clear items from categories
-      // TODO: clear items from receiptSlice
-    }
   }
 
   function handleBack() {

@@ -22,7 +22,6 @@ function AddPage(props) {
   const [isParsingReceipt, setParsingReceipt] = useState(false);
 
   useEffect(() => {
-    console.log(props.items);
     if (props.items) {
       setItems(props.items);
       const inputRowsArray = [];
@@ -79,8 +78,6 @@ function AddPage(props) {
     );
 
     addTransactions(itemsAndTax);
-
-    console.log(itemsAndTax);
     setParsingReceipt(false);
   };
 
@@ -175,49 +172,7 @@ function AddPage(props) {
                   />
                 </Col>
               </Row>
-              {/* {inputRows.map((item, index) => {
-                let itemId = `item-${index + 1}`;
-                const { name, qty, price } = item;
-                return (
-                  <Row key={itemId + "-row"} gutter={16} className="input-row">
-                    <Col span={16}>
-                      <input
-                        key={itemId + "-name"}
-                        className="item-name-input"
-                        type="text"
-                        onChange={(e) =>
-                          handleInput(e.target.value, index + 1, 'name')
-                        }
-                        defaultValue={name}
-                      />
-                    </Col>
-                    <Col span={4}>
-                      <input
-                        key={itemId + "-qty"}
-                        className="item-qty-input"
-                        type="number"
-                        onChange={(e) =>
-                          handleInput(e.target.value, index + 1, 'qty')
-                        }
-                        defaultValue={qty}
-                      />
-                    </Col>
-                    <Col span={4}>
-                      <input
-                        key={itemId + "-price"}
-                        className="item-price-input"
-                        type="number"
-                        onChange={(e) =>
-                          handleInput(e.target.value, index + 1, 'price')
-                        }
-                        defaultValue={price}
-                      />
-                    </Col>
-                  </Row>
-                );
-              })} */}
               {inputRows.map((item, index) => {
-                // update input row here
                 let itemId = `item-${index + 1}`;
                 return (
                   <Row key={itemId + "-row"} gutter={16} className="input-row">

@@ -6,9 +6,6 @@ const mongoose = require("mongoose");
 const Categories = require("../schemas/Categories");
 const User = require("../schemas/Users");
 const path = require("path");
-// const userSchema = require("../schemas/Users");
-//
-// const User = mongoose.model("User", userSchema);
 
 router.get("/:user_id", async function (req, res, next) {
   const { user_id } = req.params;
@@ -100,17 +97,17 @@ router.put(
     const icon_img_extension = req.file ? req.file.mimetype : null;
     const update_payload = req.file
       ? {
-        name,
-        color,
-        icon_img: {
-          data: icon_img_path,
-          contentType: icon_img_extension,
-        },
-      }
+          name,
+          color,
+          icon_img: {
+            data: icon_img_path,
+            contentType: icon_img_extension,
+          },
+        }
       : {
-        name,
-        color,
-      };
+          name,
+          color,
+        };
 
     try {
       const editedCategory = await Categories.findOneAndUpdate(

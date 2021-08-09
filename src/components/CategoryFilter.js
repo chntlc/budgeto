@@ -4,7 +4,6 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 
 function CategoryFilter() {
   const categories = useSelector((state) => state.categories.categories);
-  const items = [];
 
   function toggleFilterContainer(event) {
     event.target.classList.toggle("activeCollapsible");
@@ -21,9 +20,7 @@ function CategoryFilter() {
       collapsibleContent.style.display = "none";
     }
 
-    collapsibleContent.style.maxHeight = isMaxHeightSet
-      ? null
-      : collapsibleContent.scrollHeight + "px";
+    collapsibleContent.style.maxHeight = isMaxHeightSet ? null : "100vh";
   }
 
   return (
