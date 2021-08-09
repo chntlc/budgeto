@@ -15,7 +15,7 @@ function DashboardContent(props) {
 
   useEffect(() => {
     dispatch(fetchSummary(props.user._id));
-  }, [props.user._id]);
+  }, [props.user._id, props.spending, props.submitStatus]);
 
   const userName = `${props.user.fname} ${props.user.lname}`,
     userBudget = props.user.budget,
@@ -100,6 +100,7 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.global.isLoggedIn,
     isLoading: state.dashboard.isLoading,
     notificationCheck: state.dashboard.notificationCheck,
+    submitStatus: state.categories.submitStatus,
   };
 };
 
