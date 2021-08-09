@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import DashboardBtn from "./DashboardBtn";
 import "../css/Dashboard.css";
 import "../images/profile.png";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Row, Card, Col, notification } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import {
@@ -10,7 +10,7 @@ import {
   updateNotificationState,
 } from "../features/dashboardSlice";
 
-function DashboardContent(props) {
+function DashboardContent() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.global.user);
   const spending = useSelector((state) => state.dashboard.spentForWeek);
@@ -20,9 +20,7 @@ function DashboardContent(props) {
   const notificationCheckSlice = useSelector(
     (state) => state.dashboard.notificationCheck
   );
-  // const isLoggedIn = useSelector((state) => state.global.isLoggedIn);
   const isLoading = useSelector((state) => state.dashboard.isLoading);
-  const submitStatus = useSelector((state) => state.categories.submitStatus);
 
   useEffect(() => {
     dispatch(fetchSummary(user._id));
@@ -102,16 +100,4 @@ function DashboardContent(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    // spending: state.dashboard.spentForWeek,
-    // mostSpentCategory: state.dashboard.mostSpentCategory,
-    // mostSpentCategorySpending: state.dashboard.mostSpentCategorySpending,
-    // user: state.global.user,
-    // isLoggedIn: state.global.isLoggedIn,
-    // isLoading: state.dashboard.isLoading,
-    // notificationCheck: state.dashboard.notificationCheck,
-  };
-};
-
-export default connect(mapStateToProps)(DashboardContent);
+export default DashboardContent;
