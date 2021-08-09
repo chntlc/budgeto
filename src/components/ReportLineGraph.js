@@ -5,8 +5,8 @@ import { connect, useDispatch } from "react-redux";
 import { Line } from "react-chartjs-2";
 import {
   toggleLineReady,
+  toggleNoData,
   setLineData,
-  setLineLabel,
 } from "../features/reportSlice";
 
 function ReportLineGraph(props) {
@@ -24,6 +24,11 @@ function ReportLineGraph(props) {
           params,
         })
         .then((result) => {
+          if (result.data.data.length === 0) {
+            dispatch(toggleNoData(true));
+            dispatch(toggleLineReady(true));
+            return;
+          }
           const labels = result.data.label;
           const data = result.data.data;
           let p = 0;
@@ -37,9 +42,7 @@ function ReportLineGraph(props) {
               }
             }
           }
-          dispatch(setLineData(values));
-          dispatch(setLineLabel(labels));
-          dispatch(toggleLineReady(true));
+          dispatch(setLineData({ values, labels }));
         });
     };
     loadData();
@@ -85,7 +88,11 @@ function ReportLineGraph(props) {
   return (
     <div className="reportpage__chartArea">
       <div>
-        <Line data={lineData} options={lineOptions} />
+        {props.noData ? (
+          <h2>Please select a range of period with at least one spending!</h2>
+        ) : (
+          <Line data={lineData} options={lineOptions} />
+        )}
       </div>
     </div>
   );
@@ -96,6 +103,7 @@ const mapStateToProps = (state) => {
     lineReady: state.report.lineReady,
     lineData: state.report.lineData,
     lineLabel: state.report.lineLabel,
+    noData: state.report.noData,
   };
 };
 
