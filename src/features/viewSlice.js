@@ -28,11 +28,19 @@ const viewSlice = createSlice({
       state.reportBtnEnabled = action.payload;
     },
     selectDay: (state, action) => {
+      state.reportBtnEnabled = false;
       state.selectedDate = action.payload;
+      state.periodStart = action.payload;
+      state.periodEnd = action.payload;
       console.log(`date selected: ${action.payload}`);
     },
     selectMonth: (state, action) => {
+      state.reportBtnEnabled = false;
       state.selectedMonth = action.payload;
+      state.periodStart = action.payload.substring(0, 8) + "01";
+      state.periodEnd = moment(action.payload)
+        .endOf("month")
+        .format("YYYY-MM-DD");
       console.log(`month selected: ${action.payload}`);
     },
     selectPeriodStart: (state, action) => {

@@ -15,7 +15,6 @@ function StartSaving(props) {
       {props.showLoginModal && <LoginSignup />}
       <div className="see-more">
         <button className='start-saving' onClick={handleLoginSignup}>Start Saving</button>
-        {/* <NavLink className="start-saving" to="/login">Start Saving</NavLink> */}
       </div>
     </React.Fragment>
   );

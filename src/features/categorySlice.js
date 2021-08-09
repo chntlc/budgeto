@@ -99,23 +99,20 @@ export const deleteCategory = createAsyncThunk(
 export const addItemsToCategories = createAsyncThunk(
   "categories/addItemsToCategories",
   async ({ user_id, categories }) => {
-    console.log({ user_id, categories });
     const currentDate = new Date();
+
     const allItems = [];
 
     categories.forEach((category) => {
-      console.log({ category });
       category.items.forEach((item) => {
-        console.log({ item });
         const newItem = { ...item };
+
         // organize item object so it matches DB
         newItem.category_id = category._id;
         newItem.user_id = user_id;
         newItem.date = currentDate;
 
-        console.log({ newItem });
         allItems.push(newItem);
-        // assuming all the other fields: name, price, qty are correct
       });
     });
 

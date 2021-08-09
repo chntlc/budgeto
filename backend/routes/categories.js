@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 const multer = require("multer");
-const mongoose = require("mongoose");
 const Categories = require("../schemas/Categories");
 const User = require("../schemas/Users");
 const path = require("path");

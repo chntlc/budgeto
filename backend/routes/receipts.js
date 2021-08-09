@@ -9,10 +9,12 @@ router.post("/receipt", function (req, res, next) {
 
   Receipt.insert(receipt)
     .then((receipt) => {
-      console.log({ receipt })
-      res.send(receipt)
+      res.send(receipt);
     })
-    .catch(err => console.log({ err }))
+    .catch(err => {
+      console.log({ err });
+      res.send(err);
+    })
 })
 
 router.post("/items", function (req, res, next) {
@@ -20,10 +22,12 @@ router.post("/items", function (req, res, next) {
 
   Items.insertMany(items)
     .then((items) => {
-      console.log({ items })
-      res.send(items)
+      res.send(items);
     })
-    .catch(err => console.log({ err }))
+    .catch(err => {
+      console.log({ err });
+      res.send(err);
+    })
 })
 
 module.exports = router;

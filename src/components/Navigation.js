@@ -60,6 +60,7 @@ function Navigation(props) {
                 src={userImg}
                 className="navbar__profile"
                 onClick={handleSettings}
+                alt="user-img"
               />
             ) : (
               <button

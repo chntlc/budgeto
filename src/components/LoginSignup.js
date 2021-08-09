@@ -24,7 +24,6 @@ function LoginSignup(props) {
   const [userContext, setUserContext] = useContext(UserContext);
 
   async function handleLogin(event) {
-    // event.preventDefault();
     setError("");
 
     const genericErrorMessage = "Something went wrong! Please try again later.";
@@ -33,9 +32,6 @@ function LoginSignup(props) {
       username: loginEmail,
       password: loginPassword,
     };
-
-    console.log("This is handleLogin method.");
-    console.log("This is what you have requested: ", loginUser);
 
     await fetch("/users/login", {
       method: "POST",
@@ -47,8 +43,6 @@ function LoginSignup(props) {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log("Returned Response in /users/login: ", res);
-
         setUserContext((oldValues) => {
           return { ...oldValues, token: res.token };
         });
@@ -68,7 +62,6 @@ function LoginSignup(props) {
   }
 
   async function handleSignup(event) {
-    // event.preventDefault();
     setError("");
 
     const genericErrorMessage = "Something went wrong! Please try again later.";
@@ -94,12 +87,9 @@ function LoginSignup(props) {
         "60f2afba040b34ebc74be130",
         "60f2b0fed9e4daec224be7aa",
         "60f2cbd65e51f2f481a0698f",
-        "60f2cbd65e51f2f481a0698f",
+        "60f2cd9bc034faf55bde2154",
       ],
     };
-
-    console.log("This is handleSignup method.");
-    console.log("This is what you have requested: ", newUser);
 
     await fetch("/users/signup", {
       method: "POST",
@@ -111,7 +101,6 @@ function LoginSignup(props) {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log("Returned Response in /users/signup: ", res);
         setUserContext((oldValues) => {
           return { ...oldValues, token: res.token };
         });
