@@ -1,10 +1,5 @@
 import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
 import axios from "axios";
-// import GroceryIcon from "../images/groceryIcon.png";
-// import RestaurantIcon from "../images/restaurantIcon.png";
-// import ClothingIcon from "../images/clothingIcon.png";
-// import TransportationIcon from "../images/transportationIcon.png";
-// import TravelingIcon from "../images/travelingIcon.png";
 
 const initialState = {
   categories: [],
@@ -109,30 +104,22 @@ export const deleteCategory = createAsyncThunk(
 // submit what is already in store
 export const addItemsToCategories = createAsyncThunk(
   'categories/addItemsToCategories', async ({ user_id, categories }) => {
-    console.log({ user_id, categories })
     const currentDate = new Date();
-
-    // TODO: figure out receipt id?
 
     const allItems = [];
 
     categories.forEach((category) => {
-      console.log({ category })
       category.items.forEach((item) => {
-        console.log({ item })
         const newItem = { ...item };
+
         // organize item object so it matches DB
         newItem.category_id = category._id;
         newItem.user_id = user_id;
         newItem.date = currentDate;
 
-        console.log({ newItem })
         allItems.push(newItem);
-        // assuming all the other fields: name, price, qty are correct
       })
     })
-
-    console.log({ allItems })
 
     const response = await axios.post(`/receipts/items`, {
       items: allItems
@@ -214,11 +201,6 @@ const categorySlice = createSlice({
         return {
           payload: { categoryId, sourceIndex, destinationIndex },
         };
-      },
-    },
-    submitCategorizedItems: {
-      reducer: (state) => {
-        console.log("Insert to mongo collection");
       },
     },
   },

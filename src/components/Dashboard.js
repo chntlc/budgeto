@@ -10,8 +10,6 @@ import {
   updateNotificationState,
 } from "../features/dashboardSlice";
 
-// TODO: add loading state until we get response from backend
-
 function DashboardContent(props) {
   const dispatch = useDispatch();
 
@@ -20,19 +18,17 @@ function DashboardContent(props) {
   }, [props.user._id]);
 
   const userName = `${props.user.fname} ${props.user.lname}`,
-    // userImg = "https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png",
     userBudget = props.user.budget,
     userSpending = props.spending,
     moneyDiff = Math.round((userBudget - userSpending) * 100) / 100,
     mostSpentCat = props.mostSpentCategory,
     notificationCheck = props.notificationCheck;
 
-  console.log({ moneyDiff });
   const openNotification = () => {
     dispatch(updateNotificationState(true));
     if (moneyDiff > 0) {
       notification.warning({
-        message: "Watch you spending!",
+        message: "Watch your spending!",
         description: `You are only $${moneyDiff} from reaching your weekly budget!!`,
         style: { backgroundColor: "#fffbe6" },
         icon: <ExclamationCircleOutlined style={{ color: "#FAAD14" }} />,
@@ -66,10 +62,6 @@ function DashboardContent(props) {
           title={`👋 \u00A0\u00A0\u00A0\u00A0Hey, \u00A0\u00A0${userName}! `}
           loading={props.isLoading}
         >
-          {/* <Row> */}
-          {/* <img src={userImg} alt="UserImg" /> */}
-          {/* <span>&#128075; &nbsp;&nbsp;&nbsp;Hey,&nbsp;&nbsp; {userName}! </span> */}
-          {/*</Row> */}
           <div className="dashboard__report">
             <p>
               You've spent <strong className="green">${userSpending}</strong>{" "}
