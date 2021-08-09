@@ -43,7 +43,6 @@ class ViewCalendar extends React.Component {
   }
 
   onDateSelect(value) {
-    this.props.dispatch(toggleReportBtn(false));
     this.props.dispatch(selectDay(value.format("YYYY-MM-DD")));
     this.getDailyData(value).then((val) => {
       if (val !== 0) {
@@ -53,7 +52,6 @@ class ViewCalendar extends React.Component {
   }
 
   onMonthSelect(value) {
-    this.props.dispatch(toggleReportBtn(false));
     this.props.dispatch(selectMonth(value.format("YYYY-MM-DD")));
     this.getMonthlyData(value).then((val) => {
       if (val !== 0) {
