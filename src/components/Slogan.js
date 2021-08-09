@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import TextTransition, { presets } from "react-text-transition";
 
-import '../css/Home.css';
+import "../css/Home.css";
 
 function Slogan() {
-  const TEXTS = [
-    "See More.",
-    "Spend Less."
-  ];
+  const TEXTS = ["See More.", "Spend Less."];
 
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const intervalId = setInterval(() =>
-      setIndex(index => index + 1),
+    const intervalId = setInterval(
+      () => setIndex((index) => index + 1),
       2000 // every 3 seconds
     );
     return () => clearTimeout(intervalId);

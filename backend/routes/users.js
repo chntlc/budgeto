@@ -6,12 +6,16 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const User = require("../schemas/Users");
-const {getToken, COOKIE_OPTIONS, getRefreshToken, verifyUser} = require("../strategies/authenticate");
+const {
+  getToken,
+  COOKIE_OPTIONS,
+  getRefreshToken,
+  verifyUser,
+} = require("../strategies/authenticate");
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
     var dirName = path.join(process.cwd(), "../profilePics/");
-    console.log({ dirName });
     if (!fs.existsSync(dirName)) {
       fs.mkdirSync(dirName);
     }
@@ -68,9 +72,6 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
       user.refreshToken.push({ refreshToken });
       user.save((err, user) => {
         if (err) {
-          console.log(
-            "Something went wrong during user.save in /users/login POST METHOD"
-          );
           res.statusCode = 500;
           res.send(err);
         } else {
@@ -98,10 +99,6 @@ router.post("/signup", (req, res, next) => {
     req.body.password,
     (err, user) => {
       if (err) {
-        console.log(
-          "Something went wrong during User.register in /users/signup POST METHOD",
-          err
-        );
         res.statusCode = 500;
         res.send(err);
       } else {
@@ -116,9 +113,6 @@ router.post("/signup", (req, res, next) => {
         user.refreshToken.push({ refreshToken });
         user.save((err, user) => {
           if (err) {
-            console.log(
-              "Something went wrong during user.save in /users/signup POST METHOD"
-            );
             res.statusCode = 500;
             res.send(err);
           } else {
@@ -201,7 +195,10 @@ router.post("/refreshToken", (req, res, next) => {
   }
 });
 
-router.patch("/settings", upload.single("profileImg"), function (req, res, next) {
+router.patch(
+  "/settings",
+  upload.single("profileImg"),
+  function (req, res, next) {
     let profileImg = "";
 
     if (req.file) {
@@ -211,8 +208,8 @@ router.patch("/settings", upload.single("profileImg"), function (req, res, next)
       profileImg = `data:${icon_img_type};base64,${binary}`;
     }
 
-    User.findById(req.body._id)
-      .then((user) => {
+    User.findById(req.body._id).then(
+      (user) => {
         if (req.body.username) user.username = req.body.username;
         if (req.body.fname) user.fname = req.body.fname;
         if (req.body.lname) user.lname = req.body.lname;
@@ -221,9 +218,6 @@ router.patch("/settings", upload.single("profileImg"), function (req, res, next)
 
         user.save((err, user) => {
           if (err) {
-            console.log(
-              "Something went wrong during user.save in /users/settings POST METHOD"
-            );
             res.statusCode = 500;
             res.send(err);
           } else {

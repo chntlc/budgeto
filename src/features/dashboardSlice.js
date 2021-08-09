@@ -45,7 +45,6 @@ const dashboardSlice = createSlice({
   },
   extraReducers: {
     [fetchSummary.fulfilled]: (state, action) => {
-      console.log(current(state), { action });
       state.spentForWeek = action.payload.spent || 0;
       state.mostSpentCategory = action.payload.name || "None yet!";
       state.mostSpentCategorySpending = action.payload.total || 0;
@@ -54,6 +53,9 @@ const dashboardSlice = createSlice({
     },
     [fetchSummary.pending]: (state) => {
       state.isLoading = true;
+    },
+    [fetchSummary.rejected]: (state) => {
+      state.isLoading = false;
     },
   },
 });

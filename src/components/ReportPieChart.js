@@ -26,7 +26,6 @@ function ReportPieChart(props) {
       axios
         .get(`/report/piedata/${props.userId}`, { params })
         .then((result) => {
-          console.log({ result });
           if (result.data.data.length === 0) {
             dispatch(toggleNoData(true));
             dispatch(togglePieReady(true));

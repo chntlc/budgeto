@@ -4,12 +4,11 @@ import {
   addCategory,
   editCategory,
   deleteCategory,
-} from "../../features/categorySlice";
+} from "../features/categorySlice";
 import Category from "./Category";
-import Modal from "../Modal";
-import AddIcon from "../../images/addIcon.png";
-import QuestionMarkIcon from "../../images/questionMarkIcon.png";
-import "./CategoryPicker.css";
+import Modal from "./Modal";
+import AddIcon from "../images/addIcon.png";
+import "../css/CategoryPicker.css";
 import { unwrapResult } from "@reduxjs/toolkit";
 
 function CategoryPicker(props) {
@@ -19,13 +18,17 @@ function CategoryPicker(props) {
   const [categoryInModal, setCategoryInModal] = useState({});
   const [customName, setCustomName] = useState("");
   const [customIconBase64, setCustomIconBase64] = useState("");
-  const [customIconFile, setCustomIconFile] = useState({});
+  const [customIconFile, setCustomIconFile] = useState(null);
   const [customColor, setCustomeColor] = useState("");
-  const [addCategoryStatus, setAddCategoryStatus] = useState("idle");
-  const [editCategoryStatus, setEditCategoryStatus] = useState("idle");
-  const [deleteCategoryStatus, setDeleteCategoryStatus] = useState("idle");
   const categories = props.categories;
   const dispatch = useDispatch();
+  const defaultCategories = [
+    "Grocery",
+    "Clothing",
+    "Dining Out",
+    "Transportation",
+    "Traveling",
+  ];
 
   function showAddModal() {
     const templateCategory = {
@@ -85,16 +88,20 @@ function CategoryPicker(props) {
           />
         </div>
         {!edit && <button onClick={onAddCategory}>Add</button>}
-        {edit && (
+        {edit && !isDefaultCategory(name) && (
           <button onClick={() => onEditCategory(categoryInModal)}>Edit</button>
         )}
-        {edit && (
+        {edit && !isDefaultCategory(name) && (
           <button onClick={() => onDeleteCategory(categoryInModal)}>
             Delete
           </button>
         )}
       </div>
     );
+  }
+
+  function isDefaultCategory(name) {
+    return defaultCategories.indexOf(name) !== -1;
   }
 
   function setCategoryName(event) {
@@ -107,7 +114,6 @@ function CategoryPicker(props) {
       const chosenIcon = URL.createObjectURL(files[0]);
       setCustomIconBase64(chosenIcon);
       setCustomIconFile(files[0]);
-      console.log({ icon: files[0] });
     }
   }
 
@@ -118,26 +124,28 @@ function CategoryPicker(props) {
   async function onAddCategory() {
     const selectedName = customName ? customName : "Unknown";
     const selectedColor = customColor ? customColor : "#39A9CB";
-    // const selectedIcon = customIconBase64 ? customIconBase64 : QuestionMarkIcon;
-    const selectedIcon = customIconFile;
+    const selectedIcon = customIconFile ? customIconFile : null;
 
-    try {
-      setAddCategoryStatus("pending");
-
-      const resultAction = await dispatch(
-        addCategory({
-          name: selectedName,
-          color: selectedColor,
-          icon_img: selectedIcon,
-          user_id,
-        })
-      );
-      unwrapResult(resultAction);
-    } catch (err) {
-      console.log("Failed to add the category", err);
-    } finally {
-      setAddCategoryStatus("idle");
-      closeModal();
+    if (!selectedIcon) {
+      alert("Please select an icon");
+    } else if (isDefaultCategory(selectedName)) {
+      alert("Selected name already exists as a default category");
+    } else {
+      try {
+        const resultAction = await dispatch(
+          addCategory({
+            name: selectedName,
+            color: selectedColor,
+            icon_img: selectedIcon,
+            user_id,
+          })
+        );
+        unwrapResult(resultAction);
+      } catch (err) {
+        alert("Failed to add the category");
+      } finally {
+        closeModal();
+      }
     }
   }
 
@@ -145,26 +153,26 @@ function CategoryPicker(props) {
     const { _id, name, color, icon_img } = category;
     const updatedName = customName ? customName : name;
     const updatedColor = customColor ? customColor : color;
-    // const updatedIcon = customIconBase64 ? customIconBase64 : icon_img;
     const updatedIcon = customIconFile ? customIconFile : null;
 
-    try {
-      setEditCategoryStatus("pending");
-
-      const resultAction = await dispatch(
-        editCategory({
-          _id,
-          name: updatedName,
-          color: updatedColor,
-          icon_img: updatedIcon,
-        })
-      );
-      unwrapResult(resultAction);
-    } catch (err) {
-      console.log("Failed to update the category", err);
-    } finally {
-      setEditCategoryStatus("idle");
-      closeModal();
+    if (isDefaultCategory(updatedName)) {
+      alert("Selected name already exists as a default category");
+    } else {
+      try {
+        const resultAction = await dispatch(
+          editCategory({
+            _id,
+            name: updatedName,
+            color: updatedColor,
+            icon_img: updatedIcon,
+          })
+        );
+        unwrapResult(resultAction);
+      } catch (err) {
+        alert("Failed to update the category");
+      } finally {
+        closeModal();
+      }
     }
   }
 
@@ -173,14 +181,11 @@ function CategoryPicker(props) {
     const deletePayload = { user_id, category_id: _id };
 
     try {
-      setDeleteCategoryStatus("pending");
-
       const resultAction = await dispatch(deleteCategory(deletePayload));
       unwrapResult(resultAction);
     } catch (err) {
-      console.log("Failed to delete the category", err);
+      alert("Failed to delete the category");
     } finally {
-      setDeleteCategoryStatus("idle");
       closeModal();
     }
   }
@@ -190,7 +195,7 @@ function CategoryPicker(props) {
     setCustomName("");
     setCustomeColor("");
     setCustomIconBase64("");
-    setCustomIconFile({});
+    setCustomIconFile(null);
   }
 
   return (

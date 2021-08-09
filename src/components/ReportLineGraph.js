@@ -19,7 +19,6 @@ function ReportLineGraph(props) {
         periodStart: date.substring(0, 10),
         periodEnd: date.substring(13),
       };
-      console.log({ params });
       axios
         .get(`/report/linedata/${props.userId}`, {
           params,
@@ -30,7 +29,6 @@ function ReportLineGraph(props) {
             dispatch(toggleLineReady(true));
             return;
           }
-          console.log({ result });
           const labels = result.data.label;
           const data = result.data.data;
           let p = 0;
