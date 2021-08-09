@@ -1,4 +1,4 @@
-@import url("../../css/App.css");
+@import url("./App.css");
 
 .filterContainer {
   height: 65vh;
@@ -37,14 +37,12 @@
 .filteredItems {
   padding: 0 18px;
   max-height: 0;
-  height: auto !important;
   overflow: auto;
-  transition: max-height 0.2s ease-out;
   border-radius: 3px 3px 0px 0px;
 }
 
 .emptyCategory {
-  height: 80px;
+  height: 100px;
 }
 
 /* Animated Collapsible from: https://www.w3schools.com/howto/howto_js_collapsible.asp */

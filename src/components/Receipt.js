@@ -1,4 +1,4 @@
-import "./Receipt.css";
+import "../css/Receipt.css";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 function Receipt(props) {

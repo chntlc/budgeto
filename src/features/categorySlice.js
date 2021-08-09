@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
@@ -32,9 +32,7 @@ function arrayBufferToBase64(category) {
 export const getCategories = createAsyncThunk(
   "categories/getCategories",
   async (user_id) => {
-    const response = await axios.get(
-      `/categories/${user_id}`
-    );
+    const response = await axios.get(`/categories/${user_id}`);
 
     return response.data;
   }
@@ -51,15 +49,11 @@ export const addCategory = createAsyncThunk(
     categoryForm.append("icon_img", icon_img);
     categoryForm.append("user_id", user_id);
 
-    const response = await axios.post(
-      "/categories/addCategory",
-      categoryForm,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const response = await axios.post("/categories/addCategory", categoryForm, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     return response.data;
   }
@@ -103,7 +97,8 @@ export const deleteCategory = createAsyncThunk(
 
 // submit what is already in store
 export const addItemsToCategories = createAsyncThunk(
-  'categories/addItemsToCategories', async ({ user_id, categories }) => {
+  "categories/addItemsToCategories",
+  async ({ user_id, categories }) => {
     const currentDate = new Date();
 
     const allItems = [];
@@ -118,15 +113,16 @@ export const addItemsToCategories = createAsyncThunk(
         newItem.date = currentDate;
 
         allItems.push(newItem);
-      })
-    })
+      });
+    });
 
     const response = await axios.post(`/receipts/items`, {
-      items: allItems
-    })
+      items: allItems,
+    });
 
-    return response.data
-  })
+    return response.data;
+  }
+);
 
 const categorySlice = createSlice({
   name: "categories",
@@ -177,10 +173,10 @@ const categorySlice = createSlice({
         const categoriesCopy = [...state.categories];
         categoriesCopy.forEach((category) => {
           category.items = [];
-        })
+        });
 
         state.categories = categoriesCopy;
-      }
+      },
     },
     reorderItemInCategory: {
       reducer: (state, action) => {

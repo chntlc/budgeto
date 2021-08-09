@@ -3,7 +3,12 @@ import Modal from "./Modal";
 import "../css/Settings.css";
 import { UserContext } from "./context/UserContext";
 import { NavLink } from "react-router-dom";
-import {refreshUser, updateUser, userLogout, toggleSettingsModal} from "../features/globalSlice";
+import {
+  refreshUser,
+  updateUser,
+  userLogout,
+  toggleSettingsModal,
+} from "../features/globalSlice";
 import { connect, useDispatch } from "react-redux";
 import axios from "axios";
 
@@ -78,12 +83,13 @@ function Settings(props) {
           alert("Settings Changed!");
         })
         .catch((err) => {
-          console.log(err);
           alert("Updating user failed! Please try again.");
           if (process.env.NODE_ENV !== "production") {
             window.location.replace("http://localhost:3000/dashboard");
           } else {
-            window.location.replace("http://budgeto-app.herokuapp.com/dashboard");
+            window.location.replace(
+              "http://budgeto-app.herokuapp.com/dashboard"
+            );
           }
         });
     }
@@ -125,7 +131,6 @@ function Settings(props) {
         }
       })
       .catch((err) => {
-        console.log(err);
         alert("Logging out user failed! Please try again.");
         if (process.env.NODE_ENV !== "production") {
           window.location.replace("http://localhost:3000/");
@@ -193,7 +198,15 @@ function Settings(props) {
       <label>Confirm Password</label>
       <input type="password" id="password2" />
       <label>Profile Picture</label>
-      <input type="file" accept=".jpeg, ,png, .jpg" id="image" />
+      {/* <input type="file" accept=".jpeg, ,png, .jpg" id="image" /> */}
+      <label id="profilePicture">
+        <input
+          type="file"
+          name="profile_img"
+          accept="image/png, image/jpeg, image/jpg"
+        />
+        Choose File
+      </label>
       <button className="settings-submit-button" onClick={handleSettingChange}>
         Confirm
       </button>
