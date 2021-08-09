@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const Items = require('../schemas/Items');
-const Receipt = require('../schemas/Receipts');
+const Items = require("../schemas/Items");
+const Receipt = require("../schemas/Receipts");
 
 router.post("/receipt", function (req, res, next) {
   const { receipt } = req.body;
@@ -11,11 +11,10 @@ router.post("/receipt", function (req, res, next) {
     .then((receipt) => {
       res.send(receipt);
     })
-    .catch(err => {
-      console.log({ err });
+    .catch((err) => {
       res.send(err);
-    })
-})
+    });
+});
 
 router.post("/items", function (req, res, next) {
   const { items } = req.body;
@@ -24,10 +23,9 @@ router.post("/items", function (req, res, next) {
     .then((items) => {
       res.send(items);
     })
-    .catch(err => {
-      console.log({ err });
+    .catch((err) => {
       res.send(err);
-    })
-})
+    });
+});
 
 module.exports = router;

@@ -51,7 +51,6 @@ function LoginSignup(props) {
       })
       .catch((err) => {
         setError(genericErrorMessage);
-        console.log(err);
         alert("Wrong User credential! Please try again.");
         if (process.env.NODE_ENV !== "production") {
           window.location.replace("http://localhost:3000/");
@@ -109,7 +108,6 @@ function LoginSignup(props) {
       })
       .catch((err) => {
         setError(genericErrorMessage);
-        console.log(err);
         alert("Failed to signup! Please try again.");
         if (process.env.NODE_ENV !== "production") {
           window.location.replace("http://localhost:3000/");

@@ -56,7 +56,7 @@ const dashboardSlice = createSlice({
     },
     [fetchSummary.rejected]: (state) => {
       state.isLoading = false;
-    }
+    },
   },
 });
 

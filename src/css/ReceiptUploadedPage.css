@@ -19,7 +19,6 @@
   justify-content: center;
   align-items: center;
   width: 35%;
-  /* height: 85%; */
   margin-top: 1vh;
   background-color: #fffcf9;
   border: 1px solid #dbdbdb;
@@ -34,10 +33,6 @@
   margin: 1vh 10px 0 0;
   padding: 0 12px;
 }
-
-/* #back {
-  background-color: var(--light-pink);
-} */
 
 .list-item {
   background-color: var(--coral);

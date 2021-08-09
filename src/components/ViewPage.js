@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/ViewPage.css";
 import "antd/dist/antd.css";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import ViewCustomRange from "./ViewCustomRange";
 import ViewCalendar from "./ViewCalendar";
 import { toggleMode } from "../features/viewSlice";

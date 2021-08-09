@@ -44,7 +44,6 @@ router.get("/piedata/:id", async (req, res) => {
       });
     })
     .catch((err) => {
-      console.log({ err });
       res.send(err);
     });
 });
@@ -83,7 +82,6 @@ router.get("/linedata/:id", async (req, res) => {
       res.send(result);
     })
     .catch((err) => {
-      console.log({ err });
       res.send(err);
     });
 });

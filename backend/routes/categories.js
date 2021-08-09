@@ -27,7 +27,6 @@ router.get("/:user_id", async function (req, res, next) {
 const storage = multer.diskStorage({
   destination: function (req, res, cb) {
     var dirName = path.join(process.cwd(), "uploads");
-    console.log({ dirName });
     if (!fs.existsSync(dirName)) {
       fs.mkdirSync(dirName);
     }
@@ -75,8 +74,6 @@ router.post(
       user.category_ids.push(categoryAddedId);
       user.save();
 
-      console.log(categoryAdded);
-
       res.status(200);
       res.send(categoryAdded);
     } catch (err) {
@@ -117,8 +114,6 @@ router.put(
           useFindAndModify: false,
         }
       );
-
-      console.log(editedCategory);
 
       res.status(200);
       res.send(editedCategory);
