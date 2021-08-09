@@ -155,20 +155,24 @@ function CategoryPicker(props) {
     const updatedColor = customColor ? customColor : color;
     const updatedIcon = customIconFile ? customIconFile : null;
 
-    try {
-      const resultAction = await dispatch(
-        editCategory({
-          _id,
-          name: updatedName,
-          color: updatedColor,
-          icon_img: updatedIcon,
-        })
-      );
-      unwrapResult(resultAction);
-    } catch (err) {
-      alert("Failed to update the category");
-    } finally {
-      closeModal();
+    if (isDefaultCategory(updatedName)) {
+      alert("Selected name already exists as a default category");
+    } else {
+      try {
+        const resultAction = await dispatch(
+          editCategory({
+            _id,
+            name: updatedName,
+            color: updatedColor,
+            icon_img: updatedIcon,
+          })
+        );
+        unwrapResult(resultAction);
+      } catch (err) {
+        alert("Failed to update the category");
+      } finally {
+        closeModal();
+      }
     }
   }
 
