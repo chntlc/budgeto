@@ -11,6 +11,7 @@ const reportSlice = createSlice({
     pieColors: [],
     lineData: [],
     lineLabel: [],
+    noData: false,
   },
   reducers: {
     toggleReportReady: (state, action) => {
@@ -22,20 +23,21 @@ const reportSlice = createSlice({
     toggleLineReady: (state, action) => {
       state.lineReady = action.payload;
     },
+    toggleNoData: (state, action) => {
+      state.noData = action.payload;
+    },
     setPieData: (state, action) => {
-      state.pieData = action.payload;
-    },
-    setPieLabel: (state, action) => {
-      state.pieLabel = action.payload;
-    },
-    setPieColors: (state, action) => {
-      state.pieColors = action.payload;
+      state.noData = false;
+      state.pieData = action.payload.data;
+      state.pieLabel = action.payload.labels;
+      state.pieColors = action.payload.colors;
+      state.pieReady = true;
     },
     setLineData: (state, action) => {
-      state.lineData = action.payload;
-    },
-    setLineLabel: (state, action) => {
-      state.lineLabel = action.payload;
+      state.noData = false;
+      state.lineData = action.payload.values;
+      state.lineLabel = action.payload.labels;
+      state.lineReady = true;
     },
   },
 });
@@ -44,11 +46,9 @@ export const {
   toggleReportReady,
   togglePieReady,
   toggleLineReady,
+  toggleNoData,
   setPieData,
-  setPieLabel,
-  setPieColors,
   setLineData,
-  setLineLabel,
 } = reportSlice.actions;
 
 export default reportSlice.reducer;
