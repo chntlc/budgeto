@@ -6,7 +6,7 @@ export const fetchSummary = createAsyncThunk(
   async (id) => {
     // https://stackoverflow.com/questions/5210376/how-to-get-first-and-last-day-of-the-current-week-in-javascript
     const curr = new Date(); // get current date
-    const first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+    const first = curr.getDate() - curr.getDay() - 1; // First day is the day of the month - the day of the week
     const last = first + 6; // last day is the first day + 6
 
     const firstday = new Date(curr.setDate(first));
