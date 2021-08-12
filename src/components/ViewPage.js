@@ -51,6 +51,7 @@ class ViewPage extends React.Component {
 function mapStateToProps(state) {
   return {
     mode: state.view.mode,
+    user: state.global.user,
   };
 }
 

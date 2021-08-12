@@ -28,15 +28,13 @@ function CalendarDayCell(props) {
     // if (props.dailyValues.has(date)) {
     //   setSpending(props.dailyValues.get(date));
     // } else {
-    axios
-      .get(`http://localhost:3001/view/dailyspend/${props.userId}/${date}`)
-      .then((result) => {
-        const dailySpend =
-          result.data.dailyspend !== 0
-            ? parseFloat(result.data.dailyspend.$numberDecimal)
-            : 0;
-        setSpending(dailySpend * value);
-      });
+    axios.get(`/view/dailyspend/${props.userId}/${date}`).then((result) => {
+      const dailySpend =
+        result.data.dailyspend !== 0
+          ? Math.round(result.data.dailyspend * 100) / 100
+          : 0;
+      setSpending(dailySpend * value);
+    });
   };
   // };
   return (

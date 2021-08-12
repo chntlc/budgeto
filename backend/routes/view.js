@@ -31,7 +31,6 @@ router.get("/dailyspend/:id/:date", async (req, res) => {
       res.send(spending);
     })
     .catch((err) => {
-      console.log({ err });
       res.send(err);
     });
 });
@@ -63,7 +62,6 @@ router.get("/monthlyspend/:id/:date", async (req, res) => {
       res.send(spending);
     })
     .catch((err) => {
-      console.log({ err });
       res.send(err);
     });
 });

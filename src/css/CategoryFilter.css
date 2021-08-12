@@ -1,5 +1,13 @@
+@import url("./App.css");
+
 .filterContainer {
-  overflow-y: scroll;
+  height: 65vh;
+  overflow: auto;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+  background-color: #ffe9d6;
+  box-shadow: inset 0px -8px 10px rgb(0 0 0 / 20%);
+  padding: 12px;
 }
 
 .filter {
@@ -29,13 +37,12 @@
 .filteredItems {
   padding: 0 18px;
   max-height: 0;
-  overflow: scroll;
-  transition: max-height 0.2s ease-out;
+  overflow: auto;
   border-radius: 3px 3px 0px 0px;
 }
 
 .emptyCategory {
-  height: 80px;
+  height: 100px;
 }
 
 /* Animated Collapsible from: https://www.w3schools.com/howto/howto_js_collapsible.asp */

@@ -7,13 +7,7 @@
   text-align: center;
 }
 
-/* .welcome-text {
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 25px;
-} */
-
 .welcome-text h1 {
-  /* color: #fff; */
   color: var(--purple);
   font-size: 120px;
   font-weight: 800;
@@ -23,13 +17,7 @@
   border-radius: 20px;
 }
 
-/* .see-more {
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 25px;
-} */
-
 .start-saving {
-  /* color: #fff; */
   color: var(--purple);
   font-size: 50px;
   font-weight: 600;

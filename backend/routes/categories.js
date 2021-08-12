@@ -2,11 +2,9 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 const multer = require("multer");
-const mongoose = require("mongoose");
 const Categories = require("../schemas/Categories");
-const userSchema = require("../schemas/Users");
-
-const User = mongoose.model("User", userSchema);
+const User = require("../schemas/Users");
+const path = require("path");
 
 router.get("/:user_id", async function (req, res, next) {
   const { user_id } = req.params;
@@ -28,7 +26,11 @@ router.get("/:user_id", async function (req, res, next) {
 
 const storage = multer.diskStorage({
   destination: function (req, res, cb) {
-    cb(null, "uploads");
+    var dirName = path.join(process.cwd(), "uploads");
+    if (!fs.existsSync(dirName)) {
+      fs.mkdirSync(dirName);
+    }
+    cb(null, dirName);
   },
 });
 
@@ -72,8 +74,6 @@ router.post(
       user.category_ids.push(categoryAddedId);
       user.save();
 
-      console.log(categoryAdded);
-
       res.status(200);
       res.send(categoryAdded);
     } catch (err) {
@@ -114,8 +114,6 @@ router.put(
           useFindAndModify: false,
         }
       );
-
-      console.log(editedCategory);
 
       res.status(200);
       res.send(editedCategory);

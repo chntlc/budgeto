@@ -1,52 +1,18 @@
-import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-// import GroceryIcon from "../images/groceryIcon.png";
-// import RestaurantIcon from "../images/restaurantIcon.png";
-// import ClothingIcon from "../images/clothingIcon.png";
-// import TransportationIcon from "../images/transportationIcon.png";
-// import TravelingIcon from "../images/travelingIcon.png";
 
 const initialState = {
-  categories: [
-    // {
-    //   categoryId: nanoid(),
-    //   categoryName: "Grocery",
-    //   iconImg: GroceryIcon,
-    //   iconColour: "#EAC495",
-    //   items: [],
-    // },
-    // {
-    //   categoryId: nanoid(),
-    //   categoryName: "Dining Out",
-    //   iconImg: RestaurantIcon,
-    //   iconColour: "#E7AD9E",
-    //   items: [],
-    // },
-    // {
-    //   categoryId: nanoid(),
-    //   categoryName: "Clothing",
-    //   iconImg: ClothingIcon,
-    //   iconColour: "#46436A",
-    //   items: [],
-    // },
-    // {
-    //   categoryId: nanoid(),
-    //   categoryName: "Transportation",
-    //   iconImg: TransportationIcon,
-    //   iconColour: "#2F2D4F",
-    //   items: [],
-    // },
-    // {
-    //   categoryId: nanoid(),
-    //   categoryName: "Traveling",
-    //   iconImg: TravelingIcon,
-    //   iconColour: "#301B3F",
-    //   items: [],
-    // },
-  ],
+  categories: [],
   status: "idle",
   error: null,
+  submitStatus: null,
 };
+
+function addItemsArray(category) {
+  category.items = [];
+
+  return category;
+}
 
 function arrayBufferToBase64(category) {
   const { icon_img } = category;
@@ -66,9 +32,7 @@ function arrayBufferToBase64(category) {
 export const getCategories = createAsyncThunk(
   "categories/getCategories",
   async (user_id) => {
-    const response = await axios.get(
-      `http://localhost:3001/categories/${user_id}`
-    );
+    const response = await axios.get(`/categories/${user_id}`);
 
     return response.data;
   }
@@ -85,15 +49,11 @@ export const addCategory = createAsyncThunk(
     categoryForm.append("icon_img", icon_img);
     categoryForm.append("user_id", user_id);
 
-    const response = await axios.post(
-      "http://localhost:3001/categories/addCategory",
-      categoryForm,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const response = await axios.post("/categories/addCategory", categoryForm, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     return response.data;
   }
@@ -110,7 +70,7 @@ export const editCategory = createAsyncThunk(
     categoryForm.append("icon_img", icon_img);
 
     const response = await axios.put(
-      `http://localhost:3001/categories/editCategory/${_id}`,
+      `/categories/editCategory/${_id}`,
       categoryForm,
       {
         headers: {
@@ -128,8 +88,37 @@ export const deleteCategory = createAsyncThunk(
   async (deletePayload) => {
     const { user_id, category_id } = deletePayload;
     const response = await axios.delete(
-      `http://localhost:3001/categories/deleteCategory/${user_id}/${category_id}`
+      `/categories/deleteCategory/${user_id}/${category_id}`
     );
+
+    return response.data;
+  }
+);
+
+// submit what is already in store
+export const addItemsToCategories = createAsyncThunk(
+  "categories/addItemsToCategories",
+  async ({ user_id, categories }) => {
+    const currentDate = new Date();
+
+    const allItems = [];
+
+    categories.forEach((category) => {
+      category.items.forEach((item) => {
+        const newItem = { ...item };
+
+        // organize item object so it matches DB
+        newItem.category_id = category._id;
+        newItem.user_id = user_id;
+        newItem.date = currentDate;
+
+        allItems.push(newItem);
+      });
+    });
+
+    const response = await axios.post(`/receipts/items`, {
+      items: allItems,
+    });
 
     return response.data;
   }
@@ -143,26 +132,19 @@ const categorySlice = createSlice({
       reducer: (state, action) => {
         const { item, categoryId, destinationIndex } = action.payload;
         const category = state.categories.find(
-          (category) => category.categoryId === categoryId
+          (category) => category._id === categoryId
         );
 
         if (category) {
           category.items.splice(destinationIndex, 0, item);
         }
       },
-      prepare: (
-        itemId,
-        itemName,
-        price,
-        quantity,
-        categoryId,
-        destinationIndex
-      ) => {
+      prepare: (itemId, name, qty, price, categoryId, destinationIndex) => {
         const item = {
           itemId,
-          itemName,
+          name,
+          qty,
           price,
-          quantity,
         };
         return {
           payload: { item, categoryId, destinationIndex },
@@ -173,7 +155,7 @@ const categorySlice = createSlice({
       reducer: (state, action) => {
         const { itemIndex, categoryId } = action.payload;
         const category = state.categories.find(
-          (category) => category.categoryId === categoryId
+          (category) => category._id === categoryId
         );
 
         if (category) {
@@ -186,11 +168,21 @@ const categorySlice = createSlice({
         };
       },
     },
+    clearItemsFromCategories: {
+      reducer: (state, action) => {
+        const categoriesCopy = [...state.categories];
+        categoriesCopy.forEach((category) => {
+          category.items = [];
+        });
+
+        state.categories = categoriesCopy;
+      },
+    },
     reorderItemInCategory: {
       reducer: (state, action) => {
         const { categoryId, sourceIndex, destinationIndex } = action.payload;
         const categoryToEdit = state.categories.find(
-          (category) => category.categoryId === categoryId
+          (category) => category._id === categoryId
         );
 
         if (categoryToEdit) {
@@ -207,11 +199,6 @@ const categorySlice = createSlice({
         };
       },
     },
-    submitCategorizedItems: {
-      reducer: (state) => {
-        console.log("Insert to mongo collection");
-      },
-    },
   },
   extraReducers: {
     [getCategories.pending]: (state, action) => {
@@ -221,6 +208,7 @@ const categorySlice = createSlice({
       state.status = "succeeded";
 
       const categoriesCopy = action.payload;
+      categoriesCopy.forEach(addItemsArray);
       categoriesCopy.forEach(arrayBufferToBase64);
 
       state.categories = state.categories.concat(categoriesCopy);
@@ -231,6 +219,7 @@ const categorySlice = createSlice({
     },
     [addCategory.fulfilled]: (state, action) => {
       let categoryCopy = action.payload;
+      categoryCopy = addItemsArray(categoryCopy);
       categoryCopy = arrayBufferToBase64(categoryCopy);
 
       state.categories.push(categoryCopy);
@@ -258,6 +247,15 @@ const categorySlice = createSlice({
         state.categories.splice(targetCategoryIndex, 1);
       }
     },
+    [addItemsToCategories.pending]: (state, action) => {
+      state.submitStatus = "loading";
+    },
+    [addItemsToCategories.fulfilled]: (state, action) => {
+      state.submitStatus = "succeeded";
+    },
+    [addItemsToCategories.rejected]: (state, action) => {
+      state.status = "failed";
+    },
   },
 });
 
@@ -265,6 +263,7 @@ export const {
   addItemToCategory,
   deleteItemFromCategory,
   reorderItemInCategory,
+  clearItemsFromCategories,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;

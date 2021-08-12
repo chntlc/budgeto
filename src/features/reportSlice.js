@@ -11,39 +11,33 @@ const reportSlice = createSlice({
     pieColors: [],
     lineData: [],
     lineLabel: [],
+    noData: false,
   },
   reducers: {
     toggleReportReady: (state, action) => {
       state.reportReady = action.payload;
-      console.log(`the report is ${action.payload ? "" : "not "}ready`);
     },
     togglePieReady: (state, action) => {
       state.pieReady = action.payload;
-      console.log(`pie-chart is ${action.payload ? "" : "not "}ready`);
     },
     toggleLineReady: (state, action) => {
       state.lineReady = action.payload;
-      console.log(`line-graph is ${action.payload ? "" : "not "}ready`);
+    },
+    toggleNoData: (state, action) => {
+      state.noData = action.payload;
     },
     setPieData: (state, action) => {
-      state.pieData = action.payload;
-      console.log(`pie-chart data is set: ${action.payload}`);
-    },
-    setPieLabel: (state, action) => {
-      state.pieLabel = action.payload;
-      console.log(`pie-chart labels are set: ${action.payload}`);
-    },
-    setPieColors: (state, action) => {
-      state.pieColors = action.payload;
-      console.log(`pie-chart colors are set: ${action.payload}`);
+      state.noData = false;
+      state.pieData = action.payload.data;
+      state.pieLabel = action.payload.labels;
+      state.pieColors = action.payload.colors;
+      state.pieReady = true;
     },
     setLineData: (state, action) => {
-      state.lineData = action.payload;
-      console.log(`line-graph data is set: ${action.payload}`);
-    },
-    setLineLabel: (state, action) => {
-      state.lineLabel = action.payload;
-      console.log(`line-graph labels are set: ${action.payload}`);
+      state.noData = false;
+      state.lineData = action.payload.values;
+      state.lineLabel = action.payload.labels;
+      state.lineReady = true;
     },
   },
 });
@@ -52,11 +46,9 @@ export const {
   toggleReportReady,
   togglePieReady,
   toggleLineReady,
+  toggleNoData,
   setPieData,
-  setPieLabel,
-  setPieColors,
   setLineData,
-  setLineLabel,
 } = reportSlice.actions;
 
 export default reportSlice.reducer;

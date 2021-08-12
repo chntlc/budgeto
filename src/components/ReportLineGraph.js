@@ -5,8 +5,8 @@ import { connect, useDispatch } from "react-redux";
 import { Line } from "react-chartjs-2";
 import {
   toggleLineReady,
+  toggleNoData,
   setLineData,
-  setLineLabel,
 } from "../features/reportSlice";
 
 function ReportLineGraph(props) {
@@ -19,29 +19,30 @@ function ReportLineGraph(props) {
         periodStart: date.substring(0, 10),
         periodEnd: date.substring(13),
       };
-      console.log({ params });
       axios
-        .get(`http://localhost:3001/report/linedata/${props.userId}`, {
+        .get(`/report/linedata/${props.userId}`, {
           params,
         })
         .then((result) => {
-          console.log({ result });
+          if (result.data.data.length === 0) {
+            dispatch(toggleNoData(true));
+            dispatch(toggleLineReady(true));
+            return;
+          }
           const labels = result.data.label;
           const data = result.data.data;
           let p = 0;
           let values = new Array(labels.length).fill(0);
           for (let i = 0; i < labels.length; i++) {
             if (labels[i] === data[p]._id) {
-              values[i] = parseInt(data[p].total.$numberDecimal);
+              values[i] = Math.round(data[p].total * 100) / 100;
               p++;
               if (p >= data.length) {
                 break;
               }
             }
           }
-          dispatch(setLineData(values));
-          dispatch(setLineLabel(labels));
-          dispatch(toggleLineReady(true));
+          dispatch(setLineData({ values, labels }));
         });
     };
     loadData();
@@ -87,7 +88,11 @@ function ReportLineGraph(props) {
   return (
     <div className="reportpage__chartArea">
       <div>
-        <Line data={lineData} options={lineOptions} />
+        {props.noData ? (
+          <h2>Please select a range of period with at least one spending!</h2>
+        ) : (
+          <Line data={lineData} options={lineOptions} />
+        )}
       </div>
     </div>
   );
@@ -98,6 +103,7 @@ const mapStateToProps = (state) => {
     lineReady: state.report.lineReady,
     lineData: state.report.lineData,
     lineLabel: state.report.lineLabel,
+    noData: state.report.noData,
   };
 };
 

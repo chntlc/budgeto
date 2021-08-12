@@ -1,41 +1,41 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, nanoid } from "@reduxjs/toolkit";
+import axios from "axios";
+
+export const addReceipt = createAsyncThunk(
+  "receipt/addReceipt",
+  async (receipt) => {
+    const response = await axios.post(
+      `http://localhost:3001/receipts/receipt`,
+      {
+        receipt,
+      }
+    );
+
+    return response.data;
+  }
+);
 
 const receiptSlice = createSlice({
-  name: 'receipt',
+  name: "receipt",
   initialState: {
-    items: [
-      // {
-      //   name: 'chocolate',
-      //   qty: 1,
-      //   price: 2
-      // },
-      // {
-      //   name: 'chips',
-      //   qty: 3,
-      //   price: 1
-      // },
-      // {
-      //   name: 't-shirt',
-      //   qty: 1,
-      //   price: 20
-      // }
-    ]
+    items: [],
   },
   reducers: {
     addItems: (state, items) => {
-      console.log('hit addItem action')
-      console.log(items.payload)
-      state.items = items.payload
-    },
-    deleteItem: (state) => {
-      console.log('hit deleteItem action')
-    },
-    editItem: (state) => {
-      console.log('hit editItem action')
-    }
-  }
-})
+      let transactions = items.payload;
 
-export const { addItems, deleteItem, editItem } = receiptSlice.actions
+      for (let i = 0; i < transactions.length; i++) {
+        if (!transactions[i].itemId) transactions[i].itemId = nanoid();
+      }
 
-export default receiptSlice.reducer
+      state.items = items.payload;
+    },
+    clearItems: (state) => {
+      state.items = [];
+    },
+  },
+});
+
+export const { addItems, deleteItem, clearItems } = receiptSlice.actions;
+
+export default receiptSlice.reducer;

@@ -1,0 +1,60 @@
+@import url("./App.css");
+
+.container {
+  display: flex;
+  height: 90vh;
+  justify-content: space-evenly;
+}
+
+.button-row-uploaded {
+  margin: 70px 45px 10px 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.receiptView {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 35%;
+  margin-top: 1vh;
+  background-color: #fffcf9;
+  border: 1px solid #dbdbdb;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.categoryView {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  margin: 1vh 10px 0 0;
+  padding: 0 12px;
+}
+
+.list-item {
+  background-color: var(--coral);
+  margin-bottom: 5px;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.back-button:hover,
+.submit-button:hover {
+  background-color: var(--light-purple);
+  color: white;
+}
+
+.back-button,
+.submit-button {
+  background-color: var(--coral);
+  text-decoration: none;
+  color: white;
+  border-radius: 15px;
+  padding: 10px 20px;
+  transition: background-color 0.4s ease-in-out;
+  width: 90px;
+  text-align: center;
+}

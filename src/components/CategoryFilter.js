@@ -1,10 +1,9 @@
-import "./CategoryFilter.css";
+import "../css/CategoryFilter.css";
 import { useSelector } from "react-redux";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
-function CategoryFilter(props) {
+function CategoryFilter() {
   const categories = useSelector((state) => state.categories.categories);
-  const items = [];
 
   function toggleFilterContainer(event) {
     event.target.classList.toggle("activeCollapsible");
@@ -21,14 +20,12 @@ function CategoryFilter(props) {
       collapsibleContent.style.display = "none";
     }
 
-    collapsibleContent.style.maxHeight = isMaxHeightSet
-      ? null
-      : collapsibleContent.scrollHeight + "px";
+    collapsibleContent.style.maxHeight = isMaxHeightSet ? null : "100vh";
   }
 
   return (
     <div className="filterContainer">
-      {categories.map(({ _id, name, color }) => {
+      {categories.map(({ _id, name, color, items }) => {
         return (
           <div className="filter" key={_id}>
             <button
@@ -48,37 +45,35 @@ function CategoryFilter(props) {
                       {...provided.droppableProps}
                       ref={provided.innerRef}
                     >
-                      {items.map(
-                        ({ itemId, itemName, price, quantity }, index) => {
-                          return (
-                            <Draggable
-                              key={itemId}
-                              draggableId={itemId}
-                              index={index}
-                            >
-                              {(provided) => (
-                                <li
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                >
-                                  <div className="item">
-                                    <div className="itemName">
-                                      <p>{itemName}</p>
-                                    </div>
-                                    <div className="price">
-                                      <p>{price}</p>
-                                    </div>
-                                    <div className="quantity">
-                                      <p>{quantity}</p>
-                                    </div>
+                      {items.map(({ itemId, name, qty, price }, index) => {
+                        return (
+                          <Draggable
+                            key={itemId}
+                            draggableId={itemId}
+                            index={index}
+                          >
+                            {(provided) => (
+                              <li
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <div className="item">
+                                  <div className="itemName">
+                                    <p>{name}</p>
                                   </div>
-                                </li>
-                              )}
-                            </Draggable>
-                          );
-                        }
-                      )}
+                                  <div className="quantity">
+                                    <p>{qty}</p>
+                                  </div>
+                                  <div className="price">
+                                    <p>${price}</p>
+                                  </div>
+                                </div>
+                              </li>
+                            )}
+                          </Draggable>
+                        );
+                      })}
                       {provided.placeholder}
                     </ul>
                   )}

@@ -6,8 +6,7 @@ import { Pie } from "react-chartjs-2";
 import {
   togglePieReady,
   setPieData,
-  setPieLabel,
-  setPieColors,
+  toggleNoData,
 } from "../features/reportSlice";
 
 function ReportPieChart(props) {
@@ -25,17 +24,25 @@ function ReportPieChart(props) {
         params.periodEnd = params.periodEnd.substring(13);
       }
       axios
-        .get(`http://localhost:3001/report/piedata/${props.userId}`, { params })
+        .get(`/report/piedata/${props.userId}`, { params })
         .then((result) => {
+          if (result.data.data.length === 0) {
+            dispatch(toggleNoData(true));
+            dispatch(togglePieReady(true));
+            return;
+          }
           const data = [];
           result.data.data.map((item) => {
-            data.push(parseInt(item.$numberDecimal));
+            data.push(Math.round(item * 100) / 100);
             return "";
           });
-          dispatch(setPieData(data));
-          dispatch(setPieLabel(result.data.label));
-          dispatch(setPieColors(result.data.color));
-          dispatch(togglePieReady(true));
+          dispatch(
+            setPieData({
+              data,
+              labels: result.data.label,
+              colors: result.data.color,
+            })
+          );
         });
     };
     loadData();
@@ -83,7 +90,13 @@ function ReportPieChart(props) {
 
   return (
     <div className="reportpage__chartArea">
-      <Pie data={pieData} options={pieOptions} />
+      <div>
+        {props.noData ? (
+          <h2>Please select a range of period with at least one spending!</h2>
+        ) : (
+          <Pie data={pieData} options={pieOptions} />
+        )}
+      </div>
     </div>
   );
 }
@@ -94,6 +107,7 @@ const mapStateToProps = (state) => {
     pieData: state.report.pieData,
     pieLabel: state.report.pieLabel,
     pieColors: state.report.pieColors,
+    noData: state.report.noData,
   };
 };
 

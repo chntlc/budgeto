@@ -1,61 +1,40 @@
 import Receipt from "./Receipt";
 import CategoryPicker from "./CategoryPicker";
 import CategoryFilter from "./CategoryFilter";
-import "./ReceiptUploadedPage.css";
+import "../css/ReceiptUploadedPage.css";
 import { useState } from "react";
 import { connect, useSelector, useDispatch } from "react-redux";
 import {
+  addItemsToCategories,
   addItemToCategory,
   deleteItemFromCategory,
   getCategories,
   reorderItemInCategory,
-} from "../../features/categorySlice";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+  clearItemsFromCategories,
+} from "../features/categorySlice";
+import { DragDropContext } from "react-beautiful-dnd";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { clearItems } from "../features/receiptSlice";
 
 function ReceiptUploadedPage(props) {
   const dispatch = useDispatch();
   const user_id = useSelector((state) => state.global.user._id);
   const categories = useSelector((state) => state.categories.categories);
   const categoriesStatus = useSelector((state) => state.categories.status);
-  const error = useSelector((state) => state.categories.error);
-  const transactions = [
-    {
-      itemId: "1",
-      itemName: "tomato",
-      price: "$2",
-      quantity: "Qty: 1",
-    },
-    {
-      itemId: "2",
-      itemName: "apple",
-      price: "$2",
-      quantity: "Qty: 1",
-    },
-    {
-      itemId: "3",
-      itemName: "lettuce",
-      price: "$2",
-      quantity: "Qty: 1",
-    },
-    {
-      itemId: "4",
-      itemName: "bacon",
-      price: "$2",
-      quantity: "Qty: 1",
-    },
-    {
-      itemId: "5",
-      itemName: "milk",
-      price: "$2",
-      quantity: "Qty: 1",
-    },
-  ];
-  const [items, updateItems] = useState(props.items);
+  const transactions = useSelector((state) => state.receipt.items);
+  const [items, updateItems] = useState(transactions);
 
   useEffect(() => {
     if (categoriesStatus === "idle") {
       dispatch(getCategories(user_id));
+    }
+    // This will redirect to Add page if no items exists
+    if (props.items.length === 0) {
+      alert("You have no item to upload! Please enter them again");
+      props.history.push({
+        pathname: "/add",
+      });
     }
   }, [categoriesStatus, dispatch]);
 
@@ -116,23 +95,18 @@ function ReceiptUploadedPage(props) {
     destinationIndex,
     categoryId
   ) {
-    const [selectedItem] = items.splice(sourceIndex, 1);
-    const { itemId, itemName, price, quantity } = selectedItem;
+    const itemsCopy = [...items];
+    const [selectedItem] = itemsCopy.splice(sourceIndex, 1);
+    const { itemId, name, qty, price } = selectedItem;
 
+    updateItems(itemsCopy);
     dispatch(
-      addItemToCategory(
-        itemId,
-        itemName,
-        price,
-        quantity,
-        categoryId,
-        destinationIndex
-      )
+      addItemToCategory(itemId, name, qty, price, categoryId, destinationIndex)
     );
   }
 
   function handleItemToTransactions(categoryId, sourceIndex, destinationIndex) {
-    const selectedItem = getAndDeleteItemFromCategory(categoryId, sourceIndex);
+    const selectedItem = getItemFromCategory(categoryId, sourceIndex);
     const itemsCopy = [...items];
 
     itemsCopy.splice(destinationIndex, 0, selectedItem);
@@ -147,18 +121,15 @@ function ReceiptUploadedPage(props) {
     sourceIndex,
     destinationIndex
   ) {
-    const selectedItem = getAndDeleteItemFromCategory(
-      fromCategoryId,
-      sourceIndex
-    );
-    const { itemId, itemName, price, quantity } = selectedItem;
+    const selectedItem = getItemFromCategory(fromCategoryId, sourceIndex);
+    const { itemId, name, qty, price } = selectedItem;
 
     dispatch(
       addItemToCategory(
         itemId,
-        itemName,
+        name,
+        qty,
         price,
-        quantity,
         toCategoryId,
         destinationIndex
       )
@@ -166,34 +137,58 @@ function ReceiptUploadedPage(props) {
     dispatch(deleteItemFromCategory(sourceIndex, fromCategoryId));
   }
 
-  function getAndDeleteItemFromCategory(categoryId, itemIndex) {
-    const category = categories.find(
-      (category) => category.categoryId === categoryId
-    );
+  function getItemFromCategory(categoryId, itemIndex) {
+    const category = categories.find((category) => category._id === categoryId);
     const categoryItems = [...category.items];
-    const [selectedItem] = categoryItems.splice(itemIndex, 1);
+    const selectedItem = categoryItems[itemIndex];
 
     return selectedItem;
   }
 
+  function handleSubmitItems() {
+    dispatch(addItemsToCategories({ user_id, categories: props.categories }));
+    dispatch(clearItems());
+    dispatch(clearItemsFromCategories());
+  }
+
+  function handleBack() {
+    dispatch(clearItemsFromCategories());
+  }
+
   return (
-    <div className="container">
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <div className="receiptView">
-          <Receipt items={items} />
-        </div>
-        <div className="categoryView">
-          <CategoryPicker categories={categories} />
-          <CategoryFilter />
-        </div>
-      </DragDropContext>
-    </div>
+    <>
+      <div className="button-row-uploaded">
+        <Link to="/add" className="back-button" onClick={handleBack}>
+          Back
+        </Link>
+        <Link
+          to="/dashboard"
+          className="submit-button"
+          onClick={handleSubmitItems}
+        >
+          Submit
+        </Link>
+      </div>
+      <div className="container">
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <div className="receiptView">
+            <Receipt items={items} />
+          </div>
+          <div className="categoryView">
+            <CategoryPicker categories={categories} />
+            <CategoryFilter />
+          </div>
+        </DragDropContext>
+      </div>
+    </>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
     items: state.receipt.items,
+    categories: state.categories.categories,
+    submitStatus: state.categories.submitStatus,
   };
 };
 

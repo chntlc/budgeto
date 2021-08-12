@@ -22,6 +22,13 @@ class ReportPage extends React.Component {
     this.props.dispatch(togglePieReady(false));
     this.props.dispatch(toggleLineReady(false));
     this.props.dispatch(toggleReportReady(false));
+    // This will redirect to View page when the periodStart and periodEnd value is reset during refresh of the page
+    if (this.props.periodStart === "" || this.props.periodEnd === "") {
+      // alert("Please select the dates again!")
+      this.props.history.push({
+        pathname: "/view",
+      });
+    }
   }
 
   isSingleDayReport() {
